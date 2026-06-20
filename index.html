@@ -351,6 +351,34 @@
   .countdown-badge{font-family:"IBM Plex Mono",monospace;font-size:12px;padding:6px 11px;
     border-radius:999px;border:1px solid rgba(255,255,255,.2);color:#EFEDE4;}
   .countdown-badge b{color:#F5E98C;font-weight:600;}
+
+  /* ---- exercise cards (strength / plyo) ---- */
+  .ex-card{background:var(--raised);border:1px solid var(--line);border-radius:14px;padding:15px 18px;margin:10px 0 4px;box-shadow:var(--shadow);}
+  .ex-head{display:flex;align-items:center;gap:10px;margin:0 0 10px;flex-wrap:wrap;}
+  .ex-label{font-family:"IBM Plex Mono",monospace;font-size:10px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;padding:3px 8px;border-radius:999px;}
+  .ex-label.str{background:var(--gaa-wash);color:var(--gaa);}
+  .ex-label.plyo{background:var(--speed-wash);color:var(--speed);}
+  .ex-meta{font-family:"IBM Plex Mono",monospace;font-size:10.5px;color:var(--muted);flex:1;}
+  .ex-row{padding:8px 0;border-bottom:1px solid var(--line-soft);}
+  .ex-row:last-child{border-bottom:none;padding-bottom:0;}
+  .ex-row-top{display:flex;justify-content:space-between;align-items:baseline;gap:8px;flex-wrap:wrap;}
+  .ex-name{font-weight:600;font-size:13.5px;color:var(--ink);}
+  .ex-sets{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--speed);font-weight:500;white-space:nowrap;}
+  .ex-cue{font-size:12px;color:var(--ink-soft);margin-top:2px;line-height:1.45;}
+  .ex-phase-note{font-size:12px;color:var(--muted);background:var(--line-soft);border-radius:7px;padding:7px 10px;margin:0 0 9px;}
+
+  /* ---- log / pace zone panel ---- */
+  .log-card{background:var(--raised);border:1px solid var(--line);border-radius:14px;padding:18px 20px;margin:0 0 16px;box-shadow:var(--shadow);}
+  .log-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:0 0 14px;}
+  .log-field{display:flex;flex-direction:column;gap:6px;}
+  .log-field label{font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);}
+  .log-field input{appearance:none;border:1.5px solid var(--line);border-radius:10px;background:var(--paper);font-family:"IBM Plex Mono",monospace;font-size:18px;font-weight:600;padding:11px 14px;color:var(--ink);width:100%;transition:border-color .14s;}
+  .log-field input:focus{outline:none;border-color:var(--endure);}
+  .log-status{font-size:13px;color:var(--muted);margin:10px 0 0;min-height:18px;}
+  .log-status.ok{color:var(--endure);}
+  .zones-source{font-size:12.5px;color:var(--muted);margin:8px 0 0;}
+  .zones-source a{color:var(--endure);}
+  @media(max-width:400px){.log-row{grid-template-columns:1fr;}}
 </style>
 </head>
 <body>
@@ -374,6 +402,7 @@
     <button class="tab" role="tab" aria-selected="false" aria-controls="p-overview"  id="t-overview">Overview</button>
     <button class="tab" role="tab" aria-selected="false" aria-controls="p-bridge"    id="t-bridge">In-Season · Speed</button>
     <button class="tab" role="tab" aria-selected="false" aria-controls="p-block"     id="t-block">Oct Block</button>
+    <button class="tab" role="tab" aria-selected="false" aria-controls="p-log"        id="t-log">Log / Zones</button>
     <button class="tab" role="tab" aria-selected="false" aria-controls="p-research"   id="t-research">Research</button>
     <button class="tab" role="tab" aria-selected="false" aria-controls="p-devices"    id="t-devices">Devices</button>
     <button class="tab" role="tab" aria-selected="false" aria-controls="p-profile"    id="t-profile">Profile</button>
@@ -439,13 +468,16 @@
 
     <section>
       <h2>Pace zones</h2>
-      <p class="lede">For the October block — estimated from your 8.2k, recalibrate at each time trial.</p>
-      <div class="zones">
-        <div class="zone"><div class="zhead"><span class="zname">Easy / recovery</span><span class="zpace">5:05–5:30</span></div><div class="zpurp">Aerobic base — most of your volume</div></div>
-        <div class="zone"><div class="zhead"><span class="zname">Steady</span><span class="zpace">4:45–5:00</span></div><div class="zpurp">Long-run default</div></div>
-        <div class="zone"><div class="zhead"><span class="zname">Tempo / threshold</span><span class="zpace">4:15–4:25</span></div><div class="zpurp">Lactate threshold</div></div>
-        <div class="zone"><div class="zhead"><span class="zname">Half-marathon pace</span><span class="zpace">4:35–4:40</span></div><div class="zpurp">Race-specific, late in plan</div></div>
-        <div class="zone"><div class="zhead"><span class="zname">Interval (5k/10k)</span><span class="zpace">3:55–4:10</span></div><div class="zpurp">VO₂max work</div></div>
+      <p class="lede">Calculated from your logged run — tap <em>Update →</em> to recalibrate after a time trial.</p>
+      <div id="zones-display">
+        <div class="zones">
+          <div class="zone"><div class="zhead"><span class="zname">Easy / recovery</span><span class="zpace">5:05–5:30</span></div><div class="zpurp">Aerobic base — most of your volume</div></div>
+          <div class="zone"><div class="zhead"><span class="zname">Steady</span><span class="zpace">4:45–5:00</span></div><div class="zpurp">Long-run default</div></div>
+          <div class="zone"><div class="zhead"><span class="zname">Tempo / threshold</span><span class="zpace">4:15–4:25</span></div><div class="zpurp">Lactate threshold</div></div>
+          <div class="zone"><div class="zhead"><span class="zname">Half-marathon pace</span><span class="zpace">4:35–4:40</span></div><div class="zpurp">Race-specific, late in plan</div></div>
+          <div class="zone"><div class="zhead"><span class="zname">Interval (5k/10k)</span><span class="zpace">3:55–4:10</span></div><div class="zpurp">VO₂max work</div></div>
+        </div>
+        <p class="zones-source">Estimated from 8.2km baseline · <a href="#" onclick="goToPanel('p-log');return false;">Update with a new run →</a></p>
       </div>
     </section>
   </div>
@@ -729,6 +761,53 @@
     </section>
   </div>
 
+  <!-- ===================== LOG / PACE ZONES ===================== -->
+  <div class="panel" id="p-log" role="tabpanel" tabindex="0">
+    <section>
+      <h2>Log a run</h2>
+      <p class="lede">Enter your best recent effort to auto-calculate training zones. Zones update across the whole plan immediately.</p>
+      <div class="log-card">
+        <h3 style="margin-top:0;">Run details</h3>
+        <div class="log-row">
+          <div class="log-field">
+            <label for="log-dist">Distance (km)</label>
+            <input type="number" id="log-dist" min="0.1" step="0.1" placeholder="8.2">
+          </div>
+          <div class="log-field">
+            <label for="log-time">Time (mm:ss or h:mm:ss)</label>
+            <input type="text" id="log-time" placeholder="36:10" inputmode="numeric">
+          </div>
+        </div>
+        <button class="btn" id="log-save">Calculate &amp; save zones</button>
+        <p class="log-status" id="log-status"></p>
+      </div>
+      <div id="zones-live"></div>
+    </section>
+    <section>
+      <h2>Connected services</h2>
+      <p class="lede">Connect Strava or Whoop to auto-sync activities. Your fastest runs will update zones automatically.</p>
+      <div class="demo-banner"><b>Demo mode</b> — deploy the backend and set API_BASE to enable live sync. Manual entry works offline always.</div>
+      <div class="conn">
+        <div class="conncard">
+          <div class="connlogo strava">S</div>
+          <div class="meta">
+            <div class="nm">Strava</div>
+            <div class="st" id="st-strava-log">Not connected · demo mode</div>
+          </div>
+          <button class="btn ghost" data-svc="strava">Connect</button>
+        </div>
+        <div class="conncard">
+          <div class="connlogo whoop">W</div>
+          <div class="meta">
+            <div class="nm">Whoop</div>
+            <div class="st" id="st-whoop-log">Not connected · demo mode</div>
+          </div>
+          <button class="btn ghost" data-svc="whoop">Connect</button>
+        </div>
+      </div>
+    </section>
+  </div>
+
   <!-- ===================== PRINCIPLES ===================== -->
   <div class="panel" id="p-principles" role="tabpanel" aria-labelledby="t-principles" tabindex="0">
     <section>
@@ -772,9 +851,9 @@
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
     Overview
   </button>
-  <button class="bnav-btn" id="bnav-bridge" aria-selected="false">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-    Speed
+  <button class="bnav-btn" id="bnav-log" aria-selected="false">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+    Log
   </button>
   <button class="bnav-btn" id="bnav-block" aria-selected="false">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
@@ -792,6 +871,10 @@
   <div class="more-panel">
     <div class="more-handle"></div>
     <div class="more-grid">
+      <button class="more-item" data-tab="p-bridge">
+        Speed Block
+        <span class="mi-sub">In-season · Jun–Sep</span>
+      </button>
       <button class="more-item" data-tab="p-research">
         Research
         <span class="mi-sub">Sport science</span>
@@ -898,6 +981,260 @@
     16:{ph:'Taper',km:'~22',long:'RACE DAY',hill:'skip',flat:'Tue only: 3×20m ~85–90%',plyo:'none',q1:'3×1km @ HM (Tue)',q2:'Easy shakeout',race:true}
   };
 
+  // =====================================================================
+  //  STRENGTH & PLYOMETRICS DATA  (research-backed, GAA full-back specific)
+  // =====================================================================
+
+  const STRENGTH_PHASES = {
+    AA: {
+      label:'Anatomical Adaptation', focus:'Movement quality · eccentric base · RPE 5–6',
+      exercises:[
+        {n:'Trap Bar Deadlift', p:'3×8 @ RPE 5–6', c:'2sec down, 1sec up · hips & shoulders rise together · neutral spine'},
+        {n:'Hip Thrust (bilateral)', p:'3×10 @ RPE 5–6', c:'Back on bench, knees 90° · 1sec pause at top · glute not lower back'},
+        {n:'Nordic Curl (eccentric)', p:'3×6–8', c:'3sec lower · bilateral · band/partner assists return · NON-NEGOTIABLE'},
+        {n:'Single-leg RDL', p:'3×8/leg', c:'Light DB · 2sec lower · glute-driven return · builds proprioception'},
+        {n:'Goblet Squat', p:'3×10', c:'12–16kg · knees track toes · chest upright · movement quality'},
+        {n:'Pallof Press', p:'2×8/side', c:'Light band/cable · anti-rotation · prevents lower-back compensation'}
+      ]
+    },
+    Hyp: {
+      label:'Hypertrophy', focus:'Posterior chain volume · 8–12 reps · RPE 6–7',
+      exercises:[
+        {n:'Hip Thrust (→ single-leg)', p:'4×8–10 @ RPE 7', c:'Wks 3–4: bilateral; Wk 5+: add 1 set single-leg/side · 1sec pause at top'},
+        {n:'Trap Bar Deadlift', p:'3×8 @ RPE 6–7', c:'2sec down, explosive up · drive through legs · not hip-dominant'},
+        {n:'Nordic Curl (eccentric)', p:'3×7–8', c:'3sec lower · bilateral · do not skip'},
+        {n:'Bulgarian Split Squat', p:'3×8/leg', c:'8kg DB · 2sec down · back foot 20cm bench · glute/quad emphasis'},
+        {n:'Lat Pulldown / Pull-up', p:'3×8–10 @ RPE 6', c:'Upper back endurance · elbows down and back · running economy'},
+        {n:'Barbell Row', p:'3×8 @ RPE 6–7', c:'Upper back · posterior chain balance'}
+      ]
+    },
+    HypStr: {
+      label:'Hypertrophy → Strength', focus:'Heavier loads · 5–8 reps · RPE 7–8',
+      exercises:[
+        {n:'Trap Bar Deadlift', p:'4×5–6 @ RPE 7–8', c:'1sec pause at bottom · explosive up · ~75–80% 1RM · 2–2.5min rest'},
+        {n:'Hip Thrust (single-leg)', p:'4×6/leg @ RPE 7–8', c:'1sec pause at top · ~80% 1RM · unilateral mirrors running demand'},
+        {n:'Nordic Curl (eccentric)', p:'3×6–7', c:'3sec lower · stop at 6 reps max · no fatigue reps'},
+        {n:'Bulgarian Split Squat', p:'3×6–8/leg', c:'10–14kg DB · 2sec down · heavier than Hyp phase'},
+        {n:'Barbell Box Squat', p:'3×5–6 @ RPE 7', c:'40cm box · 1sec pause · hip-dominant · not knee-dominant'},
+        {n:'Lat Pulldown / Weighted Pull-up', p:'3×6–8 @ RPE 6–7', c:'2sec eccentric · upper back maintanance'}
+      ]
+    },
+    Str: {
+      label:'Strength (Peak)', focus:'Heavy · 3–5 reps · RPE 8–9 · low volume — protect from aerobic interference',
+      exercises:[
+        {n:'Trap Bar Deadlift', p:'3–4×3–5 @ RPE 8–9', c:'~85–90% 1RM · explosive · 2.5–3min rest · MAIN LIFT · every rep fresh'},
+        {n:'Hip Thrust (single-leg)', p:'3×4–6/leg @ RPE 8', c:'~90% 1RM single-leg standard · 1sec pause · explosive concentric'},
+        {n:'Nordic Curl (eccentric)', p:'3×5–6', c:'3sec+ lower — slower than earlier phases · stop at 5–6 reps · non-negotiable'},
+        {n:'Bulgarian Split Squat', p:'3×5/leg', c:'16–20kg DB · 2sec eccentric · explosive up · RPE 8'},
+        {n:'Barbell Box Squat', p:'3×5 @ RPE 8', c:'~85% 1RM · 1sec pause · explosive off box'},
+        {n:'Copenhagen Plank', p:'3×25–30 sec', c:'Side-lying · max inner-thigh squeeze · isometric · GAA deceleration resilience'}
+      ]
+    },
+    Power: {
+      label:'Power-Endurance', focus:'Explosive intent · 3–5 reps · maintenance volume',
+      exercises:[
+        {n:'Trap Bar Deadlift', p:'3×3 @ RPE 8', c:'~90% 1RM · explosive · 3min rest · minimal volume, maximum quality'},
+        {n:'Hip Thrust (single-leg, explosive)', p:'3×3–5/leg @ RPE 8', c:'Minimal pause · explosive concentric · rate of force development focus'},
+        {n:'Nordic Curl (eccentric)', p:'2×5–6', c:'3sec lower · maintain intensity · halve volume not quality'},
+        {n:'Single-leg Box Squat', p:'3×3/leg @ RPE 8', c:'Explosive up from box · single-leg power maintenance'},
+        {n:'Copenhagen Plank', p:'2×25–30 sec', c:'Maintain adductor resilience · brief and intense'}
+      ]
+    },
+    Taper: {
+      label:'Taper', focus:'Lighter load · familiar pattern · RPE 7 · keep the muscle, not the fatigue',
+      exercises:[
+        {n:'Trap Bar Deadlift', p:'2×3 @ RPE 7', c:'Lighter than peak phase · familiar pattern only'},
+        {n:'Hip Thrust (single-leg)', p:'2×3/leg @ RPE 7', c:'Light but familiar · stop early if legs feel heavy'},
+        {n:'Nordic Curl (eccentric)', p:'2×5', c:'Maintenance · optional week 16'}
+      ]
+    }
+  };
+
+  const PLYO_PHASES = {
+    Base: {
+      label:'Base Plyometrics', contacts:'~30 contacts this session',
+      note:'Sub-maximal vertical loading only — eccentric hamstring base must be solid first. Focus on landing quality.',
+      exercises:[
+        {n:'Pogo Hops (bilateral)', p:'3×8–10 reps', c:'50–60% max height · minimal ground contact · land midfoot · knees slightly bent (20°)'},
+        {n:'Low Box Jump (20–30cm)', p:'3×5', c:'Step DOWN off box (eccentric), jump UP onto box · control the descent · not max effort'}
+      ]
+    },
+    Build: {
+      label:'Build Plyometrics', contacts:'~40–50 contacts this session',
+      note:'Introduce horizontal force and direction change. Own every landing — if contact time feels long, reduce height/load.',
+      exercises:[
+        {n:'Pogo Hops (bilateral)', p:'3×8–10', c:'Rapid rebound · midfoot landing · vertical tension only'},
+        {n:'Broad Jump (horizontal)', p:'3×4–5', c:'Max distance · land and STICK 3sec · reset fully between reps'},
+        {n:'Split-squat Jump (alternating)', p:'3×6/leg', c:'Forward lunge position → jump → switch legs · glute-dominant landing'},
+        {n:'Low Box Jump (20–30cm)', p:'3×5', c:'Step down · jump up · controlled descent each rep'}
+      ]
+    },
+    BuildLate: {
+      label:'Build Plyometrics (Late)', contacts:'~40–60 contacts this session',
+      note:'Shift toward explosive output per rep — fewer reps, more force. Eccentric single-leg bounds are the key new addition (heavy hamstring load — own the landing).',
+      exercises:[
+        {n:'Broad Jump (horizontal)', p:'3×4–5', c:'Max distance · explosive intent · full recovery between reps'},
+        {n:'Alternating Bounds (≤20m)', p:'3×4 bounds', c:'Each bound: full extension of hip/knee/ankle · walk back fully between runs'},
+        {n:'Split-squat Jump (alternating)', p:'3×5/leg', c:'Explosive switch · glute/quad dominant landing'},
+        {n:'Eccentric Single-leg Lateral Bound', p:'2×5/leg', c:'Land on outside leg · 3sec eccentric control · lateral deceleration — heavy load'}
+      ]
+    },
+    Peak: {
+      label:'Peak Reactive Plyometrics', contacts:'~30–40 contacts · all sharp & fresh',
+      note:'Brief, maximal-reactive work only. Volume drops — intent is high. Mimics match-sprint demand without cumulative fatigue. If ground contact time feels sluggish, reduce to 20 contacts.',
+      exercises:[
+        {n:'Single-leg Hop in Place (alternating)', p:'3×5/leg', c:'Maximal intent · brief contact · rapid rebound · ~15 total contacts'},
+        {n:'Low Depth Jump (20cm box)', p:'3×3–4', c:'Drop from box · land knees bent 30° · absorb 1sec · reactive-strength focus (RSI)'},
+        {n:'Alternating Bounds (≤20m)', p:'2×3–4 bounds', c:'Full recovery (walk back) · mimics late-acceleration running mechanics'}
+      ]
+    },
+    PeakTaper: {
+      label:'Light Plyometrics (Taper)', contacts:'~15–20 contacts only',
+      note:'Sub-maximal maintenance. No new stimulus — just keep the neuromuscular pattern awake before the race.',
+      exercises:[
+        {n:'Pogo Hops (light)', p:'2×6–8', c:'50% max height · sub-maximal · quality over quantity'}
+      ]
+    }
+  };
+
+  function getStrengthPhaseKey(weekNo){
+    if(weekNo<=2) return 'AA';
+    if(weekNo<=5) return 'Hyp';
+    if(weekNo<=8) return 'HypStr';
+    if(weekNo<=11) return 'Str';
+    if(weekNo<=14) return 'Power';
+    if(weekNo===15) return 'Taper';
+    return null;
+  }
+
+  function getPlyoPhaseKey(weekNo){
+    if(weekNo<=2) return null;
+    if(weekNo<=5) return 'Base';
+    if(weekNo<=8) return 'Build';
+    if(weekNo<=11) return 'BuildLate';
+    if(weekNo<=14) return 'Peak';
+    if(weekNo===15) return 'PeakTaper';
+    return null;
+  }
+
+  function renderExercises(exercises){
+    return exercises.map(e=>`
+      <div class="ex-row">
+        <div class="ex-row-top"><span class="ex-name">${e.n}</span><span class="ex-sets">${e.p}</span></div>
+        <div class="ex-cue">${e.c}</div>
+      </div>`).join('');
+  }
+
+  function renderPlyoSection(weekNo){
+    const key=getPlyoPhaseKey(weekNo); if(!key) return '';
+    const ph=PLYO_PHASES[key];
+    return `<div class="ex-card">
+      <div class="ex-head"><span class="ex-label plyo">Plyometrics</span><span class="ex-meta">${ph.label} · ${ph.contacts}</span></div>
+      <div class="ex-phase-note">${ph.note}</div>
+      ${renderExercises(ph.exercises)}
+    </div>`;
+  }
+
+  function renderStrengthSection(weekNo){
+    const key=getStrengthPhaseKey(weekNo); if(!key) return '';
+    const ph=STRENGTH_PHASES[key];
+    return `<div class="ex-card">
+      <div class="ex-head"><span class="ex-label str">Strength</span><span class="ex-meta">${ph.label} · ${ph.focus}</span></div>
+      ${renderExercises(ph.exercises)}
+    </div>`;
+  }
+
+  // =====================================================================
+  //  PACE ZONE CALCULATOR  (Riegel formula)
+  // =====================================================================
+  const PACE_KEY='hmplan_bestrun';
+
+  function getBestRun(){try{return JSON.parse(localStorage.getItem(PACE_KEY)||'null');}catch(e){return null;}}
+  function saveBestRun(distKm,timeSec){localStorage.setItem(PACE_KEY,JSON.stringify({distKm,timeSec}));}
+
+  function riegelPredict(t1,d1,d2){return t1*Math.pow(d2/d1,1.06);}
+
+  function secToMMSS(sec){
+    const tot=Math.round(sec);
+    const h=Math.floor(tot/3600);
+    const m=Math.floor((tot%3600)/60);
+    const s=tot%60;
+    if(h>0) return h+':'+String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
+    return m+':'+String(s).padStart(2,'0');
+  }
+
+  function getZones(distKm,timeSec){
+    const t5k=riegelPredict(timeSec,distKm,5);
+    const t10k=riegelPredict(timeSec,distKm,10);
+    const tHM=riegelPredict(timeSec,distKm,21.0975);
+    const p5k=t5k/5, p10k=t10k/10, pHM=tHM/21.0975;
+    const fmt=(lo,hi)=>secToMMSS(lo)+'–'+secToMMSS(hi)+'/km';
+    return {
+      easy:   fmt(pHM+38, pHM+65),
+      steady: fmt(pHM+18, pHM+35),
+      threshold: fmt(p10k-5, p10k+8),
+      hm:     fmt(pHM-3,  pHM+5),
+      interval: fmt(p5k-5, p5k+8),
+      hmPrediction: secToMMSS(tHM),
+      hmTimeSec: tHM
+    };
+  }
+
+  function zonesHTML(z){
+    return `<div class="zones">
+      <div class="zone"><div class="zhead"><span class="zname">Easy / recovery</span><span class="zpace">${z.easy}</span></div><div class="zpurp">Aerobic base — most of your volume</div></div>
+      <div class="zone"><div class="zhead"><span class="zname">Steady</span><span class="zpace">${z.steady}</span></div><div class="zpurp">Long-run default</div></div>
+      <div class="zone"><div class="zhead"><span class="zname">Tempo / threshold</span><span class="zpace">${z.threshold}</span></div><div class="zpurp">Lactate threshold</div></div>
+      <div class="zone"><div class="zhead"><span class="zname">Half-marathon pace</span><span class="zpace">${z.hm}</span></div><div class="zpurp">Race-specific, late in plan</div></div>
+      <div class="zone"><div class="zhead"><span class="zname">Interval (5k / 10k)</span><span class="zpace">${z.interval}</span></div><div class="zpurp">VO₂max work</div></div>
+    </div>`;
+  }
+
+  function renderOverviewZones(distKm,timeSec){
+    const z=getZones(distKm,timeSec);
+    const el=document.getElementById('zones-display'); if(!el) return;
+    el.innerHTML=zonesHTML(z)+`<p class="zones-source">Calculated from ${distKm}km in ${secToMMSS(timeSec)} · HM prediction <b>${z.hmPrediction}</b> · <a href="#" onclick="goToPanel('p-log');return false;">Update →</a></p>`;
+  }
+
+  function renderLogZones(distKm,timeSec){
+    const z=getZones(distKm,timeSec);
+    const el=document.getElementById('zones-live'); if(!el) return;
+    el.innerHTML=`<h3 style="margin-top:0;">Your training zones</h3>
+      <p style="font-size:13px;color:var(--muted);margin:0 0 12px;">Based on <b>${distKm}km</b> in <b>${secToMMSS(timeSec)}</b> · Predicted HM: <b style="color:var(--endure);">${z.hmPrediction}</b></p>`+zonesHTML(z);
+  }
+
+  function parseTimeInput(str){
+    const parts=str.trim().split(':').map(s=>parseInt(s,10));
+    if(parts.some(isNaN)) return null;
+    if(parts.length===2) return parts[0]*60+parts[1];
+    if(parts.length===3) return parts[0]*3600+parts[1]*60+parts[2];
+    return null;
+  }
+
+  function initLogPanel(){
+    const distEl=document.getElementById('log-dist');
+    const timeEl=document.getElementById('log-time');
+    const saveBtn=document.getElementById('log-save');
+    const statusEl=document.getElementById('log-status');
+    const saved=getBestRun();
+    if(saved){
+      distEl.value=saved.distKm;
+      timeEl.value=secToMMSS(saved.timeSec);
+      renderLogZones(saved.distKm,saved.timeSec);
+    }
+    saveBtn.addEventListener('click',()=>{
+      const dist=parseFloat(distEl.value);
+      const timeSec=parseTimeInput(timeEl.value);
+      if(!dist||dist<=0){statusEl.textContent='Enter a valid distance.';statusEl.className='log-status';return;}
+      if(!timeSec||timeSec<=0){statusEl.textContent='Time format: mm:ss or h:mm:ss';statusEl.className='log-status';return;}
+      saveBestRun(dist,timeSec);
+      statusEl.textContent='✓ Zones updated across the whole plan';
+      statusEl.className='log-status ok';
+      renderLogZones(dist,timeSec);
+      renderOverviewZones(dist,timeSec);
+    });
+  }
+
   function octDay(weekNo,dow){
     const w=OCT[weekNo]; if(!w) return null;
     const load=(t)=>({hi:'hi',md:'md',lo:'lo'})[t];
@@ -917,10 +1254,16 @@
       case 5: return {load:'hi',title:'Easy run + flat sprint progression',dur:'~45 min',detail:cleanD({
         Session:'Easy run, then flat sprints',Sprints:w.flat,Recovery:'full recovery, few reps — fresh legs only',
         Why:'True top-end speed for your half-back role (HIGH CNS day)'})};
-      case 6: return {load:'hi',title:w.race?'Rest':'Rest from running + heavy lower-body lift',dur:w.race?'—':'gym only',detail:cleanD({
-        Session:w.race?'Full rest before race':'Heavy lower-body strength (no running today)',
-        Lift:w.race?null:'Box squat, trap-bar deadlift, bench, pull-ups — 3×3–5 @ RPE 7–8',
-        Why:w.race?'Freshen up for tomorrow':'Heavy low-rep work improves running economy; spaced from hard running'})};
+      case 6: {
+        const strKey=w.race?null:getStrengthPhaseKey(weekNo);
+        const strPh=strKey?STRENGTH_PHASES[strKey]:null;
+        return {load:'hi',title:w.race?'Rest':'Rest from running + heavy lower-body lift',dur:w.race?'—':'gym only',
+          hasStrength:!w.race,weekNo,
+          detail:cleanD({
+            Session:w.race?'Full rest before race':'Heavy lower-body strength (no running today)',
+            Phase:strPh?strPh.label+' — '+strPh.focus:null,
+            Why:w.race?'Freshen up for tomorrow':'Heavy low-rep work maintains running economy; spaced from hard running for 48h+ recovery'})};
+      }
       case 0: return {load:w.race?'hi':'md',title:w.race?'🏁 RACE — Half Marathon':'Long run · '+w.long,dur:w.race?'race':'long',detail:cleanD({
         Session:w.race?'RACE DAY — 21.1km. Execute goal pace, negative-split if able':'Long run: '+w.long,
         Pace:w.race?'goal HM pace 4:35–4:40/km':'steady 4:45–5:00/km, easy portions 5:05–5:30',
@@ -1010,6 +1353,13 @@
     let detail='';
     for(const k in (s.detail||{})) detail+=`<div class="dl"><div class="dk">${k}</div><div class="dv">${s.detail[k]}</div></div>`;
     const done=isDone(today);
+    // Exercise cards (strength on Sat, plyo on Mon — Oct block only)
+    let extras='';
+    if(s.block==='oct'&&s.weekNo){
+      const dow=today.getDay();
+      if(dow===1) extras+=renderPlyoSection(s.weekNo);
+      if(dow===6) extras+=renderStrengthSection(s.weekNo);
+    }
     el.innerHTML=`<div class="todaybig">
       <div class="tdate">${fmtDate(today)}</div>
       <span class="ttype tt-${s.load}">${LOADNAME[s.load]}</span>
@@ -1017,7 +1367,7 @@
       <div class="tdesc">${s.dur?('Duration: '+s.dur):''}</div>
       <div class="tdetail">${detail}</div>
       <button class="done-btn ${done?'complete':'undone'}" id="done-btn-today">${done?'✓ Session logged — tap to undo':'Mark session done'}</button>
-    </div>`;
+    </div>${extras}`;
     document.getElementById('done-btn-today').addEventListener('click',()=>toggleDone(today));
     renderWeekProg();
   }
@@ -1041,8 +1391,15 @@
       const isDoneD=done.has(dateKey(d));
       let detail='';
       for(const k in (s.detail||{})) detail+=`<div class="dl"><div class="dk">${k}</div><div class="dv">${s.detail[k]}</div></div>`;
+      // Exercise cards for Oct block Mon (plyo) and Sat (strength)
+      let exCards='';
+      if(s.block==='oct'&&s.weekNo){
+        const ddow=d.getDay();
+        if(ddow===1) exCards+=renderPlyoSection(s.weekNo);
+        if(ddow===6) exCards+=renderStrengthSection(s.weekNo);
+      }
       const restClass=(s.title==='Rest'||s.load==='ga')?'cal-rest':'';
-      const doneBtn=(s.load!=='ga')?`<div style="padding:0 15px 15px 77px;"><button class="done-btn ${isDoneD?'complete':'undone'}" style="font-size:13px;padding:9px 16px;" data-date="${dateKey(d)}">${isDoneD?'✓ Logged — tap to undo':'Log session done'}</button></div>`:'';
+      const doneBtn=(s.load!=='ga')?`<div style="padding:0 15px 15px 0;margin-top:10px;"><button class="done-btn ${isDoneD?'complete':'undone'}" style="font-size:13px;padding:9px 16px;" data-date="${dateKey(d)}">${isDoneD?'✓ Logged — tap to undo':'Log session done'}</button></div>`:'';
       html+=`<div class="cal-day ${isToday?'is-today':''} ${restClass}" data-i="${i}">
         <button class="cal-head" aria-expanded="false">
           <div class="cal-dd"><span class="dow">${DOW[d.getDay()]}</span><span class="dnum">${fmtShort(d)}</span></div>
@@ -1050,7 +1407,7 @@
           ${isDoneD?'<span class="cal-done-badge">✓</span>':''}
           <div class="cal-chev">›</div>
         </button>
-        <div class="cal-body">${detail||'<div class="dv">Rest day — recover.</div>'}${doneBtn}</div>
+        <div class="cal-body">${detail||'<div class="dv">Rest day — recover.</div>'}${exCards}${doneBtn}</div>
       </div>`;
     }
     list.innerHTML=html;
@@ -1077,6 +1434,10 @@
   renderToday();
   renderCal();
   renderCountdown();
+  initLogPanel();
+
+  // If user has a saved run, update the Overview zones on load
+  (function(){const r=getBestRun();if(r)renderOverviewZones(r.distKm,r.timeSec);})();
 
 
   // ---- primary tabs ----
@@ -1176,7 +1537,7 @@
   const BNAV = {
     'bnav-today':   'p-today',
     'bnav-overview':'p-overview',
-    'bnav-bridge':  'p-bridge',
+    'bnav-log':     'p-log',
     'bnav-block':   'p-block',
   };
   function goToPanel(panelId){
