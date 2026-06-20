@@ -357,6 +357,7 @@
   .ex-head{display:flex;align-items:center;gap:10px;margin:0 0 10px;flex-wrap:wrap;}
   .ex-label{font-family:"IBM Plex Mono",monospace;font-size:10px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;padding:3px 8px;border-radius:999px;}
   .ex-label.str{background:var(--gaa-wash);color:var(--gaa);}
+  .ex-label.upper{background:var(--mid-wash);color:var(--mid);}
   .ex-label.plyo{background:var(--speed-wash);color:var(--speed);}
   .ex-meta{font-family:"IBM Plex Mono",monospace;font-size:10.5px;color:var(--muted);flex:1;}
   .ex-row{padding:8px 0;border-bottom:1px solid var(--line-soft);}
@@ -516,9 +517,9 @@
       </div>
 
       <h3>Typical in-season week</h3>
-      <div class="day lo"><div class="tag"><span class="dname">Mon</span><span class="lname">EASY</span></div><div class="body"><p class="title">Easy aerobic run · 30–40 min</p><p class="desc">Flush from the weekend match. Skip or shorten if devices show poor recovery (see Devices tab).</p></div></div>
+      <div class="day lo"><div class="tag"><span class="dname">Mon</span><span class="lname">EASY</span></div><div class="body"><p class="title">Easy aerobic run · 30–40 min + Upper A gym</p><p class="desc">Flush from the weekend match. Upper A gym (push + pull) after the run — skip gym if recovery is poor (see Devices tab).</p></div></div>
       <div class="day hi"><div class="tag"><span class="dname">Tue</span><span class="lname">GAA + SLED</span></div><div class="body"><p class="title">GAA training/game · acceleration block before or after</p><p class="desc">If a light GAA night: add sled accelerations (see protocol below). If a hard session/game: GAA covers it, skip the sled.</p></div></div>
-      <div class="day lo"><div class="tag"><span class="dname">Wed</span><span class="lname">EASY</span></div><div class="body"><p class="title">Easy aerobic run · 40–50 min + Nordics</p><p class="desc">Base-building day. Nordic curls keep eccentric strength banked (your non-negotiable).</p></div></div>
+      <div class="day lo"><div class="tag"><span class="dname">Wed</span><span class="lname">EASY</span></div><div class="body"><p class="title">Easy aerobic run · 40–50 min + Nordics + Upper B gym</p><p class="desc">Base-building day. Nordic curls + Upper B gym (light pull + shoulder) after the run. Nordics are non-negotiable.</p></div></div>
       <div class="day ga"><div class="tag"><span class="dname">Thu</span><span class="lname">GAA</span></div><div class="body"><p class="title">GAA training</p><p class="desc">Sport handles intensity. No added running load.</p></div></div>
       <div class="day hi"><div class="tag"><span class="dname">Fri</span><span class="lname">SLED / GYM</span></div><div class="body"><p class="title">Dedicated acceleration session + heavy lower-body lift</p><p class="desc">Your main speed-development session of the week — fresh legs, 2 days clear of Saturday's match. Sled accelerations then heavy strength (see below).</p></div></div>
       <div class="day ga"><div class="tag"><span class="dname">Sat</span><span class="lname">MATCH</span></div><div class="body"><p class="title">GAA match · light warm-up</p><p class="desc">Your weekly max-velocity exposure, in-context. Light prime only beforehand.</p></div></div>
@@ -626,15 +627,15 @@
 
       <div class="subpanel" id="ph-week" role="tabpanel" aria-labelledby="s-week">
         <h3 style="margin-top:0;">Weekly structure (Oct block)</h3>
-        <p class="phasegoal">6 running days + 1 rest, gym layered around it. CNS-load tags: HIGH days followed by genuinely LOW ones, never two HIGH stacked.</p>
-        <div class="loadkey"><span><i class="dot hi"></i> HIGH</span><span><i class="dot md"></i> MEDIUM</span><span><i class="dot lo"></i> LOW</span></div>
-        <div class="day hi"><div class="tag"><span class="dname">Mon</span><span class="lname">HIGH</span></div><div class="body"><p class="title">Easy run + hill sprints + plyometrics</p><p class="desc">Speed/power maintenance. Plyo from ~wk 3 once Nordics bank eccentric strength.</p></div></div>
-        <div class="day md"><div class="tag"><span class="dname">Tue</span><span class="lname">MED-HI</span></div><div class="body"><p class="title">Quality 1 — threshold / intervals</p><p class="desc">A real CNS stressor, not stackable filler.</p></div></div>
-        <div class="day lo"><div class="tag"><span class="dname">Wed</span><span class="lname">LOW-MED</span></div><div class="body"><p class="title">Easy run + 6×100m strides + Nordics</p><p class="desc">Strides = economy, submaximal. First things to trim after a brutal Tue.</p></div></div>
-        <div class="day md"><div class="tag"><span class="dname">Thu</span><span class="lname">MED-HI</span></div><div class="body"><p class="title">Quality 2 — intervals / progression</p><p class="desc">Spaced from Friday's sprints.</p></div></div>
-        <div class="day hi"><div class="tag"><span class="dname">Fri</span><span class="lname">HIGH</span></div><div class="body"><p class="title">Easy run + flat sprint progression</p><p class="desc">True top-end speed; why Sat is rest from running.</p></div></div>
-        <div class="day hi"><div class="tag"><span class="dname">Sat</span><span class="lname">HI·neural</span></div><div class="body"><p class="title">Rest from running + heavy lower-body strength</p><p class="desc">3×3–5 @ RPE 7–8. Heavy low-rep beats light "maintenance" for economy.</p></div></div>
-        <div class="day md"><div class="tag"><span class="dname">Sun</span><span class="lname">MEDIUM</span></div><div class="body"><p class="title">Long run</p><p class="desc">Long aerobic, low neural demand.</p></div></div>
+        <p class="phasegoal">4-day gym split layered around 6 running days. CNS-load tags: HIGH days followed by genuinely LOW ones, never two HIGH stacked.</p>
+        <div class="loadkey"><span><i class="dot hi"></i> HIGH</span><span><i class="dot md"></i> MEDIUM</span><span><i class="dot lo"></i> LOW / REST</span></div>
+        <div class="day hi"><div class="tag"><span class="dname">Mon</span><span class="lname">HIGH</span></div><div class="body"><p class="title">Easy run + hill sprints + plyometrics + Lower A gym</p><p class="desc">High CNS day. Plyo from wk 1 (Base phase). Lower A = hip-dominant: trap bar DL, hip thrust, Nordic curl, split squat.</p></div></div>
+        <div class="day md"><div class="tag"><span class="dname">Tue</span><span class="lname">MED-HI</span></div><div class="body"><p class="title">Quality 1 — threshold / intervals</p><p class="desc">A real CNS stressor, not stackable filler. No gym today.</p></div></div>
+        <div class="day lo"><div class="tag"><span class="dname">Wed</span><span class="lname">LOW-MED</span></div><div class="body"><p class="title">Easy run + strides + Nordics + Upper A gym</p><p class="desc">Run stays easy. Upper A = push + pull heavy: bench, pull-up, row, OHP, face pull. Trim strides first if Tue was brutal.</p></div></div>
+        <div class="day md"><div class="tag"><span class="dname">Thu</span><span class="lname">MED-HI</span></div><div class="body"><p class="title">Quality 2 — intervals / progression</p><p class="desc">Second quality running stimulus. No gym today — spaced from Fri sprints.</p></div></div>
+        <div class="day hi"><div class="tag"><span class="dname">Fri</span><span class="lname">HIGH</span></div><div class="body"><p class="title">Easy run + flat sprints + Lower B gym</p><p class="desc">Top-end speed + knee-dominant strength. Lower B = box squat, Bulgarian split squat, lunge, leg curl. Sprints prime the CNS for Lower B.</p></div></div>
+        <div class="day lo"><div class="tag"><span class="dname">Sat</span><span class="lname">REST</span></div><div class="body"><p class="title">Rest — no running, no gym</p><p class="desc">Buffer between Fri (sprint + Lower B) and Sun (long run + Upper B). Full rest = better quality at both ends.</p></div></div>
+        <div class="day md"><div class="tag"><span class="dname">Sun</span><span class="lname">MEDIUM</span></div><div class="body"><p class="title">Long run + Upper B gym</p><p class="desc">Long aerobic run first. Upper B after = pull-dominant, lighter: pull-up, cable row, lateral raise, face pull. Recovery-friendly post-long-run.</p></div></div>
       </div>
     </section>
   </div>
@@ -959,19 +960,23 @@
   // ---- IN-SEASON week (June–Sept), keyed by weekday 0..6 ----
   function inSeasonDay(dow){
     const M = {
-      1:{load:'lo',title:'Easy aerobic run',dur:'30–40 min',detail:{
-        Session:'Easy continuous run at conversational pace',Pace:'5:05–5:30/km (easy zone)',
-        Why:'Flush the weekend match, build aerobic base for October',
-        Adjust:'Skip or shorten if recovery is poor (see Devices)'}},
+      1:{load:'lo',title:'Easy aerobic run + Upper A gym',dur:'30–40 min + gym',detail:{
+        Session:'Easy continuous run at conversational pace, then Upper A gym (push + pull)',
+        Pace:'5:05–5:30/km (easy zone)',
+        Gym:'Upper A gym after the run — see exercise card below',
+        Why:'Flush the weekend match + upper body strength maintenance',
+        Adjust:'Skip or shorten run if recovery is poor. Scale back gym if very fatigued (see Devices tab)'}},
       2:{load:'hi',title:'GAA training/game + optional sled accelerations',dur:'sport + ~25 min',detail:{
         Session:'GAA session. If it\u2019s a light night, add the sled acceleration block; if hard/a game, GAA covers it — skip the sled',
         Sled:'Heavy 40–50% BM ×10–15m ×5–6 · Moderate 25–30% BM ×20m ×4',
         Recovery:'Full walk-back 2–3 min between reps — never rep tired',
         Why:'GAA supplies match sprint exposure; sled adds pure acceleration force'}},
-      3:{load:'lo',title:'Easy aerobic run + Nordics',dur:'40–50 min + gym',detail:{
-        Session:'Easy run, then Nordic curls + light posterior chain',
-        Nordics:'3–4 sets of 6–8 (halve to 2 sets in a heavy week, don\u2019t skip)',
-        Pace:'5:05–5:30/km',Why:'Base building + bank eccentric hamstring strength'}},
+      3:{load:'lo',title:'Easy aerobic run + Nordics + Upper B gym',dur:'40–50 min + gym',detail:{
+        Session:'Easy run, then Nordic curls + Upper B gym (pull + shoulder, lighter)',
+        Nordics:'3–4 sets of 6–8 (halve to 2 sets in a heavy week — do not skip)',
+        Gym:'Upper B gym — light pull-focused session after the run — see exercise card below',
+        Pace:'5:05–5:30/km',
+        Why:'Base building + eccentric hamstring strength + upper back maintenance'}},
       4:{load:'ga',title:'GAA training',dur:'sport',detail:{
         Session:'GAA training — sport handles the intensity',
         Added:'No extra running load today',Why:'Recover the legs around the sport stimulus'}},
@@ -1016,122 +1021,210 @@
   };
 
   // =====================================================================
-  //  STRENGTH & PLYOMETRICS DATA  (research-backed, GAA full-back specific)
+  //  GYM DATA — 4-day split: Lower A (Mon), Upper A (Wed), Lower B (Fri), Upper B (Sun)
+  //  6 phases: AA → Hyp → HypStr → Str → Power → Taper
   // =====================================================================
 
-  const STRENGTH_PHASES = {
-    AA: {
-      label:'Anatomical Adaptation', focus:'Movement quality · eccentric base · RPE 5–6',
-      exercises:[
-        {n:'Trap Bar Deadlift', p:'3×8 @ RPE 5–6', c:'2sec down, 1sec up · hips & shoulders rise together · neutral spine'},
-        {n:'Hip Thrust (bilateral)', p:'3×10 @ RPE 5–6', c:'Back on bench, knees 90° · 1sec pause at top · glute not lower back'},
-        {n:'Nordic Curl (eccentric)', p:'3×6–8', c:'3sec lower · bilateral · band/partner assists return · NON-NEGOTIABLE'},
-        {n:'Single-leg RDL', p:'3×8/leg', c:'Light DB · 2sec lower · glute-driven return · builds proprioception'},
-        {n:'Goblet Squat', p:'3×10', c:'12–16kg · knees track toes · chest upright · movement quality'},
-        {n:'Pallof Press', p:'2×8/side', c:'Light band/cable · anti-rotation · prevents lower-back compensation'}
-      ]
-    },
-    Hyp: {
-      label:'Hypertrophy', focus:'Posterior chain volume · 8–12 reps · RPE 6–7',
-      exercises:[
-        {n:'Hip Thrust (→ single-leg)', p:'4×8–10 @ RPE 7', c:'Wks 3–4: bilateral; Wk 5+: add 1 set single-leg/side · 1sec pause at top'},
-        {n:'Trap Bar Deadlift', p:'3×8 @ RPE 6–7', c:'2sec down, explosive up · drive through legs · not hip-dominant'},
-        {n:'Nordic Curl (eccentric)', p:'3×7–8', c:'3sec lower · bilateral · do not skip'},
-        {n:'Bulgarian Split Squat', p:'3×8/leg', c:'8kg DB · 2sec down · back foot 20cm bench · glute/quad emphasis'},
-        {n:'Lat Pulldown / Pull-up', p:'3×8–10 @ RPE 6', c:'Upper back endurance · elbows down and back · running economy'},
-        {n:'Barbell Row', p:'3×8 @ RPE 6–7', c:'Upper back · posterior chain balance'}
-      ]
-    },
-    HypStr: {
-      label:'Hypertrophy → Strength', focus:'Heavier loads · 5–8 reps · RPE 7–8',
-      exercises:[
-        {n:'Trap Bar Deadlift', p:'4×5–6 @ RPE 7–8', c:'1sec pause at bottom · explosive up · ~75–80% 1RM · 2–2.5min rest'},
-        {n:'Hip Thrust (single-leg)', p:'4×6/leg @ RPE 7–8', c:'1sec pause at top · ~80% 1RM · unilateral mirrors running demand'},
-        {n:'Nordic Curl (eccentric)', p:'3×6–7', c:'3sec lower · stop at 6 reps max · no fatigue reps'},
-        {n:'Bulgarian Split Squat', p:'3×6–8/leg', c:'10–14kg DB · 2sec down · heavier than Hyp phase'},
-        {n:'Barbell Box Squat', p:'3×5–6 @ RPE 7', c:'40cm box · 1sec pause · hip-dominant · not knee-dominant'},
-        {n:'Lat Pulldown / Weighted Pull-up', p:'3×6–8 @ RPE 6–7', c:'2sec eccentric · upper back maintanance'}
-      ]
-    },
-    Str: {
-      label:'Strength (Peak)', focus:'Heavy · 3–5 reps · RPE 8–9 · low volume — protect from aerobic interference',
-      exercises:[
-        {n:'Trap Bar Deadlift', p:'3–4×3–5 @ RPE 8–9', c:'~85–90% 1RM · explosive · 2.5–3min rest · MAIN LIFT · every rep fresh'},
-        {n:'Hip Thrust (single-leg)', p:'3×4–6/leg @ RPE 8', c:'~90% 1RM single-leg standard · 1sec pause · explosive concentric'},
-        {n:'Nordic Curl (eccentric)', p:'3×5–6', c:'3sec+ lower — slower than earlier phases · stop at 5–6 reps · non-negotiable'},
-        {n:'Bulgarian Split Squat', p:'3×5/leg', c:'16–20kg DB · 2sec eccentric · explosive up · RPE 8'},
-        {n:'Barbell Box Squat', p:'3×5 @ RPE 8', c:'~85% 1RM · 1sec pause · explosive off box'},
-        {n:'Copenhagen Plank', p:'3×25–30 sec', c:'Side-lying · max inner-thigh squeeze · isometric · GAA deceleration resilience'}
-      ]
-    },
-    Power: {
-      label:'Power-Endurance', focus:'Explosive intent · 3–5 reps · maintenance volume',
-      exercises:[
-        {n:'Trap Bar Deadlift', p:'3×3 @ RPE 8', c:'~90% 1RM · explosive · 3min rest · minimal volume, maximum quality'},
-        {n:'Hip Thrust (single-leg, explosive)', p:'3×3–5/leg @ RPE 8', c:'Minimal pause · explosive concentric · rate of force development focus'},
-        {n:'Nordic Curl (eccentric)', p:'2×5–6', c:'3sec lower · maintain intensity · halve volume not quality'},
-        {n:'Single-leg Box Squat', p:'3×3/leg @ RPE 8', c:'Explosive up from box · single-leg power maintenance'},
-        {n:'Copenhagen Plank', p:'2×25–30 sec', c:'Maintain adductor resilience · brief and intense'}
-      ]
-    },
-    Taper: {
-      label:'Taper', focus:'Lighter load · familiar pattern · RPE 7 · keep the muscle, not the fatigue',
-      exercises:[
-        {n:'Trap Bar Deadlift', p:'2×3 @ RPE 7', c:'Lighter than peak phase · familiar pattern only'},
-        {n:'Hip Thrust (single-leg)', p:'2×3/leg @ RPE 7', c:'Light but familiar · stop early if legs feel heavy'},
-        {n:'Nordic Curl (eccentric)', p:'2×5', c:'Maintenance · optional week 16'}
-      ]
-    }
+  const LOWER_A = {
+    AA:{label:'Anatomical Adaptation',focus:'Movement quality · eccentric base · RPE 5–6',exercises:[
+      {n:'Trap Bar Deadlift',p:'3×8 @ RPE 5–6',c:'2sec down, 1sec up · hips & shoulders rise together · neutral spine'},
+      {n:'Hip Thrust (bilateral)',p:'3×10 @ RPE 5–6',c:'Back on bench, knees 90° · 1sec pause at top · glute not lower back'},
+      {n:'Nordic Curl (eccentric)',p:'3×6–8',c:'3sec lower · bilateral · band/partner assists return · NON-NEGOTIABLE'},
+      {n:'Single-leg RDL',p:'3×8/leg',c:'Light DB · 2sec lower · glute-driven return · builds proprioception'},
+      {n:'Goblet Squat',p:'3×10',c:'12–16kg · knees track toes · chest upright · movement quality'},
+      {n:'Pallof Press',p:'2×8/side',c:'Light band/cable · anti-rotation · prevents lower-back compensation'}
+    ]},
+    Hyp:{label:'Hypertrophy',focus:'Posterior chain volume · 8–12 reps · RPE 6–7',exercises:[
+      {n:'Trap Bar Deadlift',p:'4×8 @ RPE 6–7',c:'2sec down, explosive up · drive through legs'},
+      {n:'Hip Thrust (→ single-leg)',p:'4×8–10 @ RPE 7',c:'Wks 3–4: bilateral; Wk 5+: add 1 set single-leg/side · 1sec pause at top'},
+      {n:'Nordic Curl (eccentric)',p:'3×7–8',c:'3sec lower · bilateral · do not skip'},
+      {n:'Bulgarian Split Squat',p:'3×8/leg',c:'8kg DB · 2sec down · back foot 20cm bench · glute emphasis'},
+      {n:'Copenhagen Plank',p:'3×20–25 sec',c:'Side-lying · inner-thigh squeeze · adductor base building'}
+    ]},
+    HypStr:{label:'Hypertrophy → Strength',focus:'Heavier loads · 5–8 reps · RPE 7–8',exercises:[
+      {n:'Trap Bar Deadlift',p:'4×5–6 @ RPE 7–8',c:'1sec pause at bottom · explosive up · ~75–80% 1RM · 2–2.5min rest'},
+      {n:'Hip Thrust (single-leg)',p:'4×6/leg @ RPE 7–8',c:'1sec pause at top · ~80% 1RM · unilateral mirrors running demand'},
+      {n:'Nordic Curl (eccentric)',p:'3×6–7',c:'3sec lower · stop at 6 reps · no fatigue reps'},
+      {n:'Bulgarian Split Squat',p:'3×6–8/leg',c:'10–14kg DB · 2sec down · heavier than Hyp phase'},
+      {n:'Barbell Box Squat',p:'3×5–6 @ RPE 7',c:'40cm box · 1sec pause · hip-dominant · not knee-dominant'},
+      {n:'Copenhagen Plank',p:'3×25–30 sec',c:'Adductor resilience · loads up before peak phase'}
+    ]},
+    Str:{label:'Strength (Peak)',focus:'Heavy · 3–5 reps · RPE 8–9 · low volume',exercises:[
+      {n:'Trap Bar Deadlift',p:'3–4×3–5 @ RPE 8–9',c:'~85–90% 1RM · explosive · 2.5–3min rest · MAIN LIFT · every rep fresh'},
+      {n:'Hip Thrust (single-leg)',p:'3×4–6/leg @ RPE 8',c:'~90% 1RM single-leg · 1sec pause · explosive concentric'},
+      {n:'Nordic Curl (eccentric)',p:'3×5–6',c:'3sec+ lower — slower than earlier · stop at 5–6 reps · non-negotiable'},
+      {n:'Bulgarian Split Squat',p:'3×5/leg',c:'16–20kg DB · 2sec eccentric · explosive up · RPE 8'},
+      {n:'Barbell Box Squat',p:'3×5 @ RPE 8',c:'~85% 1RM · 1sec pause · explosive off box'},
+      {n:'Copenhagen Plank',p:'3×25–30 sec',c:'GAA deceleration resilience · max inner-thigh squeeze'}
+    ]},
+    Power:{label:'Power-Endurance',focus:'Explosive intent · 3–5 reps · maintenance volume',exercises:[
+      {n:'Trap Bar Deadlift',p:'3×3 @ RPE 8',c:'~90% 1RM · explosive · 3min rest · minimal volume, maximum quality'},
+      {n:'Hip Thrust (single-leg, explosive)',p:'3×3–5/leg @ RPE 8',c:'Minimal pause · explosive concentric · rate of force development focus'},
+      {n:'Nordic Curl (eccentric)',p:'2×5–6',c:'3sec lower · halve volume not quality'},
+      {n:'Single-leg Box Squat',p:'3×3/leg @ RPE 8',c:'Explosive up from box · single-leg power maintenance'},
+      {n:'Copenhagen Plank',p:'2×25–30 sec',c:'Brief and intense · adductor resilience'}
+    ]},
+    Taper:{label:'Taper',focus:'Lighter load · familiar pattern · RPE 7',exercises:[
+      {n:'Trap Bar Deadlift',p:'2×3 @ RPE 7',c:'Lighter than peak · familiar pattern only'},
+      {n:'Hip Thrust (single-leg)',p:'2×3/leg @ RPE 7',c:'Light but familiar · stop early if legs feel heavy'},
+      {n:'Nordic Curl (eccentric)',p:'2×5',c:'Maintenance only'}
+    ]}
   };
 
-  const PLYO_PHASES = {
-    Base: {
-      label:'Base Plyometrics', contacts:'~30 contacts this session',
-      note:'Sub-maximal vertical loading only — eccentric hamstring base must be solid first. Focus on landing quality.',
-      exercises:[
-        {n:'Pogo Hops (bilateral)', p:'3×8–10 reps', c:'50–60% max height · minimal ground contact · land midfoot · knees slightly bent (20°)'},
-        {n:'Low Box Jump (20–30cm)', p:'3×5', c:'Step DOWN off box (eccentric), jump UP onto box · control the descent · not max effort'}
-      ]
-    },
-    Build: {
-      label:'Build Plyometrics', contacts:'~40–50 contacts this session',
-      note:'Introduce horizontal force and direction change. Own every landing — if contact time feels long, reduce height/load.',
-      exercises:[
-        {n:'Pogo Hops (bilateral)', p:'3×8–10', c:'Rapid rebound · midfoot landing · vertical tension only'},
-        {n:'Broad Jump (horizontal)', p:'3×4–5', c:'Max distance · land and STICK 3sec · reset fully between reps'},
-        {n:'Split-squat Jump (alternating)', p:'3×6/leg', c:'Forward lunge position → jump → switch legs · glute-dominant landing'},
-        {n:'Low Box Jump (20–30cm)', p:'3×5', c:'Step down · jump up · controlled descent each rep'}
-      ]
-    },
-    BuildLate: {
-      label:'Build Plyometrics (Late)', contacts:'~40–60 contacts this session',
-      note:'Shift toward explosive output per rep — fewer reps, more force. Eccentric single-leg bounds are the key new addition (heavy hamstring load — own the landing).',
-      exercises:[
-        {n:'Broad Jump (horizontal)', p:'3×4–5', c:'Max distance · explosive intent · full recovery between reps'},
-        {n:'Alternating Bounds (≤20m)', p:'3×4 bounds', c:'Each bound: full extension of hip/knee/ankle · walk back fully between runs'},
-        {n:'Split-squat Jump (alternating)', p:'3×5/leg', c:'Explosive switch · glute/quad dominant landing'},
-        {n:'Eccentric Single-leg Lateral Bound', p:'2×5/leg', c:'Land on outside leg · 3sec eccentric control · lateral deceleration — heavy load'}
-      ]
-    },
-    Peak: {
-      label:'Peak Reactive Plyometrics', contacts:'~30–40 contacts · all sharp & fresh',
-      note:'Brief, maximal-reactive work only. Volume drops — intent is high. Mimics match-sprint demand without cumulative fatigue. If ground contact time feels sluggish, reduce to 20 contacts.',
-      exercises:[
-        {n:'Single-leg Hop in Place (alternating)', p:'3×5/leg', c:'Maximal intent · brief contact · rapid rebound · ~15 total contacts'},
-        {n:'Low Depth Jump (20cm box)', p:'3×3–4', c:'Drop from box · land knees bent 30° · absorb 1sec · reactive-strength focus (RSI)'},
-        {n:'Alternating Bounds (≤20m)', p:'2×3–4 bounds', c:'Full recovery (walk back) · mimics late-acceleration running mechanics'}
-      ]
-    },
-    PeakTaper: {
-      label:'Light Plyometrics (Taper)', contacts:'~15–20 contacts only',
-      note:'Sub-maximal maintenance. No new stimulus — just keep the neuromuscular pattern awake before the race.',
-      exercises:[
-        {n:'Pogo Hops (light)', p:'2×6–8', c:'50% max height · sub-maximal · quality over quantity'}
-      ]
-    }
+  const LOWER_B = {
+    AA:{label:'Anatomical Adaptation',focus:'Quad / knee quality · RPE 5–6',exercises:[
+      {n:'Goblet Squat',p:'3×10–12',c:'12–16kg · knees track toes · chest upright · full depth if possible'},
+      {n:'Bulgarian Split Squat',p:'3×8/leg',c:'8kg DB · 2sec down · quad emphasis · back foot on 20cm bench'},
+      {n:'Walking Lunge',p:'3×10/leg',c:'Bodyweight or light DB · stride pattern · hip extension at toe-off'},
+      {n:'Seated Leg Curl',p:'3×10–12',c:'Light · hamstring complement to quad work · control the eccentric'},
+      {n:'Step-up',p:'3×8/leg',c:'20–30cm box · controlled descent · single-leg · push through heel'},
+      {n:'Pallof Press',p:'2×8/side',c:'Anti-rotation core · prevents compensation'}
+    ]},
+    Hyp:{label:'Hypertrophy',focus:'Quad volume · 8–10 reps · RPE 6–7',exercises:[
+      {n:'Box Squat',p:'4×8–10 @ RPE 6–7',c:'40cm box · knee-dominant · weight stays forward · controlled tempo'},
+      {n:'Bulgarian Split Squat',p:'4×8/leg',c:'10kg DB · 2sec down · quad emphasis'},
+      {n:'Walking Lunge (weighted)',p:'3×10–12/leg',c:'8kg DB · tempo controlled · full stride'},
+      {n:'Seated Leg Curl',p:'3×10–12',c:'Hamstring balance · moderate load'},
+      {n:'Step-up (weighted)',p:'3×8/leg',c:'8–12kg DB · controlled descent · single-leg power'}
+    ]},
+    HypStr:{label:'Hypertrophy → Strength',focus:'Heavier quads · 5–8 reps · RPE 7–8',exercises:[
+      {n:'Box Squat',p:'4×5–6 @ RPE 7–8',c:'~75–80% 1RM · 1sec pause · knee-dominant · explosive off box'},
+      {n:'Bulgarian Split Squat',p:'4×6/leg',c:'12–16kg DB · 2sec down · heavier than Hyp'},
+      {n:'Walking Lunge (heavy)',p:'3×8–10/leg',c:'10–12kg DB · control the descent'},
+      {n:'Seated Leg Curl',p:'3×8–10',c:'Moderate load · hamstring balance'},
+      {n:'Copenhagen Plank',p:'3×20–25 sec',c:'Adductor resilience · builds through phase'}
+    ]},
+    Str:{label:'Strength (Peak)',focus:'Heavy quads · 3–5 reps · RPE 8–9',exercises:[
+      {n:'Box Squat',p:'3–4×3–5 @ RPE 8–9',c:'~85–90% 1RM · 1sec pause · explosive off box · every rep fresh'},
+      {n:'Bulgarian Split Squat',p:'3×5/leg',c:'16–20kg DB · RPE 8 · explosive up'},
+      {n:'Jump Squat',p:'3×4–5',c:'Bodyweight or light vest · full squat to max jump · develop elasticity · 3min rest'},
+      {n:'Seated Leg Curl',p:'3×6–8',c:'Moderate load · knee flexion balance'},
+      {n:'Copenhagen Plank',p:'3×25–30 sec',c:'Adductor · deceleration resilience'}
+    ]},
+    Power:{label:'Power-Endurance',focus:'Explosive quads · 3–5 reps · max intent',exercises:[
+      {n:'Box Squat (explosive)',p:'3×3 @ RPE 8',c:'~90% 1RM · explosive intent · 3min rest · quality over volume'},
+      {n:'Jump Squat',p:'3×4–5',c:'Bodyweight · maximum power · 3min rest · fast SSC'},
+      {n:'Bulgarian Split Squat',p:'3×3/leg',c:'20kg+ · explosive up · single-leg power maintenance'},
+      {n:'Copenhagen Plank',p:'2×25–30 sec',c:'Brief and intense · adductor'}
+    ]},
+    Taper:{label:'Taper',focus:'Lighter load · familiar · RPE 7',exercises:[
+      {n:'Box Squat',p:'2×3 @ RPE 7',c:'Lighter than peak · familiar movement'},
+      {n:'Bulgarian Split Squat',p:'2×3/leg @ RPE 7',c:'Light but familiar · stop early if quad tension'}
+    ]}
   };
 
-  function getStrengthPhaseKey(weekNo){
+  const UPPER_A = {
+    AA:{label:'Anatomical Adaptation',focus:'Upper body quality · RPE 5–6',exercises:[
+      {n:'Bench Press',p:'3×8–10 @ RPE 5–6',c:'2sec down · controlled · movement quality · no grinding reps'},
+      {n:'Pull-up / Lat Pulldown',p:'3×8–10 @ RPE 5–6',c:'Elbows down and back · 2sec eccentric · running posture'},
+      {n:'Barbell Row',p:'3×8 @ RPE 5–6',c:'Upper back · chest supported or bent-over · posterior chain balance'},
+      {n:'Overhead Press',p:'3×8–10 @ RPE 5–6',c:'Core braced · no lumbar extension · shoulder health'},
+      {n:'Face Pull',p:'3×12–15',c:'Light · external rotation · shoulder health · never skip'},
+      {n:'Dead Bug',p:'2×5/side',c:'Slow · anti-extension core · breath control'}
+    ]},
+    Hyp:{label:'Hypertrophy',focus:'Upper body volume · 8–10 reps · RPE 6–7',exercises:[
+      {n:'Bench Press',p:'4×8–10 @ RPE 6–7',c:'2sec down · controlled descent · full chest stretch at bottom'},
+      {n:'Pull-up / Lat Pulldown',p:'4×8–10 @ RPE 6–7',c:'2sec eccentric · upper back volume · elbows down and back'},
+      {n:'Barbell Row',p:'4×8 @ RPE 6–7',c:'Upper back · posterior chain balance · keep back flat'},
+      {n:'Overhead Press',p:'3×8–10 @ RPE 6',c:'Controlled · no lumbar extension · shoulder width building'},
+      {n:'Face Pull',p:'3×12–15',c:'External rotation · running posture maintenance'},
+      {n:'Dead Bug',p:'2×5/side',c:'3sec tempo · anti-extension · opposite arm/leg'}
+    ]},
+    HypStr:{label:'Hypertrophy → Strength',focus:'Heavier upper · 5–8 reps · RPE 7–8',exercises:[
+      {n:'Bench Press',p:'4×5–6 @ RPE 7–8',c:'~75–80% 1RM · 2–2.5min rest · explosive concentric'},
+      {n:'Weighted Pull-up',p:'4×5–6 @ RPE 7–8',c:'Add 5–10kg belt · 2sec eccentric · upper back power'},
+      {n:'Barbell Row',p:'4×5–6 @ RPE 7–8',c:'Heavier than Hyp · upper back pulling strength'},
+      {n:'Overhead Press (seated)',p:'3×6–8 @ RPE 7',c:'Seated for stability · heavier than standing variant'},
+      {n:'Face Pull',p:'3×12–15',c:'Maintain shoulder health throughout heavier phases'}
+    ]},
+    Str:{label:'Strength (Peak)',focus:'Heavy upper · 3–5 reps · RPE 8–9',exercises:[
+      {n:'Bench Press',p:'3–4×3–5 @ RPE 8–9',c:'~85–90% 1RM · every rep fresh · 2.5–3min rest'},
+      {n:'Weighted Pull-up',p:'3×3–5 @ RPE 8–9',c:'Add 10–20kg · explosive concentric · 3min rest'},
+      {n:'Barbell Row',p:'3×3–5 @ RPE 8',c:'Heavy upper back pull · maintain flat back'},
+      {n:'Overhead Press (seated)',p:'3×5 @ RPE 8',c:'~85% 1RM · press strength maintenance'},
+      {n:'Face Pull',p:'3×12–15',c:'Never skip · shoulder health · external rotation'}
+    ]},
+    Power:{label:'Power-Endurance',focus:'Explosive upper · 3 reps · max intent',exercises:[
+      {n:'Bench Press (explosive)',p:'3×3 @ RPE 8',c:'~90% 1RM · maximal intent · 3min rest · quality not volume'},
+      {n:'Weighted Pull-up (explosive)',p:'3×3 @ RPE 8',c:'Explosive concentric · 3min rest · upper body power'},
+      {n:'Cable Row',p:'3×5–8',c:'Power emphasis · sharp pull · mid-back maintenance'},
+      {n:'Face Pull',p:'2×12–15',c:'Shoulder health maintenance · never skip'}
+    ]},
+    Taper:{label:'Taper',focus:'Light upper · RPE 7 · familiar',exercises:[
+      {n:'Bench Press',p:'2×3–5 @ RPE 7',c:'Lighter than peak · familiar pattern only'},
+      {n:'Pull-up',p:'2×5–6 @ RPE 6',c:'Bodyweight · easy · quality movement'},
+      {n:'Face Pull',p:'2×12',c:'Shoulder health · maintenance'}
+    ]}
+  };
+
+  const UPPER_B = {
+    AA:{label:'Anatomical Adaptation',focus:'Pull + shoulder quality · RPE 5–6 · after long run',exercises:[
+      {n:'Pull-up / Lat Pulldown',p:'3×8–10 @ RPE 5–6',c:'2sec eccentric · elbows down and back · upper back quality'},
+      {n:'Cable Row',p:'3×10–12 @ RPE 5',c:'Mid back · posture support for running · controlled'},
+      {n:'DB Lateral Raise',p:'3×12–15',c:'Light · shoulder width · no momentum · elbow slightly bent'},
+      {n:'Face Pull',p:'3×12–15',c:'External rotation · shoulder health · recovery-friendly'},
+      {n:'Band Pull-apart',p:'2×15',c:'Rear delt · easy to superset · shoulder balance'},
+      {n:'Dead Bug',p:'2×5/side',c:'Core anti-extension · breath control · recovery-friendly'}
+    ]},
+    Hyp:{label:'Hypertrophy',focus:'Pull volume · 8–10 reps · RPE 6–7',exercises:[
+      {n:'Pull-up',p:'4×8–10 @ RPE 6–7',c:'2sec eccentric · upper back volume · elbows down and back'},
+      {n:'Cable Row',p:'3×10–12 @ RPE 6',c:'Mid-back volume · posture for running · controlled'},
+      {n:'DB Lateral Raise',p:'3×12–15',c:'Progressive weight · shoulder width · strict form'},
+      {n:'Face Pull',p:'3×12–15',c:'External rotation · running posture'},
+      {n:'Band Pull-apart',p:'2×15',c:'Rear delt · superset with face pull · shoulder balance'},
+      {n:'Dead Bug',p:'2×5/side',c:'Anti-extension core · tempo 3sec'}
+    ]},
+    HypStr:{label:'Hypertrophy → Strength',focus:'Pull strength · 6–8 reps · RPE 6–7',exercises:[
+      {n:'Weighted Pull-up',p:'4×6–8 @ RPE 6–7',c:'Add 5–10kg · 2sec eccentric · upper back strength'},
+      {n:'Cable Row',p:'3×8–10 @ RPE 6–7',c:'Heavier than Hyp · upper back pulling power'},
+      {n:'DB Lateral Raise',p:'3×10–12',c:'Shoulder width · controlled tempo'},
+      {n:'Face Pull',p:'3×12–15',c:'Shoulder health · external rotation'},
+      {n:'Dead Bug',p:'2×5/side',c:'Core stability · anti-extension'}
+    ]},
+    Str:{label:'Strength',focus:'Pull strength · 5–8 reps · RPE 7–8',exercises:[
+      {n:'Weighted Pull-up',p:'3–4×5–8 @ RPE 7–8',c:'Add 10–15kg · upper back strength · explosive concentric'},
+      {n:'Cable Row',p:'3×8–10 @ RPE 7',c:'Heavy mid back · maintain flat back'},
+      {n:'DB Shoulder Press',p:'3×6–8 @ RPE 6–7',c:'Seated · shoulder strength maintenance'},
+      {n:'Face Pull',p:'3×12–15',c:'Never skip · shoulder health'}
+    ]},
+    Power:{label:'Power-Endurance',focus:'Explosive pull · 3–5 reps · RPE 7–8',exercises:[
+      {n:'Weighted Pull-up (explosive)',p:'3×3–5 @ RPE 7–8',c:'Explosive concentric · upper body power maintenance'},
+      {n:'Cable Row',p:'3×6–8 @ RPE 7',c:'Sharp pull · power emphasis · mid-back'},
+      {n:'DB Lateral Raise',p:'2×12–15',c:'Maintenance · shoulder width'},
+      {n:'Face Pull',p:'2×12–15',c:'Shoulder health · always include'}
+    ]},
+    Taper:{label:'Taper',focus:'Light pull · RPE 6 · familiar',exercises:[
+      {n:'Pull-up',p:'2×5–6 @ RPE 6',c:'Bodyweight · light · familiar'},
+      {n:'Face Pull',p:'2×12',c:'Shoulder health maintenance · easy'},
+      {n:'Band Pull-apart',p:'2×12',c:'Rear delt · very light · recovery-friendly'}
+    ]}
+  };
+
+  const IN_SEASON_UPPER_A = {label:'Upper A (In-Season) · Push + Pull',focus:'Maintenance · 3×6–8 @ RPE 6–7',exercises:[
+    {n:'Bench Press',p:'3×6–8 @ RPE 6–7',c:'Controlled descent · maintain strength through season'},
+    {n:'Pull-up / Lat Pulldown',p:'3×6–8 @ RPE 6',c:'2sec eccentric · elbows down and back'},
+    {n:'Barbell Row',p:'3×6–8 @ RPE 6',c:'Upper back maintenance · posterior chain balance'},
+    {n:'Overhead Press',p:'2×8 @ RPE 6',c:'Shoulder strength · controlled · no lumbar extension'},
+    {n:'Face Pull',p:'3×12–15',c:'External rotation · shoulder health · never skip'},
+    {n:'Dead Bug',p:'2×5/side',c:'Anti-extension core · slow and controlled'}
+  ]};
+  const IN_SEASON_UPPER_B = {label:'Upper B (In-Season) · Pull + Shoulder',focus:'Recovery-friendly · 3×8–10 @ RPE 5–6',exercises:[
+    {n:'Pull-up / Lat Pulldown',p:'3×8–10 @ RPE 5–6',c:'Sub-maximal · upper back recovery work'},
+    {n:'Cable Row',p:'3×10–12 @ RPE 5',c:'Mid back · posture support for running'},
+    {n:'DB Lateral Raise',p:'3×12–15',c:'Light · shoulder width maintenance'},
+    {n:'Face Pull',p:'3×12–15',c:'External rotation · shoulder health · non-negotiable'},
+    {n:'Band Pull-apart',p:'2×15',c:'Rear delt · easy to superset'},
+    {n:'Dead Bug',p:'2×5/side',c:'Core anti-extension · breath control'}
+  ]};
+  const IN_SEASON_LOWER = {label:'Lower · Hip-Dominant (In-Season)',focus:'Heavy · 3–5 × 3–5 @ RPE 7–8',exercises:[
+    {n:'Trap Bar Deadlift',p:'3×3–5 @ RPE 7–8',c:'~80–85% 1RM · explosive · every rep fresh'},
+    {n:'Box Squat',p:'3×3–5 @ RPE 7',c:'40cm box · 1sec pause · hip-dominant'},
+    {n:'Hip Thrust (single-leg)',p:'3×5/leg @ RPE 7',c:'1sec pause at top · unilateral'},
+    {n:'Nordic Curl (eccentric)',p:'3×5–6',c:'3sec lower · non-negotiable'},
+    {n:'Copenhagen Plank',p:'2×25–30 sec',c:'Adductor resilience · GAA deceleration demand'}
+  ]};
+
+  function getGymPhaseKey(weekNo){
     if(weekNo<=2) return 'AA';
     if(weekNo<=5) return 'Hyp';
     if(weekNo<=8) return 'HypStr';
@@ -1142,14 +1235,74 @@
   }
 
   function getPlyoPhaseKey(weekNo){
-    if(weekNo<=2) return null;
-    if(weekNo<=5) return 'Base';
-    if(weekNo<=8) return 'Build';
-    if(weekNo<=11) return 'BuildLate';
+    if(weekNo<=2) return 'Base';
+    if(weekNo<=5) return 'BuildVert';
+    if(weekNo<=8) return 'BuildHorz';
+    if(weekNo<=11) return 'Reactive';
     if(weekNo<=14) return 'Peak';
     if(weekNo===15) return 'PeakTaper';
     return null;
   }
+
+  const PLYO_PHASES = {
+    Base:{
+      label:'Neuromuscular Foundation',contacts:'~30–40 contacts',
+      note:'Sub-maximal bilateral work only. Land softly and reset fully between reps. Eccentric strength must be developing before load increases.',
+      exercises:[
+        {n:'Pogo Hops (bilateral)',p:'3×8–10',c:'50–60% max height · minimal ground contact · land midfoot · knees softly bent'},
+        {n:'Low Box Jump (20cm)',p:'3×5',c:'Step DOWN (eccentric), jump UP onto box · control the landing · not max effort'},
+        {n:'Bilateral Squat Jump',p:'3×5',c:'Quarter-squat takeoff · soft landing knees 30° · pause 2sec before next rep'}
+      ]
+    },
+    BuildVert:{
+      label:'Vertical Loading',contacts:'~40–55 contacts',
+      note:'Add height and intent to vertical jumps. Own every landing before adding load. If contact time feels long, stay at previous volume.',
+      exercises:[
+        {n:'Pogo Hops (bilateral)',p:'3×10',c:'70–80% max height · rapid rebound · vertical tension'},
+        {n:'Box Jump (30–40cm)',p:'3×5',c:'Step down each rep · jump with full intent · land and stick 2sec'},
+        {n:'Squat Jump (maximal)',p:'3×5',c:'Quarter-squat · max vertical height · soft landing · 3min rest between sets'},
+        {n:'Low Depth Jump (20cm)',p:'3×3–4',c:'Drop from box · knees bent 30° on landing · absorb then rebound · RSI focus'}
+      ]
+    },
+    BuildHorz:{
+      label:'Horizontal Power',contacts:'~50–70 contacts',
+      note:'Shift emphasis to horizontal force production. Bounds require full hip/knee/ankle extension per rep — walk back fully every time.',
+      exercises:[
+        {n:'Pogo Hops (bilateral)',p:'3×10',c:'High frequency · rapid rebound · midfoot contact'},
+        {n:'Broad Jump (max distance)',p:'3×4–5',c:'Explosive horizontal · land and STICK 3sec · reset fully between reps'},
+        {n:'Alternating Bounds (≤20m)',p:'3×4 bounds',c:'Full hip/knee/ankle extension each bound · walk back fully · quality not speed'},
+        {n:'Split-squat Jump',p:'3×6/leg',c:'Forward lunge → jump → switch legs · glute-dominant landing · alternate legs'}
+      ]
+    },
+    Reactive:{
+      label:'Fast SSC (Reactive)',contacts:'~60–80 contacts (Wk 9 recovery: ~30–40)',
+      note:'Short ground contacts, maximum elastic energy storage. Wk 9 is a recovery week — halve contacts. Hurdle hops teach rapid leg stiffness; depth jumps develop RSI.',
+      exercises:[
+        {n:'Hurdle Hops (bilateral)',p:'4×6–8',c:'30–40cm hurdles · minimal ground contact · land and immediately rebound · fast SSC'},
+        {n:'Pogo Hops (single-leg)',p:'3×5/leg',c:'Rapid rebound · brief contact · progress from bilateral pogo work'},
+        {n:'Low Depth Jump (20–30cm)',p:'3×3–4',c:'Drop from box · land and IMMEDIATELY jump · RSI-focused · ground contact <250ms goal'},
+        {n:'Alternating Bounds (≤20m)',p:'2×4–5 bounds',c:'Full extension · walk back · mimics acceleration mechanics'}
+      ]
+    },
+    Peak:{
+      label:'Peak Reactive Power',contacts:'~40–60 contacts · all sharp & fresh',
+      note:'Volume drops — intensity stays high. Single-leg work now. Depth jumps require maximum reactive intent. If ground contact feels sluggish, reduce to 30 contacts.',
+      exercises:[
+        {n:'Single-leg Hop in Place',p:'3×5/leg',c:'Maximal intent · brief contact · rapid rebound · ~30 total contacts'},
+        {n:'Single-leg Box Jump (20cm)',p:'3×3/leg',c:'Land on same leg · absorb and stick · RSI and single-leg power'},
+        {n:'Low Depth Jump (20cm)',p:'3×3–4',c:'Drop · land · immediately jump max height · reactive-strength index focus'},
+        {n:'Alternating Bounds (≤20m)',p:'2×3–4 bounds',c:'Max extension · walk back · mimics sprint mechanics'}
+      ]
+    },
+    PeakTaper:{
+      label:'Taper Plyometrics',contacts:'~15–20 contacts only',
+      note:'Sub-maximal maintenance. No new stimulus — keep the neuromuscular pattern awake before the race.',
+      exercises:[
+        {n:'Pogo Hops (bilateral)',p:'2×6–8',c:'50–60% max height · sub-maximal · quality over quantity'},
+        {n:'Single-leg Hop in Place',p:'1×4/leg',c:'Light and sharp · feel the spring · stop if anything feels off'}
+      ]
+    }
+  };
 
   function renderExercises(exercises){
     return exercises.map(e=>`
@@ -1169,14 +1322,43 @@
     </div>`;
   }
 
-  function renderStrengthSection(weekNo){
-    const key=getStrengthPhaseKey(weekNo); if(!key) return '';
-    const ph=STRENGTH_PHASES[key];
+  function renderGymSection(phaseKey,phasesObj,sessionTitle,labelClass){
+    const ph=phasesObj[phaseKey]; if(!ph) return '';
     return `<div class="ex-card">
-      <div class="ex-head"><span class="ex-label str">Strength</span><span class="ex-meta">${ph.label} · ${ph.focus}</span></div>
+      <div class="ex-head"><span class="ex-label ${labelClass}">${sessionTitle}</span><span class="ex-meta">${ph.label} · ${ph.focus}</span></div>
       ${renderExercises(ph.exercises)}
     </div>`;
   }
+
+  function renderInSeasonGym(gym,labelClass){
+    return `<div class="ex-card">
+      <div class="ex-head"><span class="ex-label ${labelClass}">${gym.label}</span><span class="ex-meta">${gym.focus}</span></div>
+      ${renderExercises(gym.exercises)}
+    </div>`;
+  }
+
+  function gymCards(date,s){
+    const dow=date.getDay();
+    if(s.block==='oct'&&s.weekNo){
+      const gk=getGymPhaseKey(s.weekNo);
+      let cards='';
+      if(dow===1){
+        cards+=renderPlyoSection(s.weekNo);
+        if(gk) cards+=renderGymSection(gk,LOWER_A,'Lower A · Hip-Dominant','str');
+      }
+      if(dow===3&&gk) cards+=renderGymSection(gk,UPPER_A,'Upper A · Push + Pull','upper');
+      if(dow===5&&gk) cards+=renderGymSection(gk,LOWER_B,'Lower B · Knee-Dominant','str');
+      if(dow===0&&gk) cards+=renderGymSection(gk,UPPER_B,'Upper B · Pull + Shoulder','upper');
+      return cards;
+    }
+    if(s.block==='in'){
+      if(dow===1) return renderInSeasonGym(IN_SEASON_UPPER_A,'upper');
+      if(dow===3) return renderInSeasonGym(IN_SEASON_UPPER_B,'upper');
+      if(dow===5) return renderInSeasonGym(IN_SEASON_LOWER,'str');
+    }
+    return '';
+  }
+
 
   // =====================================================================
   //  PACE ZONE CALCULATOR  (Riegel formula)
@@ -1272,36 +1454,38 @@
   function octDay(weekNo,dow){
     const w=OCT[weekNo]; if(!w) return null;
     const load=(t)=>({hi:'hi',md:'md',lo:'lo'})[t];
-    // Mon hill+plyo, Tue Q1, Wed easy+strides+Nordics, Thu Q2, Fri flat sprints, Sat heavy lift (rest from running), Sun long
+    // Mon: run+hills+plyo+Lower A, Tue: Q1, Wed: run+strides+Nordics+Upper A, Thu: Q2, Fri: run+sprints+Lower B, Sat: rest, Sun: long+Upper B
     switch(dow){
-      case 1: return {load:'hi',title:'Easy run + hill sprints'+(w.plyo?' + plyometrics':''),dur:'~45 min',detail:cleanD({
-        Session:'Easy run, then hill sprints'+(w.plyo?', then plyometrics':''),Hills:w.hill,Plyo:w.plyo,
-        Pace:'easy 5:05–5:30/km',Why:'Speed & power maintenance (HIGH CNS day)'})};
+      case 1: return {load:'hi',title:'Easy run + hill sprints + plyometrics + Lower A gym',dur:'~75 min + gym',detail:cleanD({
+        Session:'Easy run → hill sprints → plyometrics → Lower A gym (hip-dominant)',Hills:w.hill,
+        Plyo:'See plyometrics card below — progression wk 1–16',
+        Gym:'Lower A strength — see exercise card below',
+        Pace:'easy 5:05–5:30/km',Why:'Speed & power + hip-dominant strength (HIGH CNS day)'})};
       case 2: return {load:'md',title:w.tt?w.q1:'Quality 1 — '+w.q1,dur:w.tt?'test':'~50–60 min',detail:cleanD({
         Session:w.q1,Warmup:'15 min easy + strides',Cooldown:'10 min easy',
         Why:w.tt?'Recalibrate your pace zones against reality':'Lactate threshold / VO₂max — a real CNS stressor'})};
-      case 3: return {load:'lo',title:'Easy run + strides + Nordics',dur:'~45 min + gym',detail:cleanD({
-        Session:'Easy run + 6×100m strides + Nordic curls',Strides:'6×100m @ 70–80%, walk back',
-        Nordics:'3–4×6–8 (halve in heavy weeks, don\u2019t skip)',Why:'Recovery-leaning; strides = economy. Trim extras if Tue was brutal'})};
+      case 3: return {load:'lo',title:'Easy run + strides + Nordics + Upper A gym',dur:'~60 min + gym',detail:cleanD({
+        Session:'Easy run + 6×100m strides + Nordic curls + Upper A gym (push + pull)',
+        Strides:'6×100m @ 70–80%, walk back',
+        Nordics:'3–4×6–8 (halve in heavy weeks — do not skip)',
+        Gym:'Upper A strength — see exercise card below',
+        Why:'Recovery-leaning run + economy + upper body strength. Trim strides if Tue was brutal'})};
       case 4: return {load:'md',title:'Quality 2 — '+w.q2,dur:'~50 min',detail:cleanD({
         Session:w.q2,Warmup:'15 min easy',Why:'Second quality stimulus, spaced from Friday\u2019s sprints'})};
-      case 5: return {load:'hi',title:'Easy run + flat sprint progression',dur:'~45 min',detail:cleanD({
-        Session:'Easy run, then flat sprints',Sprints:w.flat,Recovery:'full recovery, few reps — fresh legs only',
-        Why:'True top-end speed for your half-back role (HIGH CNS day)'})};
-      case 6: {
-        const strKey=w.race?null:getStrengthPhaseKey(weekNo);
-        const strPh=strKey?STRENGTH_PHASES[strKey]:null;
-        return {load:'hi',title:w.race?'Rest':'Rest from running + heavy lower-body lift',dur:w.race?'—':'gym only',
-          hasStrength:!w.race,weekNo,
-          detail:cleanD({
-            Session:w.race?'Full rest before race':'Heavy lower-body strength (no running today)',
-            Phase:strPh?strPh.label+' — '+strPh.focus:null,
-            Why:w.race?'Freshen up for tomorrow':'Heavy low-rep work maintains running economy; spaced from hard running for 48h+ recovery'})};
-      }
-      case 0: return {load:w.race?'hi':'md',title:w.race?'🏁 RACE — Half Marathon':'Long run · '+w.long,dur:w.race?'race':'long',detail:cleanD({
-        Session:w.race?'RACE DAY — 21.1km. Execute goal pace, negative-split if able':'Long run: '+w.long,
+      case 5: return {load:'hi',title:'Easy run + flat sprints + Lower B gym',dur:'~75 min + gym',detail:cleanD({
+        Session:'Easy run → flat sprint progression → Lower B gym (knee-dominant)',
+        Sprints:w.flat,
+        Gym:'Lower B strength — see exercise card below',
+        Recovery:'full recovery between sprint reps — fresh legs only',
+        Why:'Top-end speed + knee-dominant strength. High CNS day — sprints prime the CNS for Lower B'})};
+      case 6: return {load:'lo',title:w.race?'Rest':'Rest — active recovery or light mobility',dur:w.race?'—':'rest only',detail:cleanD({
+        Session:w.race?'Full rest before race':'Rest from running and gym. Optional light walk or foam rolling.',
+        Why:w.race?'Freshen up for tomorrow':'Buffer between Fri (sprints + Lower B) and Sun (long run + Upper B). Full rest = better quality at both ends.'})};
+      case 0: return {load:w.race?'hi':'md',title:w.race?'🏁 RACE — Half Marathon':'Long run · '+w.long+' + Upper B gym',dur:w.race?'race':'long + gym',detail:cleanD({
+        Session:w.race?'RACE DAY — 21.1km. Execute goal pace, negative-split if able':'Long run: '+w.long+' → Upper B gym after (pull + shoulder, lighter)',
         Pace:w.race?'goal HM pace 4:35–4:40/km':'steady 4:45–5:00/km, easy portions 5:05–5:30',
-        Why:w.race?'This is it — glycogen loaded, legs fresh, speed sharp':'Aerobic endurance, low neural demand'})};
+        Gym:w.race?null:'Upper B after the long run — see exercise card below',
+        Why:w.race?'This is it — glycogen loaded, legs fresh, speed sharp':'Aerobic endurance + upper body maintenance. Upper B is recovery-friendly post-long-run'})};
     }
   }
   function cleanD(o){const r={};for(const k in o)if(o[k])r[k]=o[k];return r;}
@@ -1387,13 +1571,8 @@
     let detail='';
     for(const k in (s.detail||{})) detail+=`<div class="dl"><div class="dk">${k}</div><div class="dv">${s.detail[k]}</div></div>`;
     const done=isDone(today);
-    // Exercise cards (strength on Sat, plyo on Mon — Oct block only)
-    let extras='';
-    if(s.block==='oct'&&s.weekNo){
-      const dow=today.getDay();
-      if(dow===1) extras+=renderPlyoSection(s.weekNo);
-      if(dow===6) extras+=renderStrengthSection(s.weekNo);
-    }
+    // Gym + plyometrics cards
+    let extras=gymCards(today,s);
     el.innerHTML=`<div class="todaybig">
       <div class="tdate">${fmtDate(today)}</div>
       <span class="ttype tt-${s.load}">${LOADNAME[s.load]}</span>
@@ -1425,13 +1604,8 @@
       const isDoneD=done.has(dateKey(d));
       let detail='';
       for(const k in (s.detail||{})) detail+=`<div class="dl"><div class="dk">${k}</div><div class="dv">${s.detail[k]}</div></div>`;
-      // Exercise cards for Oct block Mon (plyo) and Sat (strength)
-      let exCards='';
-      if(s.block==='oct'&&s.weekNo){
-        const ddow=d.getDay();
-        if(ddow===1) exCards+=renderPlyoSection(s.weekNo);
-        if(ddow===6) exCards+=renderStrengthSection(s.weekNo);
-      }
+      // Gym + plyometrics cards
+      let exCards=gymCards(d,s);
       const restClass=(s.title==='Rest'||s.load==='ga')?'cal-rest':'';
       const doneBtn=(s.load!=='ga')?`<div style="padding:0 15px 15px 0;margin-top:10px;"><button class="done-btn ${isDoneD?'complete':'undone'}" style="font-size:13px;padding:9px 16px;" data-date="${dateKey(d)}">${isDoneD?'✓ Logged — tap to undo':'Log session done'}</button></div>`:'';
       html+=`<div class="cal-day ${isToday?'is-today':''} ${restClass}" data-i="${i}">
