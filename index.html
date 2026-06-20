@@ -2,8 +2,15 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Training Plan · GAA → Half Marathon</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#18211C">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="HM Plan">
+<meta name="description" content="GAA to Half Marathon — personalised 16-week training plan">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon.svg">
+<title>HM Plan · GAA → Half Marathon</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800;900&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -237,6 +244,79 @@
     .conncard{flex-wrap:wrap;}
   }
   @media (prefers-reduced-motion:reduce){.panel,.subpanel{animation:none;}*{scroll-behavior:auto;}}
+
+  /* ======= PWA / MOBILE APP ======= */
+  /* safe areas for notched phones */
+  header{
+    padding-top:max(30px,calc(env(safe-area-inset-top) + 18px));
+    padding-left:max(22px,env(safe-area-inset-left));
+    padding-right:max(22px,env(safe-area-inset-right));
+  }
+
+  /* bottom nav — hidden by default, shown only on narrow screens */
+  .bnav{display:none;position:fixed;bottom:0;left:0;right:0;z-index:50;
+    background:var(--raised);border-top:1px solid var(--line);
+    padding-bottom:env(safe-area-inset-bottom);
+    box-shadow:0 -2px 24px rgba(24,33,28,.1);}
+  .bnav-btn{flex:1;appearance:none;background:none;border:none;cursor:pointer;
+    padding:10px 4px 11px;display:flex;flex-direction:column;align-items:center;gap:4px;
+    font-family:"Archivo",sans-serif;font-weight:700;font-size:10px;letter-spacing:.01em;
+    color:var(--muted);line-height:1;transition:color .15s;-webkit-tap-highlight-color:transparent;}
+  .bnav-btn[aria-selected="true"]{color:var(--endure);}
+  .bnav-btn svg{width:24px;height:24px;transition:stroke .15s;}
+  .bnav-btn[aria-selected="true"] svg{stroke:var(--endure);}
+
+  /* more sheet (slide-up panel) */
+  .more-sheet{display:none;position:fixed;inset:0;z-index:100;}
+  .more-sheet.open{display:block;}
+  .more-overlay{position:absolute;inset:0;background:rgba(0,0,0,.45);}
+  .more-panel{position:absolute;bottom:0;left:0;right:0;
+    background:var(--raised);border-radius:24px 24px 0 0;
+    padding:0 16px calc(env(safe-area-inset-bottom) + 24px);
+    box-shadow:0 -8px 40px rgba(24,33,28,.18);
+    animation:slideup .28s cubic-bezier(.32,0,.67,0) forwards;}
+  @keyframes slideup{from{transform:translateY(100%);}to{transform:none;}}
+  .more-handle{width:44px;height:5px;background:var(--line);border-radius:3px;margin:16px auto 22px;}
+  .more-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:8px;}
+  .more-item{appearance:none;border:1.5px solid var(--line);background:var(--paper);
+    border-radius:14px;padding:16px 15px;cursor:pointer;
+    font-family:"Archivo",sans-serif;font-weight:700;font-size:14.5px;
+    color:var(--ink);text-align:left;transition:all .14s;-webkit-tap-highlight-color:transparent;}
+  .more-item .mi-sub{display:block;font-size:11px;font-weight:400;color:var(--muted);
+    font-family:"IBM Plex Mono",monospace;margin-top:5px;letter-spacing:.04em;}
+  .more-item:active{background:var(--endure-wash);border-color:var(--endure);}
+
+  /* install banner */
+  .install-bar{display:none;position:fixed;left:12px;right:12px;z-index:48;
+    background:var(--ink);color:var(--paper);border-radius:16px;padding:14px 14px 14px 18px;
+    box-shadow:0 8px 32px rgba(0,0,0,.32);align-items:center;gap:12px;}
+  .install-bar.show{display:flex;}
+  .install-bar .ib-txt{flex:1;font-size:13px;line-height:1.45;}
+  .install-bar .ib-txt b{font-family:"Archivo",sans-serif;font-weight:800;display:block;margin-bottom:2px;}
+  .install-bar .ib-txt span{color:#A9C7BC;}
+  .install-bar .ib-go{appearance:none;border:none;cursor:pointer;background:var(--endure);
+    color:#fff;font-family:"Archivo",sans-serif;font-weight:700;font-size:13px;
+    padding:9px 14px;border-radius:999px;white-space:nowrap;transition:opacity .15s;}
+  .install-bar .ib-go:hover{opacity:.85;}
+  .install-bar .ib-x{appearance:none;border:none;background:none;color:rgba(255,255,255,.55);
+    cursor:pointer;font-size:22px;padding:2px 4px;line-height:1;}
+
+  @media(max-width:640px){
+    .tabbar-shell{display:none;}
+    .bnav{display:flex;}
+    main{padding-bottom:calc(env(safe-area-inset-bottom) + 86px)!important;}
+    h1{font-size:clamp(26px,7vw,40px)!important;}
+    .eyebrow{font-size:10.5px;}
+    .todaybig h3{font-size:21px;}
+    .stats{grid-template-columns:repeat(2,1fr);}
+    .cal-head{min-height:60px;}
+    .conncard{flex-wrap:wrap;}
+    .install-bar{bottom:calc(env(safe-area-inset-bottom) + 76px);}
+  }
+  @media(min-width:641px){
+    .bnav{display:none;}
+    .install-bar{bottom:24px;max-width:440px;left:50%;right:auto;transform:translateX(-50%);}
+  }
 
   /* ---- completion tracking & progress ---- */
   .done-btn{width:100%;margin-top:18px;appearance:none;border:none;cursor:pointer;
@@ -945,7 +1025,7 @@
   function selectTab(tab){
     tabs.forEach(t=>t.setAttribute('aria-selected', String(t===tab)));
     panels.forEach(p=>p.classList.toggle('active', p.id === tab.getAttribute('aria-controls')));
-    document.querySelector('.tabbar-shell').scrollIntoView({block:'start'});
+    window.scrollTo({top:0,behavior:'smooth'});
   }
   tabs.forEach((tab,i)=>{
     tab.addEventListener('click',()=>selectTab(tab));
@@ -1031,6 +1111,127 @@
   });
 
   init();
+
+  // ---- bottom nav ----
+  const bnavIds = {
+    'bnav-today':   't-today',
+    'bnav-overview':'t-overview',
+    'bnav-bridge':  't-bridge',
+    'bnav-block':   't-block',
+  };
+  function setBnavActive(id){
+    document.querySelectorAll('.bnav-btn').forEach(b=>b.setAttribute('aria-selected','false'));
+    if(id) document.getElementById(id).setAttribute('aria-selected','true');
+  }
+  Object.entries(bnavIds).forEach(([bId,tId])=>{
+    document.getElementById(bId).addEventListener('click',()=>{
+      selectTab(document.getElementById(tId));
+      setBnavActive(bId);
+      window.scrollTo({top:0,behavior:'smooth'});
+    });
+  });
+  // More sheet
+  const moreSheet=document.getElementById('more-sheet');
+  document.getElementById('bnav-more').addEventListener('click',()=>{
+    moreSheet.classList.add('open');
+    setBnavActive('bnav-more');
+  });
+  document.getElementById('more-overlay').addEventListener('click',()=>moreSheet.classList.remove('open'));
+  document.querySelectorAll('.more-item').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      const tid=btn.getAttribute('data-tab');
+      const t=tabs.find(t=>t.getAttribute('aria-controls')===tid);
+      if(t) selectTab(t);
+      moreSheet.classList.remove('open');
+      setBnavActive('bnav-more');
+      window.scrollTo({top:0,behavior:'smooth'});
+    });
+  });
+
+  // ---- PWA install prompt ----
+  let deferredInstall=null;
+  window.addEventListener('beforeinstallprompt',e=>{
+    e.preventDefault();
+    deferredInstall=e;
+    if(!localStorage.getItem('hmplan-install-dismissed')){
+      document.getElementById('install-bar').classList.add('show');
+    }
+  });
+  document.getElementById('install-go').addEventListener('click',()=>{
+    if(deferredInstall){deferredInstall.prompt();deferredInstall.userChoice.then(()=>{deferredInstall=null;});}
+    document.getElementById('install-bar').classList.remove('show');
+    localStorage.setItem('hmplan-install-dismissed','1');
+  });
+  document.getElementById('install-close').addEventListener('click',()=>{
+    document.getElementById('install-bar').classList.remove('show');
+    localStorage.setItem('hmplan-install-dismissed','1');
+  });
+
+  // ---- service worker ----
+  if('serviceWorker' in navigator){
+    navigator.serviceWorker.register('./sw.js').catch(()=>{});
+  }
 </script>
+
+<!-- ===== BOTTOM NAV ===== -->
+<nav class="bnav" role="navigation" aria-label="Main navigation">
+  <button class="bnav-btn" id="bnav-today" aria-selected="true">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    Today
+  </button>
+  <button class="bnav-btn" id="bnav-overview" aria-selected="false">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+    Overview
+  </button>
+  <button class="bnav-btn" id="bnav-bridge" aria-selected="false">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+    Speed
+  </button>
+  <button class="bnav-btn" id="bnav-block" aria-selected="false">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+    Oct Block
+  </button>
+  <button class="bnav-btn" id="bnav-more" aria-selected="false">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="5" cy="12" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/></svg>
+    More
+  </button>
+</nav>
+
+<!-- ===== MORE SHEET ===== -->
+<div class="more-sheet" id="more-sheet" aria-modal="true" role="dialog" aria-label="More sections">
+  <div class="more-overlay" id="more-overlay"></div>
+  <div class="more-panel">
+    <div class="more-handle"></div>
+    <div class="more-grid">
+      <button class="more-item" data-tab="p-research">
+        Research
+        <span class="mi-sub">Sport science</span>
+      </button>
+      <button class="more-item" data-tab="p-devices">
+        Devices
+        <span class="mi-sub">Whoop · Garmin</span>
+      </button>
+      <button class="more-item" data-tab="p-profile">
+        Profile
+        <span class="mi-sub">21yo · 84kg</span>
+      </button>
+      <button class="more-item" data-tab="p-principles">
+        Principles
+        <span class="mi-sub">CNS · load</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== INSTALL BANNER ===== -->
+<div class="install-bar" id="install-bar" role="banner">
+  <div class="ib-txt">
+    <b>Add to Home Screen</b>
+    <span>Offline access &amp; native app feel</span>
+  </div>
+  <button class="ib-go" id="install-go">Install</button>
+  <button class="ib-x" id="install-close" aria-label="Dismiss">×</button>
+</div>
+
 </body>
 </html>
