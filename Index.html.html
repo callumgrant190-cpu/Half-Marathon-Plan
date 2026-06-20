@@ -1,0 +1,932 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Training Plan · GAA → Half Marathon</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800;900&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F1F0E9; --raised:#FBFAF6; --ink:#18211C; --ink-soft:#48524B;
+    --muted:#8B928A; --line:#E1DFD4; --line-soft:#EAE8DE;
+    --speed:#D6431F; --endure:#15604A; --mid:#BC7411; --gaa:#2C4A8C;
+    --speed-wash:#FAEAE3; --endure-wash:#E6EFEA; --mid-wash:#F7EDD7; --gaa-wash:#E7ECF6;
+    --shadow:0 1px 2px rgba(24,33,28,.04), 0 6px 22px -12px rgba(24,33,28,.18);
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-text-size-adjust:100%;}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:"IBM Plex Sans",system-ui,sans-serif;font-size:16px;line-height:1.62;-webkit-font-smoothing:antialiased;}
+  .mono{font-family:"IBM Plex Mono",monospace;font-variant-ligatures:none;}
+  .wrap{max-width:900px;margin:0 auto;}
+
+  header{background:var(--ink);color:var(--paper);padding:30px 22px 24px;}
+  .eyebrow{font-family:"IBM Plex Mono",monospace;font-size:11.5px;letter-spacing:.22em;text-transform:uppercase;color:#A9C7BC;margin:0 0 13px;}
+  h1{font-family:"Archivo",sans-serif;font-weight:900;font-size:clamp(30px,7.5vw,50px);line-height:.99;letter-spacing:-.015em;margin:0 0 10px;}
+  h1 .yr{color:#9DBBB0;display:block;font-size:.46em;font-weight:700;letter-spacing:0;margin-top:9px;}
+  .goalrow{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px;}
+  .chip{font-family:"IBM Plex Mono",monospace;font-size:12px;padding:6px 11px;border-radius:999px;border:1px solid rgba(255,255,255,.22);color:#EFEDE4;}
+  .chip b{color:#fff;font-weight:600;}
+  .chip.go{background:var(--speed);border-color:var(--speed);}
+
+  .tabbar-shell{position:sticky;top:0;z-index:40;background:var(--paper);border-bottom:1px solid var(--line);}
+  .tabbar{max-width:900px;margin:0 auto;display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;padding:0 8px;}
+  .tabbar::-webkit-scrollbar{display:none;}
+  .tab{flex:0 0 auto;appearance:none;background:none;border:none;cursor:pointer;font-family:"Archivo",sans-serif;font-weight:700;font-size:13.5px;color:var(--muted);padding:15px 13px 13px;border-bottom:3px solid transparent;white-space:nowrap;transition:color .15s;}
+  .tab:hover{color:var(--ink-soft);}
+  .tab[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--speed);}
+  .tab:focus-visible{outline:2px solid var(--endure);outline-offset:-4px;border-radius:4px;}
+
+  main{max-width:900px;margin:0 auto;padding:26px 22px 80px;}
+  .panel{display:none;animation:fade .26s ease;}
+  .panel.active{display:block;}
+  @keyframes fade{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;}}
+  section{margin:0 0 30px;}
+  h2{font-family:"Archivo",sans-serif;font-weight:800;font-size:23px;letter-spacing:-.01em;margin:0 0 4px;}
+  h2 .num{color:var(--muted);font-size:.7em;margin-right:8px;}
+  .lede{color:var(--ink-soft);margin:2px 0 18px;font-size:15.5px;}
+  h3{font-family:"Archivo",sans-serif;font-weight:700;font-size:16px;margin:22px 0 9px;}
+  p{margin:0 0 13px;}
+  a{color:var(--endure);font-weight:500;}
+  strong{font-weight:600;} em{font-style:italic;color:var(--ink-soft);}
+
+  ul.clean{list-style:none;padding:0;margin:0 0 14px;}
+  ul.clean li{display:flex;gap:10px;margin:0 0 11px;color:var(--ink-soft);}
+  ul.clean li::before{content:"●";color:var(--speed);font-size:9px;line-height:1.7;flex:0 0 auto;}
+  ul.clean li strong{color:var(--ink);}
+
+  .card{background:var(--raised);border:1px solid var(--line);border-radius:14px;padding:17px 18px;margin:0 0 14px;box-shadow:var(--shadow);}
+  .card h3{margin-top:0;}
+  .card.flag{border-left:4px solid var(--speed);}
+  .card.note{border-left:4px solid var(--endure);}
+  .card.warn{border-left:4px solid var(--mid);}
+  .card.gaa{border-left:4px solid var(--gaa);}
+
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:11px;margin:0 0 20px;}
+  .stat{background:var(--raised);border:1px solid var(--line);border-radius:13px;padding:15px 16px;box-shadow:var(--shadow);}
+  .stat .k{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);margin:0 0 6px;}
+  .stat .v{font-family:"Archivo",sans-serif;font-weight:800;font-size:25px;line-height:1;color:var(--ink);}
+  .stat .v small{font-size:13px;font-weight:600;color:var(--ink-soft);}
+
+  table{width:100%;border-collapse:collapse;}
+  .ztable{width:100%;table-layout:fixed;font-size:14.5px;margin:0 0 8px;}
+  .ztable th{text-align:left;font-family:"IBM Plex Mono",monospace;font-weight:500;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding:0 10px 9px 0;border-bottom:1px solid var(--line);}
+  .ztable td{padding:11px 10px 11px 0;border-bottom:1px solid var(--line-soft);vertical-align:top;word-break:break-word;}
+  .ztable td:first-child,.ztable th:first-child{width:30%;font-weight:600;}
+  .ztable td:nth-child(2),.ztable th:nth-child(2){width:26%;}
+  .ztable .pace{font-family:"IBM Plex Mono",monospace;color:var(--speed);font-weight:500;white-space:nowrap;font-size:13px;}
+  /* stacked pace-zone cards (render reliably at any width / in previews) */
+  .zones{display:flex;flex-direction:column;gap:9px;margin:0 0 8px;}
+  .zone{background:var(--raised);border:1px solid var(--line);border-left:4px solid var(--speed);border-radius:11px;padding:13px 15px;box-shadow:var(--shadow);}
+  .zhead{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;}
+  .zname{font-family:"Archivo",sans-serif;font-weight:700;font-size:15.5px;color:var(--ink);}
+  .zpace{font-family:"IBM Plex Mono",monospace;font-weight:600;font-size:14px;color:var(--speed);white-space:nowrap;}
+  .zpurp{font-size:13.5px;color:var(--ink-soft);margin-top:4px;}
+
+  .loadkey{display:flex;flex-wrap:wrap;gap:13px;margin:0 0 18px;font-size:12.5px;}
+  .loadkey span{display:inline-flex;align-items:center;gap:7px;font-family:"IBM Plex Mono",monospace;color:var(--ink-soft);}
+  .dot{width:11px;height:11px;border-radius:3px;flex:0 0 auto;}
+  .dot.hi{background:var(--speed);} .dot.md{background:var(--mid);} .dot.lo{background:var(--endure);} .dot.ga{background:var(--gaa);}
+
+  .day{display:grid;grid-template-columns:62px 1fr;background:var(--raised);border:1px solid var(--line);border-radius:13px;margin:0 0 10px;overflow:hidden;box-shadow:var(--shadow);}
+  .day .tag{padding:13px 6px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;color:#fff;text-align:center;}
+  .day .tag .dname{font-family:"Archivo",sans-serif;font-weight:800;font-size:14px;letter-spacing:.02em;}
+  .day .tag .lname{font-family:"IBM Plex Mono",monospace;font-size:8px;letter-spacing:.08em;opacity:.92;}
+  .day.hi .tag{background:var(--speed);} .day.md .tag{background:var(--mid);} .day.lo .tag{background:var(--endure);} .day.ga .tag{background:var(--gaa);}
+  .day .body{padding:12px 15px;}
+  .day .body .title{font-weight:600;margin:0 0 3px;font-size:14.5px;}
+  .day .body .desc{font-size:13px;color:var(--ink-soft);line-height:1.5;margin:0;}
+
+  .subtabs{display:flex;flex-wrap:wrap;gap:7px;margin:0 0 18px;}
+  .subtab{appearance:none;cursor:pointer;font-family:"Archivo",sans-serif;font-weight:700;font-size:13px;padding:8px 15px;border-radius:999px;border:1px solid var(--line);background:var(--raised);color:var(--ink-soft);transition:all .14s;}
+  .subtab:hover{border-color:var(--muted);}
+  .subtab[aria-selected="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink);}
+  .subtab:focus-visible{outline:2px solid var(--endure);outline-offset:2px;}
+  .subpanel{display:none;} .subpanel.active{display:block;animation:fade .24s ease;}
+
+  .phasehead{display:flex;flex-wrap:wrap;align-items:baseline;gap:10px;margin:0 0 4px;}
+  .phasehead .wk{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--speed);letter-spacing:.05em;}
+  .phasegoal{color:var(--ink-soft);margin:0 0 12px;}
+  .plyonote{font-size:13px;color:var(--ink-soft);background:var(--endure-wash);border-radius:9px;padding:9px 13px;margin:0 0 16px;}
+  .plyonote b{color:var(--endure);font-weight:600;}
+
+  .scrollx{overflow-x:auto;border:1px solid var(--line);border-radius:13px;-webkit-overflow-scrolling:touch;box-shadow:var(--shadow);}
+  table.wk{font-size:13px;min-width:560px;background:var(--raised);}
+  table.wk thead th{background:var(--ink);color:var(--paper);text-align:left;font-weight:600;font-size:11.5px;letter-spacing:.04em;padding:11px 12px;}
+  table.wk td{padding:11px 12px;border-bottom:1px solid var(--line-soft);vertical-align:top;line-height:1.45;}
+  table.wk td:first-child{font-family:"IBM Plex Mono",monospace;font-weight:600;color:var(--speed);white-space:nowrap;}
+  table.wk tr:last-child td{border-bottom:none;}
+  table.wk .km{font-family:"IBM Plex Mono",monospace;font-weight:500;white-space:nowrap;}
+  table.wk tr.tt td{background:var(--mid-wash);}
+  table.wk tr.peak td{background:var(--speed-wash);}
+  table.wk tr.race td{background:var(--endure-wash);}
+  .ttrow{font-weight:600;color:var(--mid);}
+
+  table.simple{font-size:13.5px;min-width:520px;background:var(--raised);}
+  table.simple thead th{background:var(--ink);color:var(--paper);text-align:left;font-size:11.5px;font-weight:600;letter-spacing:.04em;padding:11px 12px;}
+  table.simple td{padding:11px 12px;border-bottom:1px solid var(--line-soft);vertical-align:top;line-height:1.45;}
+  table.simple tr:last-child td{border-bottom:none;}
+  table.simple td:first-child{font-weight:600;white-space:nowrap;}
+  table.simple .hl{color:var(--speed);font-weight:600;}
+
+  .compare{font-size:13.5px;min-width:560px;background:var(--raised);}
+  .compare thead th{background:var(--ink);color:var(--paper);text-align:left;font-size:11.5px;font-weight:600;padding:11px 12px;}
+  .compare thead th.sp{color:#F0B49E;} .compare thead th.gp{color:#A9BCE8;} .compare thead th.hp{color:#9FD8C5;}
+  .compare td{padding:11px 12px;border-bottom:1px solid var(--line-soft);vertical-align:top;line-height:1.45;}
+  .compare td:first-child{font-weight:600;}
+  .compare .mono{white-space:nowrap;}
+  .compare tr:last-child td{border-bottom:none;}
+
+  .tension{background:var(--mid-wash);border-radius:13px;padding:15px 17px;margin:0 0 16px;}
+  .tension h3{margin-top:0;color:var(--mid);}
+
+  .footnote{font-size:13px;color:var(--muted);margin-top:26px;border-top:1px solid var(--line);padding-top:16px;}
+  .signoff{font-family:"Archivo",sans-serif;font-weight:700;font-size:16px;color:var(--ink);margin-top:8px;}
+  .src{font-size:12px;color:var(--muted);font-family:"IBM Plex Mono",monospace;}
+
+  /* ---------- today / calendar ---------- */
+  .weeknav{display:flex;align-items:center;gap:10px;}
+  .wbtn{appearance:none;cursor:pointer;width:34px;height:34px;border-radius:9px;border:1px solid var(--line);background:var(--raised);color:var(--ink);font-size:18px;font-family:"Archivo",sans-serif;line-height:1;display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow);}
+  .wbtn:hover{border-color:var(--muted);}
+  .wbtn:focus-visible{outline:2px solid var(--endure);outline-offset:2px;}
+  .wlabel{font-family:"IBM Plex Mono",monospace;font-size:12.5px;color:var(--ink-soft);min-width:128px;text-align:center;}
+
+  .todaybig{background:var(--ink);color:var(--paper);border-radius:18px;padding:22px;box-shadow:var(--shadow);margin:0 0 4px;}
+  .todaybig .tdate{font-family:"IBM Plex Mono",monospace;font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;color:#A9C7BC;margin:0 0 10px;}
+  .todaybig .ttype{display:inline-block;font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.08em;padding:4px 9px;border-radius:999px;margin:0 0 12px;font-weight:600;}
+  .todaybig .tt-hi{background:var(--speed);color:#fff;} .todaybig .tt-md{background:var(--mid);color:#fff;} .todaybig .tt-lo{background:var(--endure);color:#fff;} .todaybig .tt-ga{background:var(--gaa);color:#fff;}
+  .todaybig h3{font-family:"Archivo",sans-serif;font-weight:800;font-size:24px;color:var(--paper);margin:0 0 8px;line-height:1.05;}
+  .todaybig .tdesc{color:#D5DAD2;font-size:14.5px;margin:0 0 16px;}
+  .todaybig .tdetail{border-top:1px solid rgba(255,255,255,.16);padding-top:14px;margin-top:4px;}
+  .todaybig .tdetail .dl{display:flex;gap:12px;margin:0 0 10px;font-size:13.5px;align-items:baseline;}
+  .todaybig .tdetail .dl:last-child{margin-bottom:0;}
+  .todaybig .tdetail .dk{font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:#9DBBB0;flex:0 0 84px;padding-top:1px;}
+  .todaybig .tdetail .dv{color:#EFEDE4;flex:1;}
+  .todaybig .tdetail .dv b{color:#fff;font-weight:600;}
+
+  .cal-day{background:var(--raised);border:1px solid var(--line);border-radius:13px;margin:0 0 9px;box-shadow:var(--shadow);overflow:hidden;}
+  .cal-day.is-today{border:2px solid var(--ink);}
+  .cal-head{display:grid;grid-template-columns:50px 1fr auto;align-items:center;gap:12px;padding:13px 15px;cursor:pointer;width:100%;text-align:left;appearance:none;background:none;border:none;font:inherit;color:inherit;}
+  .cal-head:focus-visible{outline:2px solid var(--endure);outline-offset:-3px;border-radius:11px;}
+  .cal-dd{display:flex;flex-direction:column;align-items:center;gap:2px;}
+  .cal-dd .dow{font-family:"Archivo",sans-serif;font-weight:800;font-size:14px;color:var(--ink);}
+  .cal-dd .dnum{font-family:"IBM Plex Mono",monospace;font-size:10.5px;color:var(--muted);}
+  .cal-mid{min-width:0;}
+  .cal-mid .ctitle{font-weight:600;font-size:14.5px;line-height:1.3;}
+  .cal-mid .ctag{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.06em;text-transform:uppercase;margin-top:3px;display:inline-block;}
+  .ctag.c-hi{color:var(--speed);} .ctag.c-md{color:var(--mid);} .ctag.c-lo{color:var(--endure);} .ctag.c-ga{color:var(--gaa);}
+  .cal-chev{width:24px;height:24px;flex:0 0 auto;color:var(--muted);transition:transform .2s;display:flex;align-items:center;justify-content:center;font-size:16px;}
+  .cal-day.open .cal-chev{transform:rotate(90deg);}
+  .cal-body{display:none;padding:0 15px 15px 77px;}
+  .cal-day.open .cal-body{display:block;animation:fade .2s ease;}
+  .cal-body .dl{display:flex;gap:10px;margin:0 0 9px;font-size:13px;align-items:baseline;}
+  .cal-body .dk{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);flex:0 0 72px;padding-top:1px;}
+  .cal-body .dv{color:var(--ink-soft);flex:1;}
+  .cal-body .dv b{color:var(--ink);font-weight:600;}
+  .cal-rest .cal-mid .ctitle{color:var(--muted);font-weight:500;}
+
+  .conn{display:grid;grid-template-columns:1fr;gap:12px;margin:0 0 20px;}
+  .conncard{background:var(--raised);border:1px solid var(--line);border-radius:14px;padding:16px 18px;box-shadow:var(--shadow);display:flex;align-items:center;gap:15px;}
+  .connlogo{width:46px;height:46px;border-radius:11px;flex:0 0 auto;display:flex;align-items:center;justify-content:center;font-family:"Archivo",sans-serif;font-weight:900;font-size:19px;color:#fff;}
+  .connlogo.whoop{background:#000;} .connlogo.garmin{background:#0a6cb8;} .connlogo.strava{background:#fc4c02;}
+  .conncard .meta{flex:1;min-width:0;}
+  .conncard .meta .nm{font-family:"Archivo",sans-serif;font-weight:700;font-size:16px;}
+  .conncard .meta .st{font-size:12.5px;color:var(--muted);font-family:"IBM Plex Mono",monospace;margin-top:2px;}
+  .conncard .meta .st.on{color:var(--endure);}
+  .btn{appearance:none;cursor:pointer;font-family:"Archivo",sans-serif;font-weight:700;font-size:13px;padding:9px 16px;border-radius:999px;border:1px solid var(--ink);background:var(--ink);color:var(--paper);transition:all .14s;white-space:nowrap;}
+  .btn:hover{opacity:.88;}
+  .btn.ghost{background:transparent;color:var(--ink);}
+  .btn.ghost:hover{background:var(--line-soft);opacity:1;}
+  .btn:focus-visible{outline:2px solid var(--endure);outline-offset:2px;}
+
+  .readiness{background:var(--raised);border:1px solid var(--line);border-radius:16px;padding:20px;box-shadow:var(--shadow);margin:0 0 18px;}
+  .rgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:14px;margin-top:6px;}
+  .ring{display:flex;flex-direction:column;align-items:center;gap:7px;}
+  .ring svg{width:84px;height:84px;transform:rotate(-90deg);}
+  .ring .rv{font-family:"Archivo",sans-serif;font-weight:800;font-size:18px;}
+  .ring .rl{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);text-align:center;}
+
+  .verdict{border-radius:13px;padding:15px 17px;margin:16px 0 0;font-size:14.5px;}
+  .verdict.green{background:var(--endure-wash);border-left:4px solid var(--endure);}
+  .verdict.amber{background:var(--mid-wash);border-left:4px solid var(--mid);}
+  .verdict.red{background:var(--speed-wash);border-left:4px solid var(--speed);}
+  .verdict .vt{font-family:"Archivo",sans-serif;font-weight:800;font-size:15px;margin-bottom:4px;}
+  .verdict.green .vt{color:var(--endure);} .verdict.amber .vt{color:var(--mid);} .verdict.red .vt{color:var(--speed);}
+
+  .actlist{margin:0;}
+  .actrow{display:flex;align-items:center;gap:13px;padding:12px 14px;background:var(--raised);border:1px solid var(--line);border-radius:11px;margin-bottom:8px;box-shadow:var(--shadow);}
+  .actrow .ai{width:34px;height:34px;border-radius:9px;flex:0 0 auto;display:flex;align-items:center;justify-content:center;color:#fff;font-size:15px;font-weight:800;font-family:"Archivo",sans-serif;}
+  .actrow .ad{flex:1;min-width:0;}
+  .actrow .ad .at{font-weight:600;font-size:14px;}
+  .actrow .ad .as{font-size:12px;color:var(--muted);font-family:"IBM Plex Mono",monospace;}
+  .actrow .av{font-family:"IBM Plex Mono",monospace;font-weight:600;font-size:13px;color:var(--ink);text-align:right;}
+
+  .demo-banner{background:var(--gaa-wash);border:1px dashed var(--gaa);border-radius:12px;padding:12px 15px;font-size:13px;color:var(--ink-soft);margin:0 0 18px;}
+  .demo-banner b{color:var(--gaa);}
+
+  .steps{counter-reset:s;list-style:none;padding:0;margin:0 0 14px;}
+  .steps li{position:relative;padding:0 0 0 38px;margin:0 0 16px;}
+  .steps li::before{counter-increment:s;content:counter(s);position:absolute;left:0;top:-2px;width:26px;height:26px;border-radius:50%;background:var(--ink);color:var(--paper);font-family:"Archivo",sans-serif;font-weight:800;font-size:13px;display:flex;align-items:center;justify-content:center;}
+  .steps li b{display:block;font-family:"Archivo",sans-serif;font-weight:700;font-size:14.5px;margin-bottom:2px;}
+  code{font-family:"IBM Plex Mono",monospace;font-size:.88em;background:var(--mid-wash);padding:1.5px 6px;border-radius:5px;color:#7a4d0a;}
+
+  @media (max-width:560px){
+    main{padding:22px 15px 70px;} header{padding:26px 16px 22px;}
+    .day{grid-template-columns:54px 1fr;}
+    .conncard{flex-wrap:wrap;}
+  }
+  @media (prefers-reduced-motion:reduce){.panel,.subpanel{animation:none;}*{scroll-behavior:auto;}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <p class="eyebrow">Performance Dossier · 21yo · 180cm · 84kg · Full-back / half-back</p>
+    <h1>GAA → Half Marathon<span class="yr">In-season speed block (Jun–Sep) → 16-wk half block → race 24 Jan 2027</span></h1>
+    <div class="goalrow">
+      <span class="chip go"><b>A-goal</b> &nbsp;sub-1:40 half · target 1:35–1:40</span>
+      <span class="chip"><b>Now → Sep</b> &nbsp;build acceleration, hold GAA</span>
+      <span class="chip"><b>Baseline</b> &nbsp;8.2k · 36:10 · 4:25/km</span>
+    </div>
+  </div>
+</header>
+
+<div class="tabbar-shell">
+  <div class="tabbar" role="tablist" aria-label="Plan sections">
+    <button class="tab" role="tab" aria-selected="true"  aria-controls="p-today"     id="t-today">Today</button>
+    <button class="tab" role="tab" aria-selected="false" aria-controls="p-overview"  id="t-overview">Overview</button>
+    <button class="tab" role="tab" aria-selected="false" aria-controls="p-bridge"    id="t-bridge">In-Season · Speed</button>
+    <button class="tab" role="tab" aria-selected="false" aria-controls="p-block"     id="t-block">Oct Block</button>
+    <button class="tab" role="tab" aria-selected="false" aria-controls="p-research"   id="t-research">Research</button>
+    <button class="tab" role="tab" aria-selected="false" aria-controls="p-devices"    id="t-devices">Devices</button>
+    <button class="tab" role="tab" aria-selected="false" aria-controls="p-profile"    id="t-profile">Profile</button>
+    <button class="tab" role="tab" aria-selected="false" aria-controls="p-principles" id="t-principles">Principles</button>
+  </div>
+</div>
+
+<main>
+
+  <!-- ===================== TODAY / CALENDAR ===================== -->
+  <div class="panel active" id="p-today" role="tabpanel" aria-labelledby="t-today" tabindex="0">
+    <section>
+      <h2 id="today-heading">Today</h2>
+      <p class="lede" id="today-sub">Your session for today, plus the full week. Tap any day for the full detail.</p>
+      <div id="today-card"></div>
+    </section>
+    <section>
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:8px;">
+        <h2 style="margin:0;">Calendar</h2>
+        <div class="weeknav">
+          <button class="wbtn" id="wk-prev" aria-label="Previous week">‹</button>
+          <span class="wlabel" id="wk-label">This week</span>
+          <button class="wbtn" id="wk-next" aria-label="Next week">›</button>
+        </div>
+      </div>
+      <p class="lede" id="cal-phase"></p>
+      <div id="cal-list"></div>
+    </section>
+  </div>
+
+  <!-- ===================== OVERVIEW ===================== -->
+  <div class="panel" id="p-overview" role="tabpanel" aria-labelledby="t-overview" tabindex="0">
+    <section>
+      <h2>The whole arc</h2>
+      <p class="lede">Three blocks, sequenced so each one sets up the next instead of fighting it.</p>
+      <div class="card gaa">
+        <h3>① June → September · In-season speed block</h3>
+        <p style="margin:0;">GAA continues (Tue training/game, Thu training, Sat match). The matches supply your sprint <em>exposure</em> — the hamstring-protective part — so on top you run a deliberate <strong>acceleration-development focus</strong> (0–20m, sled-led) plus easy aerobic volume in the gaps. Speed is pushed hard; GAA fitness ticks over. You arrive in October faster <em>and</em> with a bigger aerobic base than a standing start.</p>
+      </div>
+      <div class="card flag">
+        <h3>② October → January · 16-week half-marathon block</h3>
+        <p style="margin:0;">Season's over, so structured threshold/tempo/long-run work comes in. The speed you built in summer is now <em>protected</em>, not built — low-volume sprint maintenance keeps it alive while the engine grows. Ends with race day, 24 Jan 2027.</p>
+      </div>
+      <div class="card note">
+        <h3>③ Beyond the race</h3>
+        <p style="margin:0;">You walk back into pre-season with acceleration banked, top-end speed maintained, a much bigger aerobic engine, and your strength held — the AFL evidence says that aerobic base should actively <em>help</em> your GAA, not just coexist with it.</p>
+      </div>
+    </section>
+
+    <section>
+      <h2>Where you're starting</h2>
+      <div class="stats">
+        <div class="stat"><p class="k">Recent test</p><div class="v">36:10<small> / 8.2k</small></div></div>
+        <div class="stat"><p class="k">That pace</p><div class="v">4:25<small> /km</small></div></div>
+        <div class="stat"><p class="k">Half projection</p><div class="v">~1:38<small> :30</small></div></div>
+        <div class="stat"><p class="k">Body mass</p><div class="v">84<small> kg @ 180cm</small></div></div>
+      </div>
+      <div class="card">
+        <p style="margin:0;">At 84kg you carry real power for a distance event — which is why the half target sits nearer 1:38 than the more aggressive 1:35 (lighter runners have an inherent economy edge). But you're not trying to become a lightweight runner; you want to return to GAA fast and strong, so the plan holds your mass and accepts a slightly slower "potential" half. The two time trials (Oct-block weeks 7 & 14) replace any guesswork.</p>
+      </div>
+    </section>
+
+    <section>
+      <h2>Pace zones</h2>
+      <p class="lede">For the October block — estimated from your 8.2k, recalibrate at each time trial.</p>
+      <div class="zones">
+        <div class="zone"><div class="zhead"><span class="zname">Easy / recovery</span><span class="zpace">5:05–5:30</span></div><div class="zpurp">Aerobic base — most of your volume</div></div>
+        <div class="zone"><div class="zhead"><span class="zname">Steady</span><span class="zpace">4:45–5:00</span></div><div class="zpurp">Long-run default</div></div>
+        <div class="zone"><div class="zhead"><span class="zname">Tempo / threshold</span><span class="zpace">4:15–4:25</span></div><div class="zpurp">Lactate threshold</div></div>
+        <div class="zone"><div class="zhead"><span class="zname">Half-marathon pace</span><span class="zpace">4:35–4:40</span></div><div class="zpurp">Race-specific, late in plan</div></div>
+        <div class="zone"><div class="zhead"><span class="zname">Interval (5k/10k)</span><span class="zpace">3:55–4:10</span></div><div class="zpurp">VO₂max work</div></div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ===================== IN-SEASON BRIDGE ===================== -->
+  <div class="panel" id="p-bridge" role="tabpanel" aria-labelledby="t-bridge" tabindex="0">
+    <section>
+      <h2>In-season speed block · June–September</h2>
+      <p class="lede">Goal: push 0–20m acceleration hard while GAA stays in maintenance. Your fixtures already deliver match sprinting, so the added work is acceleration quality + easy aerobic base — never extra max-velocity or threshold load on a match week.</p>
+
+      <div class="card gaa">
+        <h3>The logic, from the GPS data</h3>
+        <p style="margin:0;">A GAA match is ~66% low-intensity running with short, repeated sprints and heavy deceleration — your fixtures <em>are</em> your max-velocity exposure (the hamstring-protective "vaccine"). So this block doesn't add a max-velocity day. Instead it targets the quality GAA <em>under</em>-trains for a full-back: pure <strong>acceleration / horizontal force</strong>, which is also the safer end of speed work for your hamstrings — heavy sled accelerations keep you in forward lean, glute/quad-dominant, out of the dangerous late-swing position where your injuries happened.</p>
+      </div>
+
+      <h3>Why acceleration is the right pick for you</h3>
+      <ul class="clean">
+        <li><strong>Most GAA-relevant.</strong> As a full-back, your game is repeated 5–20m bursts to mark and close down — not 60m straight-line top speed.</li>
+        <li><strong>Hamstring-safer.</strong> Max-velocity sprinting loads the hamstring hardest in the lengthened late-swing phase. Short accelerations shift load to the posterior chain in a more protected position.</li>
+        <li><strong>Evidence-backed method.</strong> Resisted sled sprinting reliably improves 0–20m acceleration in team-sport athletes; heavier loads (≈40–50% body mass) drive the biggest acceleration and trunk-lean gains, lighter loads (~25% BM) bias toward longer 60m speed.</li>
+      </ul>
+
+      <div class="loadkey">
+        <span><i class="dot ga"></i> GAA (sport handles load)</span>
+        <span><i class="dot hi"></i> Speed / power (high CNS)</span>
+        <span><i class="dot lo"></i> Easy aerobic / recovery</span>
+      </div>
+
+      <h3>Typical in-season week</h3>
+      <div class="day lo"><div class="tag"><span class="dname">Mon</span><span class="lname">EASY</span></div><div class="body"><p class="title">Easy aerobic run · 30–40 min</p><p class="desc">Flush from the weekend match. Skip or shorten if devices show poor recovery (see Devices tab).</p></div></div>
+      <div class="day hi"><div class="tag"><span class="dname">Tue</span><span class="lname">GAA + SLED</span></div><div class="body"><p class="title">GAA training/game · acceleration block before or after</p><p class="desc">If a light GAA night: add sled accelerations (see protocol below). If a hard session/game: GAA covers it, skip the sled.</p></div></div>
+      <div class="day lo"><div class="tag"><span class="dname">Wed</span><span class="lname">EASY</span></div><div class="body"><p class="title">Easy aerobic run · 40–50 min + Nordics</p><p class="desc">Base-building day. Nordic curls keep eccentric strength banked (your non-negotiable).</p></div></div>
+      <div class="day ga"><div class="tag"><span class="dname">Thu</span><span class="lname">GAA</span></div><div class="body"><p class="title">GAA training</p><p class="desc">Sport handles intensity. No added running load.</p></div></div>
+      <div class="day hi"><div class="tag"><span class="dname">Fri</span><span class="lname">SLED / GYM</span></div><div class="body"><p class="title">Dedicated acceleration session + heavy lower-body lift</p><p class="desc">Your main speed-development session of the week — fresh legs, 2 days clear of Saturday's match. Sled accelerations then heavy strength (see below).</p></div></div>
+      <div class="day ga"><div class="tag"><span class="dname">Sat</span><span class="lname">MATCH</span></div><div class="body"><p class="title">GAA match · light warm-up</p><p class="desc">Your weekly max-velocity exposure, in-context. Light prime only beforehand.</p></div></div>
+      <div class="day lo"><div class="tag"><span class="dname">Sun</span><span class="lname">LONG-EASY</span></div><div class="body"><p class="title">Longer easy run · 50–70 min (build toward Oct)</p><p class="desc">The aerobic base you're banking for October. Conversational pace only — never hard the day after a match.</p></div></div>
+
+      <div class="card warn" style="margin-top:16px;">
+        <h3>The one hard rule</h3>
+        <p style="margin:0;">Two speed/sled sessions a week max, never on consecutive days, never the day before a match. If a GAA night was brutal, that night's sled work is the first thing to cut — the match and training already bank sprint exposure, and stacking accelerations on fried legs is exactly the hamstring-recurrence pattern.</p>
+      </div>
+    </section>
+
+    <section>
+      <h2>Acceleration protocol · sled-led</h2>
+      <p class="lede">2× per week (Fri primary, Tue optional). All efforts maximal-intent, full recovery — this is quality neural work, not conditioning.</p>
+      <div class="zones">
+        <div class="zone" style="border-left-color:var(--muted);"><div class="zhead"><span class="zname">Warm-up</span><span class="zpace" style="color:var(--ink-soft);">RAMP + 3–4 build-ups</span></div><div class="zpurp">Prep nervous system, rehearse mechanics</div></div>
+        <div class="zone"><div class="zhead"><span class="zname">Heavy sled</span><span class="zpace">10–15m × 5–6</span></div><div class="zpurp"><b style="color:var(--ink);">~40–50% body mass (≈34–42kg).</b> Max horizontal force — "explode", allow the lean</div></div>
+        <div class="zone"><div class="zhead"><span class="zname">Moderate sled</span><span class="zpace">20m × 4</span></div><div class="zpurp"><b style="color:var(--ink);">~25–30% body mass (≈21–25kg).</b> Force into speed, longer push</div></div>
+        <div class="zone"><div class="zhead"><span class="zname">Unloaded accel</span><span class="zpace">20m × 3</span></div><div class="zpurp"><b style="color:var(--ink);">Bodyweight.</b> Express the transfer — sharp, clean starts</div></div>
+        <div class="zone" style="border-left-color:var(--endure);"><div class="zhead"><span class="zname">Recovery</span><span class="zpace" style="color:var(--endure);">full walk-back · 2–3 min</span></div><div class="zpurp">Quality over quantity, never rep tired</div></div>
+      </div>
+      <p style="margin-top:12px;font-size:13.5px;color:var(--ink-soft);">Total ~15–18 maximal accelerations. Progress by load before volume. As acceleration sharpens through summer, you can add a few lighter 25%BM × 30–40m reps to bias some longer-speed carryover. Any hamstring twinge ends the session.</p>
+
+      <div class="card note">
+        <h3>Strength pairing (Fri)</h3>
+        <p style="margin:0;">Heavy lower-body lift after the sled work — trap-bar deadlift, box squat, hip thrust, 3–5×3–5 @ RPE 7–8. Sled + heavy strength on the same day keeps all your high-CNS work clustered, leaving the rest of the week genuinely easy. Hip thrusts and heavy posterior-chain work directly support horizontal force production.</p>
+      </div>
+    </section>
+  </div>
+
+  <!-- ===================== OCT BLOCK ===================== -->
+  <div class="panel" id="p-block" role="tabpanel" aria-labelledby="t-block" tabindex="0">
+    <section>
+      <h2>The 16-week half-marathon block</h2>
+      <p class="lede">Starts October when the GAA season ends. Base → Build → Peak → Taper. Now the speed you built in summer is <em>protected</em>, not developed — and structured threshold work comes in. Tap a phase.</p>
+
+      <div class="subtabs" role="tablist" aria-label="Phases">
+        <button class="subtab" role="tab" aria-selected="true"  aria-controls="ph-base"  id="s-base">Base</button>
+        <button class="subtab" role="tab" aria-selected="false" aria-controls="ph-build" id="s-build">Build</button>
+        <button class="subtab" role="tab" aria-selected="false" aria-controls="ph-peak"  id="s-peak">Peak</button>
+        <button class="subtab" role="tab" aria-selected="false" aria-controls="ph-taper" id="s-taper">Taper</button>
+        <button class="subtab" role="tab" aria-selected="false" aria-controls="ph-week"  id="s-week">The Week</button>
+      </div>
+
+      <div class="subpanel active" id="ph-base" role="tabpanel" aria-labelledby="s-base">
+        <div class="phasehead"><h3 style="margin:0;font-size:18px;">Phase 1 · Base</h3><span class="wk">Weeks 1–5</span></div>
+        <p class="phasegoal">Rebuild aerobic engine, fold sprint maintenance back in, stay injury-free.</p>
+        <p class="plyonote"><b>Plyometrics:</b> none wk 1–2; base plyo (pogo hops, low box jumps) Mon from wk 3.</p>
+        <div class="scrollx"><table class="wk">
+          <thead><tr><th>Wk</th><th>Total</th><th>Long run</th><th>Mon · hill sprints</th><th>Fri · flat sprints</th><th>Notes</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td class="km">30 km</td><td>8 km easy</td><td>6×15s</td><td>4×20m ~70–75%</td><td>All easy</td></tr>
+            <tr><td>2</td><td class="km">33 km</td><td>9 km easy</td><td>6×15s</td><td>4×20m ~75%</td><td></td></tr>
+            <tr><td>3</td><td class="km">36 km</td><td>10 km easy</td><td>8×15s</td><td>4×30m ~80%</td><td></td></tr>
+            <tr><td>4</td><td class="km">28 km</td><td>8 km easy</td><td>6×15s</td><td>3×30m ~80%</td><td>Recovery −25%</td></tr>
+            <tr><td>5</td><td class="km">40 km</td><td>11 km, last 2 steady</td><td>8×20s</td><td>4×30m ~80–85%</td><td></td></tr>
+          </tbody>
+        </table></div>
+      </div>
+
+      <div class="subpanel" id="ph-build" role="tabpanel" aria-labelledby="s-build">
+        <div class="phasehead"><h3 style="margin:0;font-size:18px;">Phase 2 · Build</h3><span class="wk">Weeks 6–11</span></div>
+        <p class="phasegoal">Threshold and aerobic power, long-run progression.</p>
+        <p class="plyonote"><b>Plyometrics:</b> build plyo Mon — broad jumps, bounding, split-squat jumps · ~40–50 contacts.</p>
+        <div class="scrollx"><table class="wk">
+          <thead><tr><th>Wk</th><th>Total</th><th>Long run</th><th>Key session</th><th>Mon</th><th>Fri sprints</th></tr></thead>
+          <tbody>
+            <tr><td>6</td><td class="km">44 km</td><td>13 km steady</td><td>5×1km @ threshold</td><td>8×20s</td><td>4×30m ~85%</td></tr>
+            <tr class="tt"><td>7</td><td colspan="5"><span class="ttrow">⚑ Time-trial week —</span> 5k/8k hard to recalibrate paces · sprints reduced</td></tr>
+            <tr><td>8</td><td class="km">48 km</td><td>14 km, last 4 strong</td><td>6×1km @ threshold</td><td>8×20s</td><td>4–5×30m ~85–90%</td></tr>
+            <tr><td>9</td><td class="km">36 km</td><td>12 km easy</td><td>4×1km @ threshold</td><td>6×20s</td><td>3×30m ~85% · recovery</td></tr>
+            <tr><td>10</td><td class="km">52 km</td><td>15 km, last 5 steady</td><td>8×800m @ 10k</td><td>8×20s</td><td>4–5×30–40m ~90%</td></tr>
+            <tr><td>11</td><td class="km">56 km</td><td>17 km, last 5 @ HM</td><td>6×1.2km @ threshold</td><td>8×20s</td><td>4×40m ~90–95%</td></tr>
+          </tbody>
+        </table></div>
+      </div>
+
+      <div class="subpanel" id="ph-peak" role="tabpanel" aria-labelledby="s-peak">
+        <div class="phasehead"><h3 style="margin:0;font-size:18px;">Phase 3 · Peak</h3><span class="wk">Weeks 12–14</span></div>
+        <p class="phasegoal">Race-pace confidence, longest run, sharpen.</p>
+        <p class="plyonote"><b>Plyometrics:</b> peak reactive plyo Mon — single-leg hops, low depth jumps · brief & sharp.</p>
+        <div class="scrollx"><table class="wk">
+          <thead><tr><th>Wk</th><th>Total</th><th>Long run</th><th>Key session</th><th>Mon</th><th>Fri sprints</th></tr></thead>
+          <tbody>
+            <tr><td>12</td><td class="km">42 km</td><td>14 km easy</td><td>5×1km @ HM</td><td>6×20s</td><td>4×40m ~90–95% · recovery</td></tr>
+            <tr class="peak"><td>13</td><td class="km">60 km</td><td><strong>19 km</strong>, mid 11 @ HM</td><td>3+2+1km @ HM</td><td>6×20s</td><td>3×40m @ <strong>≥95%</strong> · "vaccine dose"</td></tr>
+            <tr class="tt"><td>14</td><td colspan="5"><span class="ttrow">⚑ Dress rehearsal —</span> 8–10k @ goal HM pace · long run 15 km easy</td></tr>
+          </tbody>
+        </table></div>
+      </div>
+
+      <div class="subpanel" id="ph-taper" role="tabpanel" aria-labelledby="s-taper">
+        <div class="phasehead"><h3 style="margin:0;font-size:18px;">Phase 4 · Taper</h3><span class="wk">Weeks 15–16</span></div>
+        <p class="phasegoal">Arrive fresh, fast and sharp — not tired.</p>
+        <p class="plyonote"><b>Plyometrics:</b> a few low-amplitude hops wk 15 only; none race week.</p>
+        <div class="scrollx"><table class="wk">
+          <thead><tr><th>Wk</th><th>Total</th><th>Long run</th><th>Key session</th><th>Mon</th><th>Fri sprints</th></tr></thead>
+          <tbody>
+            <tr><td>15</td><td class="km">38 km</td><td>12 km easy</td><td>4×1km @ HM</td><td>4×15s</td><td>2×40m ~90%</td></tr>
+            <tr class="race"><td>16</td><td class="km">~22 km</td><td>— incl. race</td><td>Tue 3×1km @ HM · Sat rest</td><td>Skip</td><td>Tue only: 3×20m ~85–90%</td></tr>
+          </tbody>
+        </table></div>
+        <div class="card note" style="margin-top:16px;"><p style="margin:0;"><strong>Sun 24 Jan — RACE DAY.</strong> Glycogen loaded, legs recovered, speed kept sharp through the whole block.</p></div>
+      </div>
+
+      <div class="subpanel" id="ph-week" role="tabpanel" aria-labelledby="s-week">
+        <h3 style="margin-top:0;">Weekly structure (Oct block)</h3>
+        <p class="phasegoal">6 running days + 1 rest, gym layered around it. CNS-load tags: HIGH days followed by genuinely LOW ones, never two HIGH stacked.</p>
+        <div class="loadkey"><span><i class="dot hi"></i> HIGH</span><span><i class="dot md"></i> MEDIUM</span><span><i class="dot lo"></i> LOW</span></div>
+        <div class="day hi"><div class="tag"><span class="dname">Mon</span><span class="lname">HIGH</span></div><div class="body"><p class="title">Easy run + hill sprints + plyometrics</p><p class="desc">Speed/power maintenance. Plyo from ~wk 3 once Nordics bank eccentric strength.</p></div></div>
+        <div class="day md"><div class="tag"><span class="dname">Tue</span><span class="lname">MED-HI</span></div><div class="body"><p class="title">Quality 1 — threshold / intervals</p><p class="desc">A real CNS stressor, not stackable filler.</p></div></div>
+        <div class="day lo"><div class="tag"><span class="dname">Wed</span><span class="lname">LOW-MED</span></div><div class="body"><p class="title">Easy run + 6×100m strides + Nordics</p><p class="desc">Strides = economy, submaximal. First things to trim after a brutal Tue.</p></div></div>
+        <div class="day md"><div class="tag"><span class="dname">Thu</span><span class="lname">MED-HI</span></div><div class="body"><p class="title">Quality 2 — intervals / progression</p><p class="desc">Spaced from Friday's sprints.</p></div></div>
+        <div class="day hi"><div class="tag"><span class="dname">Fri</span><span class="lname">HIGH</span></div><div class="body"><p class="title">Easy run + flat sprint progression</p><p class="desc">True top-end speed; why Sat is rest from running.</p></div></div>
+        <div class="day hi"><div class="tag"><span class="dname">Sat</span><span class="lname">HI·neural</span></div><div class="body"><p class="title">Rest from running + heavy lower-body strength</p><p class="desc">3×3–5 @ RPE 7–8. Heavy low-rep beats light "maintenance" for economy.</p></div></div>
+        <div class="day md"><div class="tag"><span class="dname">Sun</span><span class="lname">MEDIUM</span></div><div class="body"><p class="title">Long run</p><p class="desc">Long aerobic, low neural demand.</p></div></div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ===================== RESEARCH ===================== -->
+  <div class="panel" id="p-research" role="tabpanel" aria-labelledby="t-research" tabindex="0">
+    <section>
+      <h2>The sport-science comparison</h2>
+      <p class="lede">Why the two blocks look so different — your sport and your race demand nearly opposite things. AFL is the closest studied analogue to doing both at once.</p>
+
+      <div class="scrollx">
+        <table class="compare">
+          <thead><tr><th>Demand</th><th class="gp">GAA match (you)</th><th class="hp">Half marathon</th><th class="sp">AFL (the analogue)</th></tr></thead>
+          <tbody>
+            <tr><td>Total distance</td><td class="mono">~8,160 m</td><td class="mono">21,100 m</td><td class="mono">~12,000 m+</td></tr>
+            <tr><td>Intensity pattern</td><td>Intermittent — sprint &amp; recover</td><td>Continuous, single pace</td><td>Intermittent + big aerobic base</td></tr>
+            <tr><td>High-speed running</td><td class="mono">~1,731 m (~12%)</td><td>None above race pace</td><td>High, repeated</td></tr>
+            <tr><td>Sprinting</td><td class="mono">~650 m (~3.7%)</td><td>~0</td><td>Frequent, individualised</td></tr>
+            <tr><td>Low-intensity</td><td class="mono">~66%</td><td class="mono">~0% (all moderate)</td><td>High (lots of walking)</td></tr>
+            <tr><td>Hamstring stressor</td><td>Sprint + decel (high)</td><td>Repetitive low-grade</td><td>Sprint + decel (high)</td></tr>
+            <tr><td>Key engine quality</td><td>Repeat-sprint + accel</td><td>Lactate threshold</td><td>Both, simultaneously</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="src" style="margin-top:10px;">GAA values: Malone/Keane et al. positional GPS studies, ~8,160m total, ~1,731m HSR, ~650m sprint, ~66% low-intensity. AFL: Freeman et al. 2024 (HSR load), physical-capacity/match-performance mediation studies.</p>
+
+      <h3>What each literature says</h3>
+      <div class="card gaa">
+        <h3>Gaelic football</h3>
+        <p style="margin:0;">As a full-back you sit at the lower end of match running volume (full-back/full-forward lines run least; midfielders most), but you're still exposed to repeated sprints — and sprint distance drops ~33% from first to second half, more than any other metric, meaning repeat-sprint <em>durability</em> matters. The takeaway: your sport gives you sprint exposure for free, but under-trains pure acceleration force for a defender. That's the gap the summer block fills.</p>
+      </div>
+      <div class="card flag">
+        <h3>Half marathon</h3>
+        <p style="margin:0;">Cohort data on 556 half-marathoners (van Poppel et al.) found weekly volume &gt;32km and long runs &gt;21km both linked to faster times with no rise in injury risk — so the October block doesn't artificially cap mileage. Threshold is the single biggest determinant, and ~80% of volume stays easy (Seiler). None of this overlaps with GAA's demands, which is exactly why you periodise them in sequence, not together.</p>
+      </div>
+      <div class="card note">
+        <h3>Australian Rules — the bridge between the two</h3>
+        <p style="margin:0;">AFL players carry a big aerobic engine <em>and</em> repeat-sprint ability at once — the exact combination you're chasing. Two findings drive this plan: (1) higher aerobic qualities are matched with greater match distance and ball involvement, so building your base should <em>help</em> your GAA; and (2) high-speed-running volume varies enormously between individuals, so sprint load must be individually monitored — which is the evidence base for connecting your Whoop/Garmin/Strava rather than following fixed numbers blindly.</p>
+      </div>
+    </section>
+  </div>
+
+  <!-- ===================== DEVICES ===================== -->
+  <div class="panel" id="p-devices" role="tabpanel" aria-labelledby="t-devices" tabindex="0">
+    <section>
+      <h2>Connect your devices</h2>
+      <p class="lede">Pull recovery &amp; activity data from Whoop, Garmin and Strava to auto-track progress and adjust sessions to how recovered you actually are.</p>
+
+      <div id="demo-banner" class="demo-banner">
+        <b>Demo mode.</b> Showing example data so you can see how it works. To use your own data, deploy the backend (see <b>Setup guide</b> file) and set its URL — connection then happens with one tap per service.
+      </div>
+
+      <div class="conn" id="conn-cards">
+        <div class="conncard">
+          <div class="connlogo whoop">W</div>
+          <div class="meta"><div class="nm">Whoop</div><div class="st" id="st-whoop">Not connected · recovery, strain, HRV, sleep</div></div>
+          <button class="btn" data-svc="whoop">Connect</button>
+        </div>
+        <div class="conncard">
+          <div class="connlogo garmin">G</div>
+          <div class="meta"><div class="nm">Garmin</div><div class="st" id="st-garmin">Not connected · runs, Body Battery, HRV, pace</div></div>
+          <button class="btn" data-svc="garmin">Connect</button>
+        </div>
+        <div class="conncard">
+          <div class="connlogo strava">S</div>
+          <div class="meta"><div class="nm">Strava</div><div class="st" id="st-strava">Not connected · activities, distance, pace</div></div>
+          <button class="btn" data-svc="strava">Connect</button>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Today's readiness</h2>
+      <p class="lede">Pulled from Whoop + Garmin each morning. The plan adjusts itself to this.</p>
+      <div class="readiness">
+        <div class="rgrid">
+          <div class="ring">
+            <svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="42" fill="none" stroke="#E1DFD4" stroke-width="9"/><circle id="ring-rec" cx="50" cy="50" r="42" fill="none" stroke="#15604A" stroke-width="9" stroke-linecap="round" stroke-dasharray="264" stroke-dashoffset="50"/></svg>
+            <div style="margin-top:-58px;"><span class="rv" id="v-rec">72%</span></div>
+            <div class="rl" style="margin-top:34px;">Recovery</div>
+          </div>
+          <div class="ring">
+            <svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="42" fill="none" stroke="#E1DFD4" stroke-width="9"/><circle cx="50" cy="50" r="42" fill="none" stroke="#BC7411" stroke-width="9" stroke-linecap="round" stroke-dasharray="264" stroke-dashoffset="145"/></svg>
+            <div style="margin-top:-58px;"><span class="rv" id="v-strain">11.4</span></div>
+            <div class="rl" style="margin-top:34px;">Day strain</div>
+          </div>
+          <div class="ring">
+            <svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="42" fill="none" stroke="#E1DFD4" stroke-width="9"/><circle cx="50" cy="50" r="42" fill="none" stroke="#2C4A8C" stroke-width="9" stroke-linecap="round" stroke-dasharray="264" stroke-dashoffset="92"/></svg>
+            <div style="margin-top:-58px;"><span class="rv" id="v-hrv">68</span></div>
+            <div class="rl" style="margin-top:34px;">HRV (ms)</div>
+          </div>
+          <div class="ring">
+            <svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="42" fill="none" stroke="#E1DFD4" stroke-width="9"/><circle cx="50" cy="50" r="42" fill="none" stroke="#15604A" stroke-width="9" stroke-linecap="round" stroke-dasharray="264" stroke-dashoffset="40"/></svg>
+            <div style="margin-top:-58px;"><span class="rv" id="v-sleep">7h50</span></div>
+            <div class="rl" style="margin-top:34px;">Sleep</div>
+          </div>
+        </div>
+        <div class="verdict green" id="verdict">
+          <div class="vt" id="verdict-title">Good to go — run as planned</div>
+          <div id="verdict-body">Recovery is green and HRV is in range. Today's session (Fri · sled accelerations + heavy lift) is cleared at full intensity. Hit it.</div>
+        </div>
+      </div>
+      <p style="font-size:12.5px;color:var(--muted);margin-top:6px;">Adjustment logic: recovery &lt;34% (red) downgrades the day's session (hard→easy, easy→recovery/rest); 34–66% (amber) holds intensity but flags fatigue; &gt;66% (green) clears full intensity. Tunable in the backend.</p>
+    </section>
+
+    <section>
+      <h2>Recent activity · auto-synced</h2>
+      <p class="lede">Pulled from Strava/Garmin to tick off completed sessions and tally weekly volume vs target.</p>
+      <div class="actlist" id="actlist">
+        <div class="actrow"><div class="ai" style="background:var(--gaa);">G</div><div class="ad"><div class="at">GAA Match</div><div class="as">Sat · 78 min · avg HR 162</div></div><div class="av">9.1 km<br>32 sprints</div></div>
+        <div class="actrow"><div class="ai" style="background:var(--speed);">S</div><div class="ad"><div class="at">Sled accelerations + heavy lift</div><div class="as">Fri · 16 max accels · peak 8.1 m/s</div></div><div class="av">Speed<br>session</div></div>
+        <div class="actrow"><div class="ai" style="background:var(--endure);">R</div><div class="ad"><div class="at">Easy aerobic run</div><div class="as">Wed · 47 min · avg 5:18/km</div></div><div class="av">8.9 km</div></div>
+        <div class="actrow"><div class="ai" style="background:var(--endure);">R</div><div class="ad"><div class="at">Long easy run</div><div class="as">Sun · 64 min · avg 5:24/km</div></div><div class="av">11.8 km</div></div>
+      </div>
+      <div class="stats" style="margin-top:8px;">
+        <div class="stat"><p class="k">This week · running</p><div class="v" id="wk-km">29.6<small> / 32 km target</small></div></div>
+        <div class="stat"><p class="k">Speed sessions</p><div class="v" id="wk-spd">2<small> / 2 done</small></div></div>
+        <div class="stat"><p class="k">Peak accel speed</p><div class="v">8.1<small> m/s</small></div></div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ===================== PROFILE ===================== -->
+  <div class="panel" id="p-profile" role="tabpanel" aria-labelledby="t-profile" tabindex="0">
+    <section>
+      <h2>Your profile shapes this</h2>
+      <p class="lede">21, 180cm, 84kg. Full-back / occasional half-back. Four hamstring injuries including a grade-3 tear and a tendinopathy. That history drives most of the specific choices.</p>
+
+      <div class="card flag"><h3>Sprinting is protective, not just risky</h3><p style="margin:0;">A U-shaped relationship — players who never reach ≥95% of max speed are at <em>higher</em> hamstring-injury risk than those exposed regularly (a "vaccine effect"). The danger is months of avoidance then a sudden flat-out return. Your GAA matches keep that exposure alive in-season; the Oct block keeps it via weekly sprint maintenance.</p></div>
+      <div class="card warn"><h3>Acceleration is the safer speed quality</h3><p style="margin:0;">Max-velocity sprinting loads the hamstring hardest in lengthened late-swing — where your injuries happen. Heavy sled accelerations keep you forward-leaning and glute/quad-dominant, a more protected position. That's a key reason the summer focus is acceleration, not top-end speed.</p></div>
+      <div class="card note"><h3>Nordics are non-negotiable</h3><p style="margin:0;">Eccentric strength protects you precisely because it's maintained consistently. In a heavy week, halve the dose (2 sets not 4) rather than skip. The sprint exposure + eccentric strength + technique combination cuts risk far more than any one alone.</p></div>
+      <p>At 21 you're in the ideal training-age bracket — fast CNS recovery, can handle faster progression than older athletes, so the conservative ramp has headroom if you're adapting well. Given the grade-3 history, get a baseline eccentric-strength check and a word with your physio/S&amp;C before pushing into the heavy sled and (later) max-velocity work.</p>
+    </section>
+  </div>
+
+  <!-- ===================== PRINCIPLES ===================== -->
+  <div class="panel" id="p-principles" role="tabpanel" aria-labelledby="t-principles" tabindex="0">
+    <section>
+      <h2>CNS load &amp; the high-low principle</h2>
+      <p class="lede">Borrowed from Charlie Francis — with one honest caveat.</p>
+      <p>Francis's signature rule is <strong>avoiding the "dead zone"</strong> (~75–95% of max speed): too fast for recovery, too slow for max-speed adaptation.</p>
+      <div class="tension"><h3>The tension</h3><p style="margin:0;">A strict reading would flag your threshold/tempo work as exactly that dead zone — and on his terms he's right. But for a half marathon, that zone <strong>is the target</strong>: lactate threshold is the biggest determinant of your race. So the Oct block keeps the work Francis would cut. What carries over from him: treat threshold as a real CNS stressor (not stackable), respect the 48–72hr hamstring/CNS window for true speed, and keep heavy lifting simple and low-volume.</p></div>
+      <p>The summer acceleration block actually sits <em>closer</em> to pure Francis logic — short, maximal, fully-recovered, no dead-zone tempo. It's the cleaner speed-development window, which is another reason to do it then rather than during the endurance block.</p>
+    </section>
+    <section>
+      <h2>Why this sequencing</h2>
+      <ul class="clean">
+        <li><strong>Speed before endurance.</strong> Build acceleration in summer while fresh and sprint-primed; protect it through the endurance block rather than trying to build it under high mileage.</li>
+        <li><strong>Let the sport do the work.</strong> In-season, matches supply sprint exposure — so added training is acceleration quality + easy aerobic, never extra max-velocity on a match week.</li>
+        <li><strong>Monitor, don't guess.</strong> The AFL literature shows sprint load varies hugely between individuals — hence device-driven session adjustment.</li>
+        <li><strong>Volume isn't the enemy.</strong> &gt;32km/week and &gt;21km long runs link to faster half times with no injury-risk rise; the real ceiling is your week-to-week hamstring response.</li>
+      </ul>
+    </section>
+    <section>
+      <h2>Practical notes</h2>
+      <ul class="clean">
+        <li>If a week feels off, repeat it rather than push forward.</li>
+        <li>Fuel and hydrate around long runs and quality/sled sessions.</li>
+        <li>The Oct-block time trials (wk 7 &amp; 14) make race pace real, not guessed.</li>
+        <li>Any hamstring tightness, twinge or asymmetry — during a run, sled, Nordics or plyo — is a stop-and-reassess signal, not push-through.</li>
+      </ul>
+      <p class="signoff">With your commitment, the limiting factor is patience with the buildup — not effort.</p>
+      <p class="footnote">Targets and projections are estimates calibrated to your 8.2k and recalibrated at the time trials. Reflects sports-science literature but isn't a substitute for individualised guidance from your physio or S&amp;C coach, especially given the grade-3 hamstring history.</p>
+    </section>
+  </div>
+
+</main>
+
+<script>
+  // ===== CONFIG: set this to your deployed backend URL to use real data =====
+  const API_BASE = ""; // e.g. "https://your-backend.onrender.com"
+
+  // =====================================================================
+  //  PLAN ENGINE — resolves any date to its session, with full detail
+  // =====================================================================
+  const RACE = new Date(2027,0,24);          // 24 Jan 2027 (Sun)
+  const OCT_START = mondayOf(new Date(2026,9,5));  // Oct block wk1 Monday (5 Oct 2026)
+  const DOW = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+
+  function mondayOf(d){const x=new Date(d);const day=(x.getDay()+6)%7;x.setDate(x.getDate()-day);x.setHours(0,0,0,0);return x;}
+  function addDays(d,n){const x=new Date(d);x.setDate(x.getDate()+n);return x;}
+  function fmtDate(d){return d.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'});}
+  function fmtShort(d){return d.toLocaleDateString('en-GB',{day:'numeric',month:'short'});}
+  function sameDay(a,b){return a.getFullYear()===b.getFullYear()&&a.getMonth()===b.getMonth()&&a.getDate()===b.getDate();}
+
+  // ---- IN-SEASON week (June–Sept), keyed by weekday 0..6 ----
+  function inSeasonDay(dow){
+    const M = {
+      1:{load:'lo',title:'Easy aerobic run',dur:'30–40 min',detail:{
+        Session:'Easy continuous run at conversational pace',Pace:'5:05–5:30/km (easy zone)',
+        Why:'Flush the weekend match, build aerobic base for October',
+        Adjust:'Skip or shorten if recovery is poor (see Devices)'}},
+      2:{load:'hi',title:'GAA training/game + optional sled accelerations',dur:'sport + ~25 min',detail:{
+        Session:'GAA session. If it\u2019s a light night, add the sled acceleration block; if hard/a game, GAA covers it — skip the sled',
+        Sled:'Heavy 40–50% BM ×10–15m ×5–6 · Moderate 25–30% BM ×20m ×4',
+        Recovery:'Full walk-back 2–3 min between reps — never rep tired',
+        Why:'GAA supplies match sprint exposure; sled adds pure acceleration force'}},
+      3:{load:'lo',title:'Easy aerobic run + Nordics',dur:'40–50 min + gym',detail:{
+        Session:'Easy run, then Nordic curls + light posterior chain',
+        Nordics:'3–4 sets of 6–8 (halve to 2 sets in a heavy week, don\u2019t skip)',
+        Pace:'5:05–5:30/km',Why:'Base building + bank eccentric hamstring strength'}},
+      4:{load:'ga',title:'GAA training',dur:'sport',detail:{
+        Session:'GAA training — sport handles the intensity',
+        Added:'No extra running load today',Why:'Recover the legs around the sport stimulus'}},
+      5:{load:'hi',title:'Sled accelerations + heavy lower-body lift',dur:'~60 min',detail:{
+        Session:'Your main speed-development session — fresh legs, 2 days clear of Saturday',
+        Warmup:'RAMP + 3–4 build-ups',
+        Sled:'Heavy 40–50% BM ×10–15m ×5–6 → Moderate 25–30% BM ×20m ×4 → Unloaded 20m ×3',
+        Lift:'Trap-bar deadlift / box squat / hip thrust — 3–5 × 3–5 @ RPE 7–8',
+        Why:'Acceleration force + horizontal-force strength, all high-CNS work clustered on one day'}},
+      6:{load:'ga',title:'GAA match — light warm-up',dur:'match day',detail:{
+        Session:'Match. Light prime beforehand only',
+        Why:'Your weekly max-velocity exposure, in context — the hamstring "vaccine"',
+        Note:'Nothing flat-out in warm-up; let the match provide top speed'}},
+      0:{load:'lo',title:'Longer easy run',dur:'50–70 min',detail:{
+        Session:'Long easy run — the aerobic base you\u2019re banking for October',
+        Pace:'5:10–5:30/km, conversational throughout',
+        Build:'Add ~5 min every couple of weeks through summer',
+        Adjust:'Never hard the day after a match — keep it truly easy'}}
+    };
+    return M[dow];
+  }
+
+  // ---- OCT BLOCK: per-week parameters, then per-day detail derived ----
+  // phase + key numbers per week (1..16)
+  const OCT = {
+    1:{ph:'Base',km:30,long:'8 km easy',hill:'6×15s hill sprints',flat:'4×20m ~70–75%',plyo:null,q1:'Easy + strides',q2:'Easy run',note:'Everything easy pace'},
+    2:{ph:'Base',km:33,long:'9 km easy',hill:'6×15s',flat:'4×20m ~75%',plyo:null,q1:'Easy + strides',q2:'Easy run'},
+    3:{ph:'Base',km:36,long:'10 km easy',hill:'8×15s',flat:'4×30m ~80%',plyo:'Base plyo: pogo hops, low box jumps (~30 contacts)',q1:'Easy + strides',q2:'Easy run'},
+    4:{ph:'Base',km:28,long:'8 km easy',hill:'6×15s',flat:'3×30m ~80%',plyo:'Base plyo ~30 contacts',q1:'Easy + strides',q2:'Easy run',note:'Recovery week −25%'},
+    5:{ph:'Base',km:40,long:'11 km, last 2 steady',hill:'8×20s',flat:'4×30m ~80–85%',plyo:'Base plyo ~30 contacts',q1:'Easy + strides',q2:'Easy run'},
+    6:{ph:'Build',km:44,long:'13 km steady',hill:'8×20s',flat:'4×30m ~85%',plyo:'Build plyo: broad jumps, bounding (~40–50)',q1:'5×1km @ threshold, 90s jog',q2:'Progression run'},
+    7:{ph:'Build',km:42,long:'TIME TRIAL: 5k or 8k hard',hill:'6×20s',flat:'3×30m ~80%',plyo:'Build plyo (reduced)',q1:'Time trial — recalibrate paces',q2:'Easy + strides',tt:true,note:'Race is your speed work this week'},
+    8:{ph:'Build',km:48,long:'14 km, last 4 strong',hill:'8×20s',flat:'4–5×30m ~85–90%',plyo:'Build plyo ~40–50',q1:'6×1km @ threshold',q2:'Progression run'},
+    9:{ph:'Build',km:36,long:'12 km easy',hill:'6×20s',flat:'3×30m ~85%',plyo:'Build plyo ~40',q1:'4×1km @ threshold',q2:'Easy run',note:'Recovery week'},
+    10:{ph:'Build',km:52,long:'15 km, last 5 steady',hill:'8×20s',flat:'4–5×30–40m ~90%',plyo:'Build plyo ~40–50',q1:'8×800m @ 10k pace, 2min jog',q2:'Progression run'},
+    11:{ph:'Build',km:56,long:'17 km, last 5 @ HM',hill:'8×20s',flat:'4×40m ~90–95% (first near-max)',plyo:'Build plyo ~40–50',q1:'6×1.2km @ threshold',q2:'Progression run'},
+    12:{ph:'Peak',km:42,long:'14 km easy',hill:'6×20s',flat:'4×40m ~90–95%',plyo:'Peak reactive: single-leg hops, low depth jumps',q1:'5×1km @ HM pace',q2:'Easy run',note:'Recovery week'},
+    13:{ph:'Peak',km:60,long:'19 km, mid 11 @ HM',hill:'6×20s',flat:'3×40m @ ≥95%, 4–5min rec ("vaccine dose")',plyo:'Peak reactive ~40, sharp',q1:'3km+2km+1km @ HM, full rec',q2:'Progression run',peak:true},
+    14:{ph:'Peak',km:40,long:'DRESS REHEARSAL: 8–10k @ goal HM pace',hill:'6×20s',flat:'3×40m @ ≥95%',plyo:'Peak reactive ~40',q1:'Dress rehearsal',q2:'Easy run',tt:true},
+    15:{ph:'Taper',km:38,long:'12 km easy',hill:'4×15s',flat:'2×40m ~90%',plyo:'A few low-amplitude hops only',q1:'4×1km @ HM, generous rec',q2:'Easy run'},
+    16:{ph:'Taper',km:'~22',long:'RACE DAY',hill:'skip',flat:'Tue only: 3×20m ~85–90%',plyo:'none',q1:'3×1km @ HM (Tue)',q2:'Easy shakeout',race:true}
+  };
+
+  function octDay(weekNo,dow){
+    const w=OCT[weekNo]; if(!w) return null;
+    const load=(t)=>({hi:'hi',md:'md',lo:'lo'})[t];
+    // Mon hill+plyo, Tue Q1, Wed easy+strides+Nordics, Thu Q2, Fri flat sprints, Sat heavy lift (rest from running), Sun long
+    switch(dow){
+      case 1: return {load:'hi',title:'Easy run + hill sprints'+(w.plyo?' + plyometrics':''),dur:'~45 min',detail:cleanD({
+        Session:'Easy run, then hill sprints'+(w.plyo?', then plyometrics':''),Hills:w.hill,Plyo:w.plyo,
+        Pace:'easy 5:05–5:30/km',Why:'Speed & power maintenance (HIGH CNS day)'})};
+      case 2: return {load:'md',title:w.tt?w.q1:'Quality 1 — '+w.q1,dur:w.tt?'test':'~50–60 min',detail:cleanD({
+        Session:w.q1,Warmup:'15 min easy + strides',Cooldown:'10 min easy',
+        Why:w.tt?'Recalibrate your pace zones against reality':'Lactate threshold / VO₂max — a real CNS stressor'})};
+      case 3: return {load:'lo',title:'Easy run + strides + Nordics',dur:'~45 min + gym',detail:cleanD({
+        Session:'Easy run + 6×100m strides + Nordic curls',Strides:'6×100m @ 70–80%, walk back',
+        Nordics:'3–4×6–8 (halve in heavy weeks, don\u2019t skip)',Why:'Recovery-leaning; strides = economy. Trim extras if Tue was brutal'})};
+      case 4: return {load:'md',title:'Quality 2 — '+w.q2,dur:'~50 min',detail:cleanD({
+        Session:w.q2,Warmup:'15 min easy',Why:'Second quality stimulus, spaced from Friday\u2019s sprints'})};
+      case 5: return {load:'hi',title:'Easy run + flat sprint progression',dur:'~45 min',detail:cleanD({
+        Session:'Easy run, then flat sprints',Sprints:w.flat,Recovery:'full recovery, few reps — fresh legs only',
+        Why:'True top-end speed for your half-back role (HIGH CNS day)'})};
+      case 6: return {load:'hi',title:w.race?'Rest':'Rest from running + heavy lower-body lift',dur:w.race?'—':'gym only',detail:cleanD({
+        Session:w.race?'Full rest before race':'Heavy lower-body strength (no running today)',
+        Lift:w.race?null:'Box squat, trap-bar deadlift, bench, pull-ups — 3×3–5 @ RPE 7–8',
+        Why:w.race?'Freshen up for tomorrow':'Heavy low-rep work improves running economy; spaced from hard running'})};
+      case 0: return {load:w.race?'hi':'md',title:w.race?'🏁 RACE — Half Marathon':'Long run · '+w.long,dur:w.race?'race':'long',detail:cleanD({
+        Session:w.race?'RACE DAY — 21.1km. Execute goal pace, negative-split if able':'Long run: '+w.long,
+        Pace:w.race?'goal HM pace 4:35–4:40/km':'steady 4:45–5:00/km, easy portions 5:05–5:30',
+        Why:w.race?'This is it — glycogen loaded, legs fresh, speed sharp':'Aerobic endurance, low neural demand'})};
+    }
+  }
+  function cleanD(o){const r={};for(const k in o)if(o[k])r[k]=o[k];return r;}
+
+  // ---- resolve a date to its session ----
+  function sessionFor(date){
+    const d=new Date(date);d.setHours(0,0,0,0);
+    const dow=d.getDay();
+    if(d>=OCT_START && d<=RACE){
+      const weekNo=Math.floor((mondayOf(d)-OCT_START)/(7*864e5))+1;
+      if(weekNo>=1&&weekNo<=16){
+        const s=octDay(weekNo,dow);
+        return {...s,phase:'Oct block · Week '+weekNo+' · '+OCT[weekNo].ph,weekNo,block:'oct'};
+      }
+    }
+    if(d<OCT_START){
+      const s=inSeasonDay(dow);
+      return {...s,phase:'In-season speed block (Jun–Sep)',block:'in'};
+    }
+    return {load:'lo',title:'Post-race recovery',dur:'easy',phase:'After the race',block:'post',
+      detail:{Session:'Easy running / return to GAA pre-season as you feel',Why:'Race done — reverse-taper back into sport'}};
+  }
+
+  const LOADNAME={hi:'High CNS',md:'Medium',lo:'Easy / Low',ga:'GAA'};
+
+  // ---- render Today card ----
+  function renderToday(){
+    const today=new Date();
+    const s=sessionFor(today);
+    const el=document.getElementById('today-card');
+    document.getElementById('today-sub').textContent=s.phase;
+    let detail='';
+    for(const k in (s.detail||{})) detail+=`<div class="dl"><div class="dk">${k}</div><div class="dv">${s.detail[k]}</div></div>`;
+    el.innerHTML=`<div class="todaybig">
+      <div class="tdate">${fmtDate(today)}</div>
+      <span class="ttype tt-${s.load}">${LOADNAME[s.load]}</span>
+      <h3>${s.title}</h3>
+      <div class="tdesc">${s.dur?('Duration: '+s.dur):''}</div>
+      <div class="tdetail">${detail}</div>
+    </div>`;
+  }
+
+  // ---- render Calendar week ----
+  let weekOffset=0;
+  function renderCal(){
+    const base=mondayOf(addDays(new Date(),weekOffset*7));
+    const today=new Date();today.setHours(0,0,0,0);
+    const list=document.getElementById('cal-list');
+    const firstSession=sessionFor(base);
+    document.getElementById('cal-phase').textContent=firstSession.phase;
+    document.getElementById('wk-label').textContent =
+      weekOffset===0?'This week':(weekOffset===1?'Next week':(weekOffset===-1?'Last week':fmtShort(base)));
+    let html='';
+    for(let i=0;i<7;i++){
+      const d=addDays(base,i);
+      const s=sessionFor(d);
+      const isToday=sameDay(d,today);
+      let detail='';
+      for(const k in (s.detail||{})) detail+=`<div class="dl"><div class="dk">${k}</div><div class="dv">${s.detail[k]}</div></div>`;
+      const restClass=(s.title==='Rest'||s.load==='ga')?'cal-rest':'';
+      html+=`<div class="cal-day ${isToday?'is-today':''} ${restClass}" data-i="${i}">
+        <button class="cal-head" aria-expanded="false">
+          <div class="cal-dd"><span class="dow">${DOW[d.getDay()]}</span><span class="dnum">${fmtShort(d)}</span></div>
+          <div class="cal-mid"><div class="ctitle">${s.title}</div><span class="ctag c-${s.load}">${LOADNAME[s.load]}${s.dur&&s.dur!=='—'?' · '+s.dur:''}</span></div>
+          <div class="cal-chev">›</div>
+        </button>
+        <div class="cal-body">${detail||'<div class="dv">Rest day — recover.</div>'}</div>
+      </div>`;
+    }
+    list.innerHTML=html;
+    list.querySelectorAll('.cal-day').forEach(day=>{
+      const head=day.querySelector('.cal-head');
+      head.addEventListener('click',()=>{
+        const open=day.classList.toggle('open');
+        head.setAttribute('aria-expanded',String(open));
+      });
+      if(day.classList.contains('is-today')) day.classList.add('open');
+    });
+  }
+  document.getElementById('wk-prev').addEventListener('click',()=>{weekOffset--;renderCal();});
+  document.getElementById('wk-next').addEventListener('click',()=>{weekOffset++;renderCal();});
+
+  renderToday();
+  renderCal();
+
+
+  // ---- primary tabs ----
+  const tabs = Array.from(document.querySelectorAll('.tabbar .tab'));
+  const panels = Array.from(document.querySelectorAll('main > .panel'));
+  function selectTab(tab){
+    tabs.forEach(t=>t.setAttribute('aria-selected', String(t===tab)));
+    panels.forEach(p=>p.classList.toggle('active', p.id === tab.getAttribute('aria-controls')));
+    document.querySelector('.tabbar-shell').scrollIntoView({block:'start'});
+  }
+  tabs.forEach((tab,i)=>{
+    tab.addEventListener('click',()=>selectTab(tab));
+    tab.addEventListener('keydown',e=>{
+      if(e.key==='ArrowRight'||e.key==='ArrowLeft'){e.preventDefault();
+        const next=tabs[(i+(e.key==='ArrowRight'?1:-1)+tabs.length)%tabs.length];next.focus();selectTab(next);}
+    });
+  });
+
+  // ---- sub tabs ----
+  const subtabs=Array.from(document.querySelectorAll('.subtab'));
+  const subpanels=Array.from(document.querySelectorAll('.subpanel'));
+  function selectSub(tab){
+    subtabs.forEach(t=>t.setAttribute('aria-selected',String(t===tab)));
+    subpanels.forEach(p=>p.classList.toggle('active',p.id===tab.getAttribute('aria-controls')));
+  }
+  subtabs.forEach((tab,i)=>{
+    tab.addEventListener('click',()=>selectSub(tab));
+    tab.addEventListener('keydown',e=>{
+      if(e.key==='ArrowRight'||e.key==='ArrowLeft'){e.preventDefault();
+        const next=subtabs[(i+(e.key==='ArrowRight'?1:-1)+subtabs.length)%subtabs.length];next.focus();selectSub(next);}
+    });
+  });
+
+  // ---- device adjustment logic (runs on real OR demo data) ----
+  function applyReadiness(d){
+    // d = { recovery (0-100), strain, hrv, sleep, plannedSession }
+    const ringRec=document.getElementById('ring-rec');
+    const circ=264;
+    ringRec.setAttribute('stroke-dashoffset', String(circ*(1-d.recovery/100)));
+    document.getElementById('v-rec').textContent=d.recovery+'%';
+    document.getElementById('v-strain').textContent=d.strain;
+    document.getElementById('v-hrv').textContent=d.hrv;
+    document.getElementById('v-sleep').textContent=d.sleep;
+
+    const v=document.getElementById('verdict');
+    const vt=document.getElementById('verdict-title');
+    const vb=document.getElementById('verdict-body');
+    v.classList.remove('green','amber','red');
+    if(d.recovery>66){
+      v.classList.add('green');ringRec.setAttribute('stroke','#15604A');
+      vt.textContent='Good to go — run as planned';
+      vb.textContent='Recovery is green and HRV is in range. Today\u2019s session ('+d.plannedSession+') is cleared at full intensity. Hit it.';
+    } else if(d.recovery>=34){
+      v.classList.add('amber');ringRec.setAttribute('stroke','#BC7411');
+      vt.textContent='Proceed with awareness';
+      vb.textContent='Recovery is moderate. Keep '+d.plannedSession+' but cap the hard reps, lengthen recovery between efforts, and stop early if mechanics slip. No new max-velocity exposure today.';
+    } else {
+      v.classList.add('red');ringRec.setAttribute('stroke','#D6431F');
+      vt.textContent='Downgrade today';
+      vb.textContent='Recovery is red. Swap '+d.plannedSession+' for easy aerobic or full rest \u2014 sled/sprint work on suppressed recovery is the hamstring-recurrence pattern. The session keeps better than the block.';
+    }
+  }
+
+  // demo data so the UI is meaningful before a backend is wired
+  const demo={recovery:72,strain:'11.4',hrv:68,sleep:'7h50',plannedSession:'Fri \u00b7 sled accelerations + heavy lift'};
+
+  async function init(){
+    if(!API_BASE){ applyReadiness(demo); return; }
+    document.getElementById('demo-banner').style.display='none';
+    try{
+      const r=await fetch(API_BASE+'/api/readiness',{credentials:'include'});
+      if(r.ok){ applyReadiness(await r.json()); }
+      else applyReadiness(demo);
+      // connection status
+      const s=await fetch(API_BASE+'/api/status',{credentials:'include'});
+      if(s.ok){
+        const st=await s.json();
+        ['whoop','garmin','strava'].forEach(svc=>{
+          const el=document.getElementById('st-'+svc);
+          if(st[svc]&&st[svc].connected){el.textContent='Connected \u00b7 last sync '+(st[svc].lastSync||'just now');el.classList.add('on');}
+        });
+      }
+    }catch(e){ applyReadiness(demo); }
+  }
+  // connect buttons -> backend OAuth start
+  document.querySelectorAll('[data-svc]').forEach(b=>{
+    b.addEventListener('click',()=>{
+      const svc=b.getAttribute('data-svc');
+      if(!API_BASE){ alert('Deploy the backend and set API_BASE first \u2014 see the Setup guide file. Then this button starts the one-tap '+svc+' login.'); return; }
+      window.location.href=API_BASE+'/auth/'+svc;
+    });
+  });
+
+  init();
+</script>
+</body>
+</html>
