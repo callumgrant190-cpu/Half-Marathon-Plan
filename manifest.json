@@ -1,0 +1,25 @@
+{
+  "name": "GAA → Half Marathon Plan",
+  "short_name": "HM Plan",
+  "description": "Personalised 16-week training plan from GAA to half marathon",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "theme_color": "#18211C",
+  "background_color": "#F1F0E9",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ]
+}
