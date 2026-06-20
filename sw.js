@@ -1,4 +1,4 @@
-const CACHE = 'hmplan-v5';
+const CACHE = 'hmplan-v6';
 const ASSETS = ['./index.html', './manifest.json', './icon.svg'];
 
 self.addEventListener('install', e => {
