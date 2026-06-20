@@ -237,6 +237,40 @@
     .conncard{flex-wrap:wrap;}
   }
   @media (prefers-reduced-motion:reduce){.panel,.subpanel{animation:none;}*{scroll-behavior:auto;}}
+
+  /* ---- completion tracking & progress ---- */
+  .done-btn{width:100%;margin-top:18px;appearance:none;border:none;cursor:pointer;
+    font-family:"Archivo",sans-serif;font-weight:800;font-size:15px;letter-spacing:-.01em;
+    padding:13px 20px;border-radius:12px;transition:all .2s;}
+  .done-btn.undone{background:rgba(255,255,255,.14);color:#fff;border:1.5px solid rgba(255,255,255,.28);}
+  .done-btn.undone:hover{background:rgba(255,255,255,.22);}
+  .done-btn.complete{background:#1E7C59;color:#fff;border:1.5px solid #1E7C59;}
+
+  .cal-head{position:relative;}
+  .cal-done-badge{position:absolute;right:54px;top:50%;transform:translateY(-50%);
+    width:22px;height:22px;border-radius:50%;background:var(--endure);
+    display:flex;align-items:center;justify-content:center;color:#fff;font-size:12px;line-height:1;pointer-events:none;}
+
+  .prog-card{background:var(--raised);border:1px solid var(--line);border-radius:14px;
+    padding:16px 18px;margin:6px 0 20px;box-shadow:var(--shadow);}
+  .prog-hrow{display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin:0 0 8px;flex-wrap:wrap;}
+  .prog-hrow .ph-l{font-family:"Archivo",sans-serif;font-weight:700;font-size:14.5px;color:var(--ink);}
+  .prog-hrow .ph-r{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--muted);}
+  .prog-bg{background:var(--line);border-radius:5px;height:8px;overflow:hidden;margin:0 0 16px;}
+  .prog-fg{height:100%;border-radius:5px;background:var(--endure);transition:width .5s cubic-bezier(.4,0,.2,1);}
+  .wk-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;}
+  .wk-cell{border-radius:8px;padding:7px 3px 6px;text-align:center;border:1.5px solid var(--line);background:var(--paper);transition:all .15s;}
+  .wk-cell .wc-d{font-family:"Archivo",sans-serif;font-weight:800;font-size:10.5px;color:var(--muted);}
+  .wk-cell .wc-i{display:block;font-size:13px;min-height:17px;margin-top:3px;line-height:1;}
+  .wk-cell.c-today{border-color:var(--ink);background:var(--raised);}
+  .wk-cell.c-today .wc-d{color:var(--ink);}
+  .wk-cell.c-done{border-color:var(--endure);background:var(--endure-wash);}
+  .wk-cell.c-done .wc-d{color:var(--endure);}
+  .wk-cell.c-rest{background:var(--line-soft);}
+
+  .countdown-badge{font-family:"IBM Plex Mono",monospace;font-size:12px;padding:6px 11px;
+    border-radius:999px;border:1px solid rgba(255,255,255,.2);color:#EFEDE4;}
+  .countdown-badge b{color:#F5E98C;font-weight:600;}
 </style>
 </head>
 <body>
@@ -249,6 +283,7 @@
       <span class="chip go"><b>A-goal</b> &nbsp;sub-1:40 half · target 1:35–1:40</span>
       <span class="chip"><b>Now → Sep</b> &nbsp;build acceleration, hold GAA</span>
       <span class="chip"><b>Baseline</b> &nbsp;8.2k · 36:10 · 4:25/km</span>
+      <span class="countdown-badge" id="hdr-countdown"></span>
     </div>
   </div>
 </header>
@@ -274,6 +309,7 @@
       <h2 id="today-heading">Today</h2>
       <p class="lede" id="today-sub">Your session for today, plus the full week. Tap any day for the full detail.</p>
       <div id="today-card"></div>
+      <div id="week-prog"></div>
     </section>
     <section>
       <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:8px;">
@@ -774,6 +810,57 @@
 
   const LOADNAME={hi:'High CNS',md:'Medium',lo:'Easy / Low',ga:'GAA'};
 
+  // ---- completion tracking (localStorage) ----
+  const DONE_KEY='hmplan_done';
+  function dateKey(d){const x=new Date(d);return x.getFullYear()+'-'+String(x.getMonth()+1).padStart(2,'0')+'-'+String(x.getDate()).padStart(2,'0');}
+  function getDone(){try{return new Set(JSON.parse(localStorage.getItem(DONE_KEY)||'[]'));}catch(e){return new Set();}}
+  function saveDone(set){localStorage.setItem(DONE_KEY,JSON.stringify([...set]));}
+  function isDone(d){return getDone().has(dateKey(d));}
+  function toggleDone(d){const k=dateKey(d);const set=getDone();if(set.has(k))set.delete(k);else set.add(k);saveDone(set);renderToday();renderCal();renderWeekProg();}
+
+  // ---- week progress card ----
+  function renderWeekProg(){
+    const el=document.getElementById('week-prog');if(!el)return;
+    const today=new Date();today.setHours(0,0,0,0);
+    const mon=mondayOf(today);
+    const done=getDone();
+    const DOWS=['M','T','W','T','F','S','S'];
+    let cells='';
+    for(let i=0;i<7;i++){
+      const d=addDays(mon,i);
+      const s=sessionFor(d);
+      const k=dateKey(d);
+      const isToday=sameDay(d,today);
+      const isFuture=d>today;
+      const isDoneD=done.has(k);
+      const isRest=(s.load==='ga');
+      let cls='wk-cell';let icon='';
+      if(isDoneD){cls+=' c-done';icon='✓';}
+      else if(isToday&&!isFuture){cls+=' c-today';icon='→';}
+      else if(isRest){cls+=' c-rest';}
+      cells+=`<div class="${cls}"><div class="wc-d">${DOWS[i]}</div><span class="wc-i">${icon}</span></div>`;
+    }
+    const firstS=sessionFor(today);
+    let progHtml='';
+    if(firstS.block==='oct'&&firstS.weekNo){
+      const pct=Math.min(100,Math.round(((firstS.weekNo-1)/16)*100));
+      progHtml=`<div class="prog-hrow"><span class="ph-l">Oct Block · Week ${firstS.weekNo} of 16</span><span class="ph-r">${OCT[firstS.weekNo]?OCT[firstS.weekNo].ph:''}</span></div><div class="prog-bg"><div class="prog-fg" style="width:${pct}%"></div></div>`;
+    } else if(firstS.block==='in'){
+      const dLeft=Math.max(0,Math.round((OCT_START-today)/864e5));
+      progHtml=`<div class="prog-hrow"><span class="ph-l">In-season speed block</span><span class="ph-r">${dLeft}d until Oct block</span></div>`;
+    }
+    const raceDays=Math.max(0,Math.round((RACE-today)/864e5));
+    el.innerHTML=`<div class="prog-card">${progHtml}<div class="prog-hrow" style="margin-bottom:8px;"><span class="ph-l">This week</span><span class="ph-r"><b style="color:var(--ink)">${raceDays}</b>d to race</span></div><div class="wk-grid">${cells}</div></div>`;
+  }
+
+  // ---- race countdown in header ----
+  function renderCountdown(){
+    const el=document.getElementById('hdr-countdown');if(!el)return;
+    const today=new Date();today.setHours(0,0,0,0);
+    const days=Math.max(0,Math.round((RACE-today)/864e5));
+    el.innerHTML=`<b>${days}d</b> to race`;
+  }
+
   // ---- render Today card ----
   function renderToday(){
     const today=new Date();
@@ -782,13 +869,17 @@
     document.getElementById('today-sub').textContent=s.phase;
     let detail='';
     for(const k in (s.detail||{})) detail+=`<div class="dl"><div class="dk">${k}</div><div class="dv">${s.detail[k]}</div></div>`;
+    const done=isDone(today);
     el.innerHTML=`<div class="todaybig">
       <div class="tdate">${fmtDate(today)}</div>
       <span class="ttype tt-${s.load}">${LOADNAME[s.load]}</span>
       <h3>${s.title}</h3>
       <div class="tdesc">${s.dur?('Duration: '+s.dur):''}</div>
       <div class="tdetail">${detail}</div>
+      <button class="done-btn ${done?'complete':'undone'}" id="done-btn-today">${done?'✓ Session logged — tap to undo':'Mark session done'}</button>
     </div>`;
+    document.getElementById('done-btn-today').addEventListener('click',()=>toggleDone(today));
+    renderWeekProg();
   }
 
   // ---- render Calendar week ----
@@ -801,21 +892,25 @@
     document.getElementById('cal-phase').textContent=firstSession.phase;
     document.getElementById('wk-label').textContent =
       weekOffset===0?'This week':(weekOffset===1?'Next week':(weekOffset===-1?'Last week':fmtShort(base)));
+    const done=getDone();
     let html='';
     for(let i=0;i<7;i++){
       const d=addDays(base,i);
       const s=sessionFor(d);
       const isToday=sameDay(d,today);
+      const isDoneD=done.has(dateKey(d));
       let detail='';
       for(const k in (s.detail||{})) detail+=`<div class="dl"><div class="dk">${k}</div><div class="dv">${s.detail[k]}</div></div>`;
       const restClass=(s.title==='Rest'||s.load==='ga')?'cal-rest':'';
+      const doneBtn=(s.load!=='ga')?`<div style="padding:0 15px 15px 77px;"><button class="done-btn ${isDoneD?'complete':'undone'}" style="font-size:13px;padding:9px 16px;" data-date="${dateKey(d)}">${isDoneD?'✓ Logged — tap to undo':'Log session done'}</button></div>`:'';
       html+=`<div class="cal-day ${isToday?'is-today':''} ${restClass}" data-i="${i}">
         <button class="cal-head" aria-expanded="false">
           <div class="cal-dd"><span class="dow">${DOW[d.getDay()]}</span><span class="dnum">${fmtShort(d)}</span></div>
           <div class="cal-mid"><div class="ctitle">${s.title}</div><span class="ctag c-${s.load}">${LOADNAME[s.load]}${s.dur&&s.dur!=='—'?' · '+s.dur:''}</span></div>
+          ${isDoneD?'<span class="cal-done-badge">✓</span>':''}
           <div class="cal-chev">›</div>
         </button>
-        <div class="cal-body">${detail||'<div class="dv">Rest day — recover.</div>'}</div>
+        <div class="cal-body">${detail||'<div class="dv">Rest day — recover.</div>'}${doneBtn}</div>
       </div>`;
     }
     list.innerHTML=html;
@@ -827,12 +922,21 @@
       });
       if(day.classList.contains('is-today')) day.classList.add('open');
     });
+    list.querySelectorAll('[data-date]').forEach(btn=>{
+      btn.addEventListener('click',e=>{
+        e.stopPropagation();
+        const dStr=btn.getAttribute('data-date');
+        const [y,m,day_]=dStr.split('-').map(Number);
+        toggleDone(new Date(y,m-1,day_));
+      });
+    });
   }
   document.getElementById('wk-prev').addEventListener('click',()=>{weekOffset--;renderCal();});
   document.getElementById('wk-next').addEventListener('click',()=>{weekOffset++;renderCal();});
 
   renderToday();
   renderCal();
+  renderCountdown();
 
 
   // ---- primary tabs ----
