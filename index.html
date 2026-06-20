@@ -1172,39 +1172,44 @@
 
   init();
 
-  // ---- bottom nav ----
-  const bnavIds = {
-    'bnav-today':   't-today',
-    'bnav-overview':'t-overview',
-    'bnav-bridge':  't-bridge',
-    'bnav-block':   't-block',
+  // ---- bottom nav — direct panel switching ----
+  const BNAV = {
+    'bnav-today':   'p-today',
+    'bnav-overview':'p-overview',
+    'bnav-bridge':  'p-bridge',
+    'bnav-block':   'p-block',
   };
-  function setBnavActive(id){
-    document.querySelectorAll('.bnav-btn').forEach(b=>b.setAttribute('aria-selected','false'));
-    if(id) document.getElementById(id).setAttribute('aria-selected','true');
-  }
-  Object.entries(bnavIds).forEach(([bId,tId])=>{
-    document.getElementById(bId).addEventListener('click',()=>{
-      selectTab(document.getElementById(tId));
-      setBnavActive(bId);
-      window.scrollTo({top:0,behavior:'smooth'});
+  function goToPanel(panelId){
+    // show the right panel
+    document.querySelectorAll('main > .panel').forEach(p=>{
+      p.classList.toggle('active', p.id===panelId);
     });
+    // keep top tab bar in sync (desktop)
+    document.querySelectorAll('.tabbar .tab').forEach(t=>{
+      t.setAttribute('aria-selected', String(t.getAttribute('aria-controls')===panelId));
+    });
+    // highlight the right bottom nav button
+    document.querySelectorAll('.bnav-btn').forEach(b=>b.setAttribute('aria-selected','false'));
+    const bId=Object.keys(BNAV).find(k=>BNAV[k]===panelId);
+    if(bId) document.getElementById(bId).setAttribute('aria-selected','true');
+    else document.getElementById('bnav-more').setAttribute('aria-selected','true');
+    window.scrollTo(0,0);
+  }
+  // wire up the four direct-nav buttons
+  Object.entries(BNAV).forEach(([bId,panelId])=>{
+    document.getElementById(bId).addEventListener('click',()=>goToPanel(panelId));
   });
   // More sheet
   const moreSheet=document.getElementById('more-sheet');
   document.getElementById('bnav-more').addEventListener('click',()=>{
     moreSheet.classList.add('open');
-    setBnavActive('bnav-more');
+    document.getElementById('bnav-more').setAttribute('aria-selected','true');
   });
   document.getElementById('more-overlay').addEventListener('click',()=>moreSheet.classList.remove('open'));
   document.querySelectorAll('.more-item').forEach(btn=>{
     btn.addEventListener('click',()=>{
-      const tid=btn.getAttribute('data-tab');
-      const t=tabs.find(t=>t.getAttribute('aria-controls')===tid);
-      if(t) selectTab(t);
+      goToPanel(btn.getAttribute('data-tab'));
       moreSheet.classList.remove('open');
-      setBnavActive('bnav-more');
-      window.scrollTo({top:0,behavior:'smooth'});
     });
   });
 
