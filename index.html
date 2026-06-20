@@ -379,6 +379,15 @@
   .zones-source{font-size:12.5px;color:var(--muted);margin:8px 0 0;}
   .zones-source a{color:var(--endure);}
   @media(max-width:400px){.log-row{grid-template-columns:1fr;}}
+  .rd-form{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:0 0 14px;}
+  @media(max-width:560px){.rd-form{grid-template-columns:repeat(2,1fr);}}
+  .rd-field{display:flex;flex-direction:column;gap:5px;}
+  .rd-field label{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);}
+  .rd-field input{appearance:none;border:1.5px solid var(--line);border-radius:9px;background:var(--paper);font-family:"IBM Plex Mono",monospace;font-size:15px;font-weight:600;padding:9px 11px;color:var(--ink);width:100%;transition:border-color .14s;}
+  .rd-field input:focus{outline:none;border-color:var(--endure);}
+  .rd-save-row{display:flex;align-items:center;gap:12px;margin-top:4px;}
+  .rd-status{font-size:12.5px;color:var(--muted);min-height:16px;}
+  .rd-status.ok{color:var(--endure);}
 </style>
 </head>
 <body>
@@ -699,36 +708,61 @@
 
     <section>
       <h2>Today's readiness</h2>
-      <p class="lede">Pulled from Whoop + Garmin each morning. The plan adjusts itself to this.</p>
+      <p class="lede">Log your morning metrics below, or pull automatically when Whoop / Garmin is connected.</p>
+
+      <div class="readiness" style="margin-bottom:12px;">
+        <h3 style="margin-top:0;font-size:15px;">Manual entry</h3>
+        <div class="rd-form">
+          <div class="rd-field"><label for="rd-recovery">Recovery %</label><input type="number" id="rd-recovery" min="0" max="100" placeholder="72"></div>
+          <div class="rd-field"><label for="rd-hrv">HRV (ms)</label><input type="number" id="rd-hrv" min="0" max="300" placeholder="68"></div>
+          <div class="rd-field"><label for="rd-sleep">Sleep (h:mm)</label><input type="text" id="rd-sleep" placeholder="7:50" inputmode="decimal"></div>
+          <div class="rd-field"><label for="rd-restsleep">Rest. sleep (h:mm)</label><input type="text" id="rd-restsleep" placeholder="1:20" inputmode="decimal"></div>
+          <div class="rd-field"><label for="rd-rhr">Resting HR (bpm)</label><input type="number" id="rd-rhr" min="30" max="120" placeholder="52"></div>
+          <div class="rd-field"><label for="rd-spo2">Blood O&#x2082; (%)</label><input type="number" id="rd-spo2" min="80" max="100" step="0.1" placeholder="98"></div>
+          <div class="rd-field"><label for="rd-resp">Resp. rate (br/min)</label><input type="number" id="rd-resp" min="5" max="40" step="0.1" placeholder="15"></div>
+          <div class="rd-field"><label for="rd-weight">Weight (kg)</label><input type="number" id="rd-weight" min="40" max="150" step="0.1" placeholder="84"></div>
+        </div>
+        <div class="rd-save-row">
+          <button class="btn" id="rd-save">Save &amp; update</button>
+          <span class="rd-status" id="rd-status"></span>
+        </div>
+      </div>
+
       <div class="readiness">
         <div class="rgrid">
           <div class="ring">
-            <svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="42" fill="none" stroke="#E1DFD4" stroke-width="9"/><circle id="ring-rec" cx="50" cy="50" r="42" fill="none" stroke="#15604A" stroke-width="9" stroke-linecap="round" stroke-dasharray="264" stroke-dashoffset="50"/></svg>
+            <svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="42" fill="none" stroke="#E1DFD4" stroke-width="9"/><circle id="ring-rec" cx="50" cy="50" r="42" fill="none" stroke="#15604A" stroke-width="9" stroke-linecap="round" stroke-dasharray="264" stroke-dashoffset="73"/></svg>
             <div style="margin-top:-58px;"><span class="rv" id="v-rec">72%</span></div>
             <div class="rl" style="margin-top:34px;">Recovery</div>
           </div>
           <div class="ring">
-            <svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="42" fill="none" stroke="#E1DFD4" stroke-width="9"/><circle cx="50" cy="50" r="42" fill="none" stroke="#BC7411" stroke-width="9" stroke-linecap="round" stroke-dasharray="264" stroke-dashoffset="145"/></svg>
-            <div style="margin-top:-58px;"><span class="rv" id="v-strain">11.4</span></div>
-            <div class="rl" style="margin-top:34px;">Day strain</div>
-          </div>
-          <div class="ring">
-            <svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="42" fill="none" stroke="#E1DFD4" stroke-width="9"/><circle cx="50" cy="50" r="42" fill="none" stroke="#2C4A8C" stroke-width="9" stroke-linecap="round" stroke-dasharray="264" stroke-dashoffset="92"/></svg>
+            <svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="42" fill="none" stroke="#E1DFD4" stroke-width="9"/><circle id="ring-hrv" cx="50" cy="50" r="42" fill="none" stroke="#2C4A8C" stroke-width="9" stroke-linecap="round" stroke-dasharray="264" stroke-dashoffset="115"/></svg>
             <div style="margin-top:-58px;"><span class="rv" id="v-hrv">68</span></div>
             <div class="rl" style="margin-top:34px;">HRV (ms)</div>
           </div>
           <div class="ring">
-            <svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="42" fill="none" stroke="#E1DFD4" stroke-width="9"/><circle cx="50" cy="50" r="42" fill="none" stroke="#15604A" stroke-width="9" stroke-linecap="round" stroke-dasharray="264" stroke-dashoffset="40"/></svg>
+            <svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="42" fill="none" stroke="#E1DFD4" stroke-width="9"/><circle id="ring-slp" cx="50" cy="50" r="42" fill="none" stroke="#15604A" stroke-width="9" stroke-linecap="round" stroke-dasharray="264" stroke-dashoffset="57"/></svg>
             <div style="margin-top:-58px;"><span class="rv" id="v-sleep">7h50</span></div>
             <div class="rl" style="margin-top:34px;">Sleep</div>
           </div>
+          <div class="ring">
+            <svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="42" fill="none" stroke="#E1DFD4" stroke-width="9"/><circle id="ring-o2" cx="50" cy="50" r="42" fill="none" stroke="#15604A" stroke-width="9" stroke-linecap="round" stroke-dasharray="264" stroke-dashoffset="0"/></svg>
+            <div style="margin-top:-58px;"><span class="rv" id="v-o2">98%</span></div>
+            <div class="rl" style="margin-top:34px;">Blood O&#x2082;</div>
+          </div>
+        </div>
+        <div class="stats" style="grid-template-columns:repeat(4,1fr);margin:14px 0 0;">
+          <div class="stat"><p class="k">Resting HR</p><div class="v" id="v-rhr">&#x2014;<small> bpm</small></div></div>
+          <div class="stat"><p class="k">Resp. rate</p><div class="v" id="v-resp">&#x2014;<small> br/min</small></div></div>
+          <div class="stat"><p class="k">Rest. sleep</p><div class="v" id="v-rsleep">&#x2014;</div></div>
+          <div class="stat"><p class="k">Weight</p><div class="v" id="v-weight">&#x2014;<small> kg</small></div></div>
         </div>
         <div class="verdict green" id="verdict">
-          <div class="vt" id="verdict-title">Good to go — run as planned</div>
-          <div id="verdict-body">Recovery is green and HRV is in range. Today's session (Fri · sled accelerations + heavy lift) is cleared at full intensity. Hit it.</div>
+          <div class="vt" id="verdict-title">Good to go &#x2014; run as planned</div>
+          <div id="verdict-body">Recovery is green, HRV in range, sleep solid. Today&#x2019;s session is cleared at full intensity. Hit it.</div>
         </div>
       </div>
-      <p style="font-size:12.5px;color:var(--muted);margin-top:6px;">Adjustment logic: recovery &lt;34% (red) downgrades the day's session (hard→easy, easy→recovery/rest); 34–66% (amber) holds intensity but flags fatigue; &gt;66% (green) clears full intensity. Tunable in the backend.</p>
+      <p style="font-size:12.5px;color:var(--muted);margin-top:6px;">Adjustment logic: recovery &lt;34% (red) downgrades the session; 34&#x2013;66% (amber) caution; &gt;66% (green) full intensity. Blood O&#x2082; &lt;95%, resting HR &gt;70, or resp rate &gt;18 trigger additional caution flags.</p>
     </section>
 
     <section>
@@ -1472,55 +1506,137 @@
   });
 
   // ---- device adjustment logic (runs on real OR demo data) ----
-  function applyReadiness(d){
-    // d = { recovery (0-100), strain, hrv, sleep, plannedSession }
-    const ringRec=document.getElementById('ring-rec');
-    const circ=264;
-    ringRec.setAttribute('stroke-dashoffset', String(circ*(1-d.recovery/100)));
-    document.getElementById('v-rec').textContent=d.recovery+'%';
-    document.getElementById('v-strain').textContent=d.strain;
-    document.getElementById('v-hrv').textContent=d.hrv;
-    document.getElementById('v-sleep').textContent=d.sleep;
+  const RD_KEY='hmplan_readiness';
 
+  function parseSleepH(s){
+    if(!s) return 0;
+    s=String(s).trim();
+    const cm=s.match(/^(\d+):(\d{1,2})$/);
+    if(cm) return parseInt(cm[1],10)+parseInt(cm[2],10)/60;
+    const hm=s.match(/^(\d+)h(\d{1,2})$/i);
+    if(hm) return parseInt(hm[1],10)+parseInt(hm[2],10)/60;
+    const n=parseFloat(s);
+    return isNaN(n)?0:n;
+  }
+
+  function applyReadiness(d){
+    const circ=264;
+    // Recovery ring
+    const ringRec=document.getElementById('ring-rec');
+    const recPct=Math.max(0,Math.min(100,parseFloat(d.recovery)||0));
+    ringRec.setAttribute('stroke-dashoffset',String(circ*(1-recPct/100)));
+    document.getElementById('v-rec').textContent=Math.round(recPct)+'%';
+    ringRec.setAttribute('stroke',recPct>66?'#15604A':recPct>=34?'#BC7411':'#D6431F');
+    // HRV ring (0-120ms)
+    const ringHrv=document.getElementById('ring-hrv');
+    const hrv=parseFloat(d.hrv)||0;
+    ringHrv.setAttribute('stroke-dashoffset',String(circ*(1-Math.min(hrv,120)/120)));
+    document.getElementById('v-hrv').textContent=hrv?Math.round(hrv):'--';
+    ringHrv.setAttribute('stroke',hrv>=50?'#2C4A8C':hrv>=30?'#BC7411':'#D6431F');
+    // Sleep ring (0-10h)
+    const ringSlp=document.getElementById('ring-slp');
+    const sleepH=parseSleepH(d.sleep);
+    ringSlp.setAttribute('stroke-dashoffset',String(circ*(1-Math.min(sleepH,10)/10)));
+    document.getElementById('v-sleep').textContent=d.sleep||'--';
+    ringSlp.setAttribute('stroke',sleepH>=7?'#15604A':sleepH>=5?'#BC7411':'#D6431F');
+    // Blood O2 ring (80-100%)
+    const ringO2=document.getElementById('ring-o2');
+    const o2=parseFloat(d.o2)||0;
+    const o2Pct=o2>0?Math.max(0,Math.min(100,(o2-80)/20*100)):0;
+    ringO2.setAttribute('stroke-dashoffset',String(circ*(1-o2Pct/100)));
+    document.getElementById('v-o2').textContent=o2?o2+'%':'--';
+    ringO2.setAttribute('stroke',(o2>0&&o2<95)?'#D6431F':'#15604A');
+    // Extra stats
+    const rhr=parseFloat(d.rhr)||0;
+    const resp=parseFloat(d.resp)||0;
+    const wt=parseFloat(d.weight)||0;
+    const el_rhr=document.getElementById('v-rhr');
+    const el_resp=document.getElementById('v-resp');
+    const el_rs=document.getElementById('v-rsleep');
+    const el_wt=document.getElementById('v-weight');
+    if(el_rhr) el_rhr.innerHTML=(rhr?Math.round(rhr):'--')+'<small> bpm</small>';
+    if(el_resp) el_resp.innerHTML=(resp?resp.toFixed(1):'--')+'<small> br/min</small>';
+    if(el_rs) el_rs.textContent=d.restSleep||'--';
+    if(el_wt) el_wt.innerHTML=(wt?wt.toFixed(1):'--')+'<small> kg</small>';
+    // Verdict
     const v=document.getElementById('verdict');
     const vt=document.getElementById('verdict-title');
     const vb=document.getElementById('verdict-body');
     v.classList.remove('green','amber','red');
-    if(d.recovery>66){
-      v.classList.add('green');ringRec.setAttribute('stroke','#15604A');
+    const cautions=[];
+    if(o2>0&&o2<95) cautions.push('Blood O₂ '+o2+'% — rule out illness before hard training');
+    if(rhr>0&&rhr>70) cautions.push('Resting HR elevated ('+Math.round(rhr)+' bpm)');
+    if(resp>0&&resp>18) cautions.push('Resp. rate elevated ('+resp.toFixed(1)+' br/min)');
+    if(sleepH>0&&sleepH<5) cautions.push('Sleep under 5h — high injury-risk window');
+    const session=d.plannedSession||'today’s session';
+    const cStr=cautions.length?' Flags: '+cautions.join('; ')+'.':'';
+    if(recPct>66&&!cautions.length){
+      v.classList.add('green');
       vt.textContent='Good to go — run as planned';
-      vb.textContent='Recovery is green and HRV is in range. Today\u2019s session ('+d.plannedSession+') is cleared at full intensity. Hit it.';
-    } else if(d.recovery>=34){
-      v.classList.add('amber');ringRec.setAttribute('stroke','#BC7411');
+      vb.textContent='Recovery is green, HRV in range, sleep solid. '+session+' cleared at full intensity. Hit it.';
+    } else if(recPct>66){
+      v.classList.add('amber');
       vt.textContent='Proceed with awareness';
-      vb.textContent='Recovery is moderate. Keep '+d.plannedSession+' but cap the hard reps, lengthen recovery between efforts, and stop early if mechanics slip. No new max-velocity exposure today.';
+      vb.textContent='Recovery score is green but flag(s) noted.'+cStr+' Keep '+session+' but monitor closely.';
+    } else if(recPct>=34){
+      v.classList.add('amber');
+      vt.textContent='Proceed with awareness';
+      vb.textContent='Recovery is moderate. Keep '+session+' but cap hard reps and lengthen recovery between efforts.'+cStr;
     } else {
-      v.classList.add('red');ringRec.setAttribute('stroke','#D6431F');
+      v.classList.add('red');
       vt.textContent='Downgrade today';
-      vb.textContent='Recovery is red. Swap '+d.plannedSession+' for easy aerobic or full rest \u2014 sled/sprint work on suppressed recovery is the hamstring-recurrence pattern. The session keeps better than the block.';
+      vb.textContent='Recovery is red. Swap '+session+' for easy aerobic or full rest — sled/sprint work on suppressed recovery is the hamstring-recurrence pattern.'+cStr;
     }
   }
 
-  // demo data so the UI is meaningful before a backend is wired
-  const demo={recovery:72,strain:'11.4',hrv:68,sleep:'7h50',plannedSession:'Fri \u00b7 sled accelerations + heavy lift'};
+  const demo={recovery:72,hrv:68,sleep:'7:50',restSleep:'1:20',rhr:52,o2:98,resp:15,weight:84,plannedSession:'Fri · sled accelerations + heavy lift'};
+
+  function initDevicesPanel(){
+    const saved=JSON.parse(localStorage.getItem(RD_KEY)||'null');
+    if(saved){
+      ['recovery','hrv','sleep','restsleep','rhr','spo2','resp','weight'].forEach(f=>{
+        const el=document.getElementById('rd-'+f);if(el&&saved[f]!=null)el.value=saved[f];
+      });
+      applyReadiness({recovery:parseFloat(saved.recovery)||0,hrv:parseFloat(saved.hrv)||0,
+        sleep:saved.sleep||'',restSleep:saved.restsleep||'',rhr:parseFloat(saved.rhr)||0,
+        o2:parseFloat(saved.spo2)||0,resp:parseFloat(saved.resp)||0,weight:parseFloat(saved.weight)||0,
+        plannedSession:demo.plannedSession});
+    }
+    const saveBtn=document.getElementById('rd-save');
+    if(!saveBtn) return;
+    saveBtn.addEventListener('click',()=>{
+      const get=id=>document.getElementById('rd-'+id).value.trim();
+      const data={recovery:get('recovery'),hrv:get('hrv'),sleep:get('sleep'),
+        restsleep:get('restsleep'),rhr:get('rhr'),spo2:get('spo2'),resp:get('resp'),weight:get('weight')};
+      localStorage.setItem(RD_KEY,JSON.stringify(data));
+      applyReadiness({recovery:parseFloat(data.recovery)||0,hrv:parseFloat(data.hrv)||0,
+        sleep:data.sleep||'',restSleep:data.restsleep||'',rhr:parseFloat(data.rhr)||0,
+        o2:parseFloat(data.spo2)||0,resp:parseFloat(data.resp)||0,weight:parseFloat(data.weight)||0,
+        plannedSession:demo.plannedSession});
+      const st=document.getElementById('rd-status');
+      st.textContent='✓ Readiness updated';st.className='rd-status ok';
+      setTimeout(()=>{st.textContent='';st.className='rd-status';},3000);
+    });
+  }
 
   async function init(){
-    if(!API_BASE){ applyReadiness(demo); return; }
+    initDevicesPanel();
+    if(!API_BASE){ if(!localStorage.getItem(RD_KEY)) applyReadiness(demo); return; }
     document.getElementById('demo-banner').style.display='none';
     try{
       const r=await fetch(API_BASE+'/api/readiness',{credentials:'include'});
       if(r.ok){ applyReadiness(await r.json()); }
-      else applyReadiness(demo);
+      else if(!localStorage.getItem(RD_KEY)) applyReadiness(demo);
       // connection status
       const s=await fetch(API_BASE+'/api/status',{credentials:'include'});
       if(s.ok){
         const st=await s.json();
         ['whoop','garmin','strava'].forEach(svc=>{
           const el=document.getElementById('st-'+svc);
-          if(st[svc]&&st[svc].connected){el.textContent='Connected \u00b7 last sync '+(st[svc].lastSync||'just now');el.classList.add('on');}
+          if(st[svc]&&st[svc].connected){el.textContent='Connected · last sync '+(st[svc].lastSync||'just now');el.classList.add('on');}
         });
       }
-    }catch(e){ applyReadiness(demo); }
+    }catch(e){ if(!localStorage.getItem(RD_KEY)) applyReadiness(demo); }
   }
   // connect buttons -> backend OAuth start
   document.querySelectorAll('[data-svc]').forEach(b=>{
